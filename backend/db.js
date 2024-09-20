@@ -1,6 +1,4 @@
 const moongose = require("mongoose");
-const Db = process.env.ATLAS_URI
-
 
 module.exports = () => {
     const connectionParams ={
@@ -8,7 +6,7 @@ module.exports = () => {
         useUnifiedTopology: true,
     }
     try{
-        moongose.connect(Db, connectionParams)
+        moongose.connect(process.env.DB, connectionParams)
         console.log("Connected to database successfully")
     } catch(error){
         console.log(error);
