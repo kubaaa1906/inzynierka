@@ -3,6 +3,8 @@ const { User } = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 
+
+//Logowanie użytkownika
 router.post("/", async (req, res) => {
     try{
         const {error} = validate(req.body);
