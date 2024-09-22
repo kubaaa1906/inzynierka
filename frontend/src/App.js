@@ -2,6 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom"
 import Main from "./components/Main"
 import Signup from "./components/Signup"
 import Login from "./components/Login"
+import AddTasks from "./components/AddTasks";
 function App() {
   const user = localStorage.getItem("token")
   return (
@@ -10,6 +11,8 @@ function App() {
         <Route path="/signup" exact element={<Signup />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/" element={<Navigate replace to="/login" />} />
+        {user && <Route path="/addtask" exact element={<AddTasks />} />}
+        <Route path="/addtask" element={<Navigate replace to="/login" /> } />
       </Routes>
   )
 }
