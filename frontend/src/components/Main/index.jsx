@@ -44,6 +44,10 @@ const Main = () => {
                     Wyloguj się
                 </button>
             </nav>
+            <div>
+                <h1> Lista zadań: </h1>
+
+            </div>
         </div>
     )
 }

@@ -4,16 +4,15 @@ const tokenVerification = require("../middleware/tokenVerification")
 
 
 //Funkcja do dodawania zadań
-router.post("/", tokenVerification, async (req, res) => {
+router.post("/", tokenVerification,async (req, res) => {
     try {
         const { error } = validate(req.body)
-        if(error){
-            return res.status(500).send({message: error.details[0].message})
-        }
+        if (error)
+            return res.status(400).send({ message: error.details[0].message })
         await new Task({ ...req.body}).save()
-        res.status(201).send({ message: "Zadanie zostalo pomyslnie dodane"})
-    } catch (error){
-        res.status(500).send({ message: "Internal Server Error"})
+        res.status(201).send({ message: "Task created successfully" })
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error" })
     }
 })
 

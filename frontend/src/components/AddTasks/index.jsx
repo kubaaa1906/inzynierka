@@ -17,14 +17,19 @@ const AddTasks = () => {
     const handleChange = ({ currentTarget: input }) => {
         setData({...data, [input.name]: input.value})
     }
-    //COS SIE WYWALA PRZY DODAWANIU ZADANIA - TODO
+
     const handleSubmit = async (e) => {
         const token = localStorage.getItem("token");
         e.preventDefault()
+
         if(token){
             try{
                 const url = "http://localhost:8080/api/tasks"
-                const { data:res } = await axios.post(url,data)
+                const headers = {
+                    "x-access-token": token,
+                };
+
+                const { data:res } = await axios.post(url,data, { headers })
                 navigate("/")
                 console.log(res.message)
             } catch (error){
@@ -32,7 +37,6 @@ const AddTasks = () => {
                     setError(error.response.data.message)
                     localStorage.removeItem("token")
                     window.location.reload()
-
                 }
             }
         }
