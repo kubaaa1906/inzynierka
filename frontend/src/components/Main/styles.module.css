@@ -25,3 +25,27 @@
 	cursor: pointer;
 	margin-right: 20px;
 }
+
+.menu {
+	background-color: #f0f0f0;
+	padding: 15px;
+	border: 1px solid #ccc;
+	position: absolute; /* Możesz zmienić, aby menu miało odpowiednie pozycjonowanie */
+	top: 70px; /* Odległość od górnej krawędzi */
+	left: 0px; /* Umieść je w odpowiednim miejscu */
+	width: 98%;
+}
+
+.menu ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.menu li {
+	margin-bottom: 10px;
+}
+
+.menu li a {
+	text-decoration: none;
+	color: black;
+}
