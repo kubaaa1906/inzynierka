@@ -7,6 +7,7 @@ const port = process.env.PORT || 8080;
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const taskRoutes = require("./routes/tasks");
+const applicationRoutes = require("./routes/applications")
 const tokenVerification = require("./middleware/tokenVerification");
 
 // DB CONNECTION
@@ -14,6 +15,8 @@ connection()
 
 //test - dostep przez tokenverification
 app.get("/api/tasks/", tokenVerification)
+app.get("api/applications", tokenVerification)
+
 
 // MIDDLEWARE
 app.use(express.json())
@@ -23,6 +26,7 @@ app.use(cors())
 app.use("/api/users", userRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/tasks", taskRoutes)
+app.use("/api/applications", applicationRoutes)
 
 
 

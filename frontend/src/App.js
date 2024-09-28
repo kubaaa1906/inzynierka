@@ -4,6 +4,8 @@ import Signup from "./components/Signup"
 import Login from "./components/Login"
 import AddTasks from "./components/AddTasks";
 import MainBeforeLogging from "./components/MainBeforeLogging";
+import Contact from "./components/Contact"
+import AddApplication from "./components/AddApplication";
 function App() {
   const user = localStorage.getItem("token")
   return (
@@ -15,6 +17,8 @@ function App() {
                   <Route path="/addtask" exact element={<AddTasks />} />
                   {/* kazda inna wpisana sciezka po zalogowaniu przekierowuje na main */}
                   <Route path="*" element={<Navigate replace to="/main" />} />
+                  <Route path="/contact" exact element={<Contact />} />
+                  <Route path="/addapplication" exact element={<AddApplication/>} />
               </>
           ):(
               <>

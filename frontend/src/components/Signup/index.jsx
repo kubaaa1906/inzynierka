@@ -10,6 +10,7 @@ const Signup = () => {
         haslo: "",
         imieDziecka: "",
         wiekDziecka: "",
+        czyAdmin: false,
     })
 
     const [error, setError] = useState("")

@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     haslo: {type: String, required: true},
     imieDziecka: {type: String, required: true},
     wiekDziecka: {type: String, required: true},
+    czyAdmin: {type: Boolean, required: false},
 })
 
 //Tworzenie authtoken dla uzytkownika
@@ -31,6 +32,7 @@ const validate = (data) => {
         haslo: passwordComplexity().required().label("Haslo"),
         imieDziecka: Joi.string().required().label("Imie"),
         wiekDziecka: Joi.number().required().label("Wiek"),
+        czyAdmin: Joi.boolean().label("Uprawnienia administratora")
     })
     return schema.validate(data)
 }

@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const { User, validate } = require("../models/UserModel")
 const bcrypt = require("bcrypt")
+const tokenVerification = require("../middleware/tokenVerification")
 
 //Rejestracja uzytkownika
 router.post("/", async (req,res) => {
@@ -26,7 +27,8 @@ router.post("/", async (req,res) => {
     }
 })
 
-router.get("/", async(req, res)=> {
+//getowanie po id
+router.get("/:id", async(req, res)=> {
     User.find().exec()
         .then(async () => {
             const users = await User.find();
@@ -37,5 +39,9 @@ router.get("/", async(req, res)=> {
             res.status(500).send({ message: error.message });
         });
 })
+
+
+
+
 
 module.exports = router
