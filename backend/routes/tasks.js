@@ -1,10 +1,11 @@
 const router = require ("express").Router();
 const { Task, validate } = require("../models/TaskModel");
 const tokenVerification = require("../middleware/tokenVerification")
+const roleVerification = require("../middleware/roleVerification")
 
 
 //Funkcja do dodawania zadań
-router.post("/", tokenVerification, async (req, res) => {
+router.post("/admin/", tokenVerification, roleVerification, async (req, res) => {
     try {
         const { error } = validate(req.body)
         if (error)

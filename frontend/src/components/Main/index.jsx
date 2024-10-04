@@ -22,9 +22,6 @@ const Main = () => {
                 <Link to="/">
                     <button className={styles.white_btn}> TeachChild</button>
                 </Link>
-                <Link to="/addtask">
-                    <button className={styles.white_btn}> Dodaj zadanie </button>
-                </Link>
                 <Link to="/contact">
                     <button className={styles.white_btn}> Kontakt </button>
                 </Link>

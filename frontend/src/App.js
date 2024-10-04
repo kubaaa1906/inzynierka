@@ -6,6 +6,9 @@ import AddTasks from "./components/AddTasks";
 import MainBeforeLogging from "./components/MainBeforeLogging";
 import Contact from "./components/Contact"
 import AddApplication from "./components/AddApplication";
+import AdminRoute from "./AdminRoute";
+import AdminPanel from "./components/AdminPanel";
+
 function App() {
   const user = localStorage.getItem("token")
   return (
@@ -19,6 +22,7 @@ function App() {
                   <Route path="*" element={<Navigate replace to="/main" />} />
                   <Route path="/contact" exact element={<Contact />} />
                   <Route path="/addapplication" exact element={<AddApplication/>} />
+                  <Route path="/adminpanel" exact element={<AdminPanel/>} />
               </>
           ):(
               <>
