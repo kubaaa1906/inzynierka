@@ -16,20 +16,27 @@ const Contact = () => {
     }
 
     return (
-            <div className={styles.main_container}>
+        <div className={styles.main_container}>
             <nav className={styles.navbar}>
-                <button className={styles.white_btn} onClick={showMenu}>Menu</button>
-                <Link to="/">
-                    <button className={styles.white_btn}> TeachChild</button>
-                </Link>
-                <Link to="/contact">
-                    <button className={styles.white_btn}> Kontakt </button>
-                </Link>
-                <button className={styles.white_btn} onClick={handleLogout}>
-                    Wyloguj się
-                </button>
-            </nav>
+                <div className={styles.nav_left}>
+                    <button className={styles.white_btn} onClick={showMenu}> Menu</button>
+                </div>
+                <div className={styles.nav_center}>
+                    <Link to="/">
+                        <a className={styles.text_logo}> TeachChild</a>
+                    </Link>
+                </div>
+                <div className={styles.nav_right}>
+                    <Link to="/contact">
+                        <button className={styles.white_btn}> Kontakt</button>
+                    </Link>
+                    <button className={styles.white_btn} onClick={handleLogout}>
+                        Wyloguj się
+                    </button>
+                </div>
 
+
+            </nav>
             {pokazMenu && (
                 <div className={styles.menu}>
                     <ul>
@@ -51,17 +58,25 @@ const Contact = () => {
                     </ul>
                 </div>
             )}
+            <div className={styles.main_area}>
+                <div className={styles.tiles_container}>
+                    <div className={styles.text_container}>
+                        Email: teachchildhelpdesk@gmail.com <br/>
+                        Telefon: 111 111 111 <br/>
+                        <br/>
+                        Wyślij nam swoje zgłoszenie! <br/>
+                        <Link to="/addapplication">
+                            <button className={styles.btnform}> Przejdź do formularza</button>
+                        </Link>
+                    </div>
 
-            <div>
-                Email: teachchildhelpdesk@gmail.com <br/>
-                Telefon: 111 111 111 <br/>
-                <br/>
-                Wyślij nam swoje zgłoszenie! <br/>
-                <Link to="/addapplication">
-                    <button className={styles.grey_btn}> Przejdź do formularza </button>
-                </Link>
-
+                </div>
             </div>
+
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 TeachChild. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
     )
 }

@@ -16,18 +16,26 @@ const Main = () => {
     }
 
     return (
-            <div className={styles.main_container}>
+        <div className={styles.main_container}>
             <nav className={styles.navbar}>
-                <button className={styles.white_btn} onClick={showMenu}>Menu</button>
-                <Link to="/">
-                    <button className={styles.white_btn}> TeachChild</button>
-                </Link>
-                <Link to="/contact">
-                    <button className={styles.white_btn}> Kontakt </button>
-                </Link>
-                <button className={styles.white_btn} onClick={handleLogout}>
-                    Wyloguj się
-                </button>
+                <div className={styles.nav_left}>
+                    <button className={styles.white_btn} onClick={showMenu}> Menu</button>
+                </div>
+                <div className={styles.nav_center}>
+                    <Link to="/">
+                        <a className={styles.text_logo}> TeachChild</a>
+                    </Link>
+                </div>
+                <div className={styles.nav_right}>
+                    <Link to="/contact">
+                        <button className={styles.white_btn}> Kontakt</button>
+                    </Link>
+                    <button className={styles.white_btn} onClick={handleLogout}>
+                        Wyloguj się
+                    </button>
+                </div>
+
+
             </nav>
 
             {pokazMenu && (
@@ -52,10 +60,36 @@ const Main = () => {
                 </div>
             )}
 
-            <div>
-                Tralala tutaj tez trzeba uzupelnic tresc itp <br/>
-                I ten przycisk dodaj zadanie jest testowy do sprawdzenia czy dziala dodawanie taskow, trzeba go zrobic tylko dla admina
+            <div className={styles.main_area}>
+                <div className={styles.text_container}>
+                    <p>
+                         Na co czekasz? Bierz się za rozwiązywanie zadań!<br/>
+                    </p>
+                </div>
+                <div className={styles.tiles_container}>
+                    <div className={styles.tile}>
+                        Dla 5-latków:
+                        <li> Przyroda </li>
+                        <li> Matematyka</li>
+                        <li> Kolory</li>
+                    </div>
+                    <div className={styles.tile2}>
+                        Tekst
+                    </div>
+                    <div className={styles.tile}>
+                        Tekst
+                    </div>
+                    <div className={styles.tile2}>
+                        Tekst
+                    </div>
+
+                </div>
             </div>
+
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 TeachChild. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
     )
 }

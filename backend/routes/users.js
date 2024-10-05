@@ -20,27 +20,58 @@ router.post("/", async (req,res) => {
         const salt = await bcrypt.genSalt(Number(process.env.SALT))
         const hashPassword = await bcrypt.hash(req.body.haslo, salt)
 
-        await new User({ ...req.body, haslo: hashPassword }).save()
+        const newUser = new User({ ...req.body, haslo: hashPassword })
+        await newUser.save()
+        res.json(newUser)
         res.status(201).send({ message: "User created successfully" })
     } catch (error){
         res.status(500).send({message: "Internal Server Error" })
     }
 })
 
-//getowanie po id
-router.get("/:id", async(req, res)=> {
+//getowanie wszystkich userow
+router.get("/", tokenVerification, async(req,res) => {
+    //pobranie wszystkich użytkowników z bd:
     User.find().exec()
         .then(async () => {
             const users = await User.find();
+            res.json(users);
             //konfiguracja odpowiedzi res z przekazaniem listy użytkowników:
-            res.status(200).send({ data: users, message: "Lista użytkowników" });
+            res.status(200).send({ data: users });
         })
         .catch(error => {
             res.status(500).send({ message: error.message });
         });
+
 })
 
+//getowanie pojedynczego usera
+router.get("/:id", tokenVerification, async(req, res)=> {
+    try {
+        const user = await User.findById(req.params.id);
+        res.status(200).json(user);
+    } catch (error){
+        res.status(404).json({message: "Error przy get po id"});
+    }
+})
 
+router.put("/:id", tokenVerification, async(req, res) => {
+    try{
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updatedUser);
+    } catch (error){
+        res.status(404).json({message: "Error przy update"});
+    }
+})
+
+router.delete("/:id", tokenVerification, async(req, res) => {
+    try{
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ message: "Uzytkownik usuniety"});
+    } catch (error){
+        res.status(404).json({message: "Error przy delete"});
+    }
+})
 
 
 
