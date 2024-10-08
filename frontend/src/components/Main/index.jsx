@@ -15,6 +15,36 @@ const Main = () => {
         ustawPokazMenu(!pokazMenu);
     }
 
+    const [zadanie, ustawZadanie] = useState([])
+
+    const handleGetTasks = async (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+
+        const token = localStorage.getItem("token");
+
+        if(token){
+            try{
+                const config = {
+                    method: 'get',
+                    url: 'http://localhost:8080/api/tasks',
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+
+                const { data: res } = await axios(config);
+                ustawZadanie(res.data);
+
+            } catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    window.location.reload();
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        handleGetTasks();
+    }, []); //
+
     return (
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
@@ -29,6 +59,9 @@ const Main = () => {
                 <div className={styles.nav_right}>
                     <Link to="/contact">
                         <button className={styles.white_btn}> Kontakt</button>
+                    </Link>
+                    <Link to="">
+
                     </Link>
                     <button className={styles.white_btn} onClick={handleLogout}>
                         Wyloguj się
@@ -74,7 +107,17 @@ const Main = () => {
                         <li> Kolory</li>
                     </div>
                     <div className={styles.tile2}>
-                        Tekst
+                        Tu bedzie test listowania zadan:
+                        <h3> Lista zadań: </h3>
+                        <ul>
+                            {zadanie.length > 0 ? (
+                                zadanie.map((task) => (
+                                    <li key={task.id}>{task.nazwaZadania}, {task.opis}, {task.tresc}, {task.poprawnaOdpowiedz}</li>
+                                ))
+                            ) : (
+                                <li>Brak zadań do wyświetlenia</li>
+                            )}
+                        </ul>
                     </div>
                     <div className={styles.tile}>
                         Tekst

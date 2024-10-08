@@ -55,6 +55,7 @@ router.get("/:id", tokenVerification, async(req, res)=> {
     }
 })
 
+//edit pojedynczego usera
 router.put("/:id", tokenVerification, async(req, res) => {
     try{
         const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -64,6 +65,7 @@ router.put("/:id", tokenVerification, async(req, res) => {
     }
 })
 
+//delete pojedynczego usera
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
         await User.findByIdAndDelete(req.params.id);

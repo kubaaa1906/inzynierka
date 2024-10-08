@@ -1,60 +1,59 @@
 const router = require ("express").Router();
-const { Task, validate } = require("../models/TaskModel");
+const {Category, validate}= require("../models/CategoryModel");
 const tokenVerification = require("../middleware/tokenVerification")
 
 
-//Funkcja do dodawania zadań
+//Funkcja do dodawania kategorii
 router.post("/", tokenVerification, async (req, res) => {
     try {
         const { error } = validate(req.body)
         if (error)
             return res.status(400).send({ message: error.details[0].message })
-        await new Task({ ...req.body}).save()
-        res.status(201).send({ message: "Task created successfully" })
+        await new Category({ ...req.body}).save()
+        res.status(201).send({ message: "Category created successfully" })
     } catch (error) {
         res.status(500).send({ message: "Internal Server Error" })
     }
 })
 
-//Funkcja do listowania zadań
+//Funkcja do listowania kategorii
 router.get("/", tokenVerification, async(req, res) => {
-    //pobranie wszystkich taskow z bd
-    console.log("Pokaz zadania :)")
-    Task.find().exec()
+    console.log("Pokaz kategorie :)")
+    Category.find().exec()
         .then(async () => {
-            const tasks = await Task.find();
-            res.status(200).send({ data: tasks, message: "Lista zadań: "})
+            const categories = await Category.find();
+            res.status(200).send({ data: categories, message: "Lista kategorii: "})
         })
         .catch(error => {
             res.status(500).send({ message: error.message });
         })
 })
 
-//listowanie zadania po id
+//listowanie kategorii po id
 router.get("/:id", tokenVerification, async(req, res)=> {
     try {
-        const task = await Task.findById(req.params.id);
-        res.status(200).json(task);
+        const category = await Category.findById(req.params.id);
+        res.status(200).json(category);
     } catch (error){
         res.status(404).json({message: "Error przy get po id"});
     }
 })
 
-//edit pojedynczego taska
+//edit pojedynczej kategorii
 router.put("/:id", tokenVerification, async(req, res) => {
     try{
-        const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).json(updatedTask);
+        const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).json(updatedCategory);
     } catch (error){
         res.status(404).json({message: "Error przy update"});
     }
 })
 
-//delete pojedynczego taska
+//delete pojedynczej kategorii
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
-        await Task.findByIdAndDelete(req.params.id);
-        res.json({ message: "Zadanie usuniete"});
+        await Category.findByIdAndDelete(req.params.id);
+        res.json({ message: "Kategoria usunieta"});
     } catch (error){
         res.status(404).json({message: "Error przy delete"});
     }

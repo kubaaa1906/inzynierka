@@ -6,6 +6,7 @@ const taskSchema = new mongoose.Schema({
     opis: { type: String, required: true },
     tresc: { type: String, required: true },
     poprawnaOdpowiedz: { type: String, required: true },
+    kategoria: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true},
 })
 
 const Task = mongoose.model("Task", taskSchema)
