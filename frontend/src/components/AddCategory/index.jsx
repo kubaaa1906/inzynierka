@@ -16,7 +16,9 @@ const AddTasks = () => {
 
     const handleChange = ({ currentTarget: input }) => {
         setData({...data, [input.name]: input.value})
+        console.log(input.value)
     }
+
 
     const handleSubmit = async (e) => {
         const token = localStorage.getItem("token");
@@ -30,7 +32,6 @@ const AddTasks = () => {
                 };
 
                 const { data:res } = await axios.post(url,data, { headers })
-                navigate("/")
                 console.log(res.message)
             } catch (error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
@@ -120,15 +121,15 @@ const AddTasks = () => {
                                 <option value="Zadania logiczne">Zadania logiczne</option>
                                 <option value="Historia">Historia</option>
                             </select>
-                            <input
-                                type="text"
-                                placeholder="Przedział wiekowy"
-                                name="przedzialWiekowy"
-                                onChange={handleChange}
-                                value={data.przedzialWiekowy}
-                                required
-                                className={styles.input}
-                            />
+                            <select name="przedzialWiekowy" onChange={handleChange} value={data.przedzialWiekowy}
+                                    required>
+                                <option value="" disabled>
+                                    Wybierz przedzial wiekowy
+                                </option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
                             {error && <div className={styles.error_msg}>{error}</div>}
                             <button type="submit" className={styles.green_btn}>
                                 Wyślij zgłoszenie

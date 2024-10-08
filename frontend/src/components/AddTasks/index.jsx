@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
@@ -10,13 +10,19 @@ const AddTasks = () => {
         opis: "",
         tresc: "",
         poprawnaOdpowiedz: "",
+        kategoria: "",
     })
+
+
+    const [category, setCategory] = useState([])
 
     const [error, setError] = useState("")
     const navigate = useNavigate()
 
+
     const handleChange = ({ currentTarget: input }) => {
         setData({...data, [input.name]: input.value})
+        console.log(input.data)
     }
 
     const handleSubmit = async (e) => {
@@ -31,18 +37,20 @@ const AddTasks = () => {
                 };
 
                 const { data:res } = await axios.post(url,data, { headers })
-                navigate("/")
+                //navigate("/")
                 console.log(res.message)
             } catch (error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
                     setError(error.response.data.message)
-                    localStorage.removeItem("token")
-                    window.location.reload()
+                    //localStorage.removeItem("token")
+                    //window.location.reload()
                 }
             }
         }
 
     }
+
+
 
     return (
         <div className={styles.signup_container}>
@@ -96,6 +104,12 @@ const AddTasks = () => {
                             required
                             className={styles.input}
                         />
+                        <select name="kategoria" onChange={handleChange} value={data.kategoria} required>
+                            <option value="" disabled> Wybierz kategorię</option>
+                            {category.map((category) => (
+                                <option key={category._id} value={category._id}>{category.nazwaKategorii}</option>
+                            ))}
+                        </select>
                         {error && <div
                             className={styles.error_msg}>{error}</div>}
                         <button type="submit"
