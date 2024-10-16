@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 
-const AddTasks = () => {
+const AddCategory = () => {
     const [data, setData] = useState({
         nazwaKategorii: "",
         dziedzinaNaukowa: "",
@@ -33,6 +33,7 @@ const AddTasks = () => {
 
                 const { data:res } = await axios.post(url,data, { headers })
                 console.log(res.message)
+                console.log("Dodano kategorie poprawnie!")
             } catch (error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
                     setError(error.response.data.message)
@@ -145,4 +146,4 @@ const AddTasks = () => {
         </div>
     );
 };
-export default AddTasks
+export default AddCategory

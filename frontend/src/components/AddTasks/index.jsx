@@ -10,7 +10,6 @@ const AddTasks = () => {
         opis: "",
         tresc: "",
         poprawnaOdpowiedz: "",
-        kategoria: "",
     })
 
 
@@ -19,10 +18,37 @@ const AddTasks = () => {
     const [error, setError] = useState("")
     const navigate = useNavigate()
 
+    const handleCategories = async (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+
+        const token = localStorage.getItem("token");
+
+        if(token){
+            try{
+                const config = {
+                    method: 'get',
+                    url: 'http://localhost:8080/api/categories',
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+
+                const { data: res } = await axios(config);
+                setCategory(res.data);
+            }catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    window.location.reload();
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        handleCategories();
+    }, []);
+
 
     const handleChange = ({ currentTarget: input }) => {
         setData({...data, [input.name]: input.value})
-        console.log(input.data)
+        console.log(input.value)
     }
 
     const handleSubmit = async (e) => {
@@ -36,7 +62,12 @@ const AddTasks = () => {
                     "x-access-token": token,
                 };
 
-                const { data:res } = await axios.post(url,data, { headers })
+                const taskData = {
+                    ...data,
+                    kategoria: data.kategoria
+                };
+
+                const { data:res } = await axios.post(url,taskData, { headers })
                 //navigate("/")
                 console.log(res.message)
             } catch (error){
@@ -106,9 +137,13 @@ const AddTasks = () => {
                         />
                         <select name="kategoria" onChange={handleChange} value={data.kategoria} required>
                             <option value="" disabled> Wybierz kategorię</option>
-                            {category.map((category) => (
-                                <option key={category._id} value={category._id}>{category.nazwaKategorii}</option>
-                            ))}
+                            {category.length > 0 ? (
+                                category.map((category) => (
+                                    <option key={category._id} value={category._id}>{category.nazwaKategorii}</option>
+                                ))
+                            ) : (
+                                <option value="" disabled>Brak kategorii do wyświetlenia</option>
+                            )}
                         </select>
                         {error && <div
                             className={styles.error_msg}>{error}</div>}

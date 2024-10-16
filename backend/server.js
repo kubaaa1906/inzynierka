@@ -3,11 +3,11 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const connection = require("./db");
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const taskRoutes = require("./routes/tasks");
-const applicationRoutes = require("./routes/applications")
+const applicationRoutes = require("./routes/reports")
 const categoryRoutes = require("./routes/categories")
 const tokenVerification = require("./middleware/tokenVerification");
 
@@ -16,7 +16,7 @@ connection()
 
 //test - dostep przez tokenverification
 app.get("/api/tasks/", tokenVerification)
-app.get("/api/applications", tokenVerification)
+app.get("/api/reports", tokenVerification)
 app.get("/api/categories", tokenVerification)
 
 
@@ -28,7 +28,7 @@ app.use(cors())
 app.use("/api/users", userRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/tasks", taskRoutes)
-app.use("/api/applications", applicationRoutes)
+app.use("/api/reports", applicationRoutes)
 app.use("/api/categories", categoryRoutes)
 
 

@@ -5,7 +5,7 @@ import Login from "./components/Login"
 import AddTasks from "./components/AddTasks";
 import MainBeforeLogging from "./components/MainBeforeLogging";
 import Contact from "./components/Contact"
-import AddApplication from "./components/AddApplication";
+import AddApplication from "./components/AddReport";
 import AddCategory from "./components/AddCategory";
 
 

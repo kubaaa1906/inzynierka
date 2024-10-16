@@ -43,7 +43,7 @@ const Main = () => {
 
     useEffect(() => {
         handleGetTasks();
-    }, []); //
+    }, []);
 
     return (
         <div className={styles.main_container}>

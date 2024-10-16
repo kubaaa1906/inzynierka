@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 
-const AddTasks = () => {
+const AddReport = () => {
     const currentDateTime = new Date()
     const [data, setData] = useState({
         tytul: "",
@@ -25,7 +25,7 @@ const AddTasks = () => {
 
         if(token){
             try{
-                const url = "http://localhost:8080/api/applications"
+                const url = "http://localhost:8080/api/reports"
                 const headers = {
                     "x-access-token": token,
                 };
@@ -138,4 +138,4 @@ const AddTasks = () => {
         </div>
     );
 };
-export default AddTasks
+export default AddReport

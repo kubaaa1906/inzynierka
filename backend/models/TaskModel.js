@@ -6,7 +6,7 @@ const taskSchema = new mongoose.Schema({
     opis: { type: String, required: true },
     tresc: { type: String, required: true },
     poprawnaOdpowiedz: { type: String, required: true },
-    kategoria: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true},
+    kategoria: { type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
 })
 
 const Task = mongoose.model("Task", taskSchema)
@@ -17,6 +17,7 @@ const validate = (data) => {
         opis: Joi.string().required().label("Opis"),
         tresc: Joi.string().required().label("Tresc"),
         poprawnaOdpowiedz: Joi.string().required().label("Poprawna odpowiedz"),
+        kategoria: Joi.string().required().label("Kategoria"),
     })
 
     return schema.validate(data)

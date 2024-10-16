@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const applicationSchema = new mongoose.Schema({
+const reportSchema = new mongoose.Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     tytul: { type: String, required: true },
     opis: { type: String, required: true },
@@ -9,7 +9,7 @@ const applicationSchema = new mongoose.Schema({
     status: { type: String, default: 'Oczekujacy' },
 })
 
-const Application = mongoose.model("Application", applicationSchema)
+const Report = mongoose.model("Report", reportSchema)
 
 const validate = (data) => {
     const schema = Joi.object({
@@ -20,5 +20,5 @@ const validate = (data) => {
     return schema.validate(data)
 }
 
-module.exports = { Application, validate }
+module.exports = { Report, validate }
 
