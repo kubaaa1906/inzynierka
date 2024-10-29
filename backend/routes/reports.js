@@ -14,7 +14,7 @@ router.post("/", tokenVerification, async (req, res) => {
             opis,
         })
         await newReport.save()
-        res.status(201).send({ message: "Application created successfully" })
+        res.status(201).send({ message: "Report created successfully" })
     } catch (error) {
         res.status(500).send({ message: "Internal Server Error" })
     }

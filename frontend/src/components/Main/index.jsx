@@ -73,21 +73,48 @@ const Main = () => {
 
             {pokazMenu && (
                 <div className={styles.menu}>
+                    <h2>Menu</h2>
                     <ul>
                         <li>
-                            3 Lata:
+                            <strong>3-4 lata:</strong>
+                            <ul>
+                                <li><strong>Matematyka</strong>
+                                </li>
+                                <li><strong>Historia</strong>
+                                </li>
+                                <li><strong>Przyroda</strong>
+                                </li>
+                                <li><strong>Zadania Logiczne</strong>
+                                </li>
+                            </ul>
                         </li>
+
                         <li>
-                            4 Lata:
+                            <strong>5-6 lat:</strong>
+                            <ul>
+                                <li><strong>Matematyka</strong>
+                                </li>
+                                <li><strong>Historia</strong>
+                                </li>
+                                <li><strong>Przyroda</strong>
+                                </li>
+                                <li><strong>Zadania Logiczne</strong>
+                                </li>
+                            </ul>
                         </li>
+
                         <li>
-                            5 Lat:
-                        </li>
-                        <li>
-                            6 lat:
-                        </li>
-                        <li>
-                            7 lat:
+                            <strong>7-9 lat:</strong>
+                            <ul>
+                                <li><strong>Matematyka</strong>
+                                </li>
+                                <li><strong>Historia</strong>
+                                </li>
+                                <li><strong>Przyroda</strong>
+                                </li>
+                                <li><strong>Zadania Logiczne</strong>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -96,7 +123,7 @@ const Main = () => {
             <div className={styles.main_area}>
                 <div className={styles.text_container}>
                     <p>
-                         Na co czekasz? Bierz się za rozwiązywanie zadań!<br/>
+                        Na co czekasz? Bierz się za rozwiązywanie zadań!<br/>
                     </p>
                 </div>
                 <div className={styles.tiles_container}>

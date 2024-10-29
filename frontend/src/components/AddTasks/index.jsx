@@ -10,6 +10,7 @@ const AddTasks = () => {
         opis: "",
         tresc: "",
         poprawnaOdpowiedz: "",
+        kategoria: "",
     })
 
 
@@ -46,10 +47,13 @@ const AddTasks = () => {
     }, []);
 
 
+
     const handleChange = ({ currentTarget: input }) => {
         setData({...data, [input.name]: input.value})
         console.log(input.value)
     }
+
+
 
     const handleSubmit = async (e) => {
         const token = localStorage.getItem("token");
@@ -57,19 +61,14 @@ const AddTasks = () => {
 
         if(token){
             try{
-                const url = "http://localhost:8080/api/tasks"
-                const headers = {
+                const urlTask = "http://localhost:8080/api/tasks"
+                const headersTask = {
                     "x-access-token": token,
                 };
 
-                const taskData = {
-                    ...data,
-                    kategoria: data.kategoria
-                };
+                await axios.post(urlTask, data, {headers: headersTask})
 
-                const { data:res } = await axios.post(url,taskData, { headers })
-                //navigate("/")
-                console.log(res.message)
+                console.log("Zadanie dodano i przypisano do kategorii")
             } catch (error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
                     setError(error.response.data.message)
