@@ -37,7 +37,7 @@ router.get("/", tokenVerification, async(req, res) => {
 router.get("/:id", tokenVerification, async(req, res) => {
     try{
         const report = await Report.findById(req.params.id);
-        res.status(200).json(application);
+        res.status(200).json(report);
     } catch(error){
         res.status(404).json({message: 'Error przy get po id'});
     }

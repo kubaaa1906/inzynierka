@@ -7,6 +7,7 @@ const taskSchema = new mongoose.Schema({
     tresc: { type: String, required: true },
     poprawnaOdpowiedz: { type: String, required: true },
     kategoria: { type: mongoose.Schema.Types.ObjectId, ref: 'Category'},
+    oceny: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Opinion'}],
 })
 
 const Task = mongoose.model("Task", taskSchema)
@@ -18,6 +19,7 @@ const validate = (data) => {
         tresc: Joi.string().required().label("Tresc"),
         poprawnaOdpowiedz: Joi.string().required().label("Poprawna odpowiedz"),
         kategoria: Joi.string().required().label("Kategoria"),
+        ocena: Joi.number().label("Ocena zadania")
     })
 
     return schema.validate(data)

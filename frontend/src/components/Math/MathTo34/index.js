@@ -3,19 +3,22 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
 
-const Main = () => {
+const MathTo34 = () => {
+
     const handleLogout = () => {
         localStorage.removeItem("token")
         window.location.reload()
     }
 
+    const [zadanie, ustawZadanie] = useState([])
+
     const [pokazMenu, ustawPokazMenu] = useState(false);
+
+    const [selectedTask, setSelectedTask] = useState(null);
 
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu);
     }
-
-    const [zadanie, ustawZadanie] = useState([])
 
     const handleGetTasks = async (e) => {
         if (e && e.preventDefault) e.preventDefault();
@@ -31,7 +34,16 @@ const Main = () => {
                 }
 
                 const { data: res } = await axios(config);
-                ustawZadanie(res.data);
+
+                console.log("Odpowiedź z backendu:", res.data);
+
+                const filteredTasks = res.data.filter(task =>
+                    task.kategoria === "6728faba4064ee1eef2e81c0"
+                );
+
+                console.log("Przefiltrowane zadania:", filteredTasks);
+
+                ustawZadanie(filteredTasks);
 
             } catch(error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500){
@@ -41,9 +53,19 @@ const Main = () => {
         }
     }
 
+
     useEffect(() => {
         handleGetTasks();
     }, []);
+
+    const openTaskModal = (task) => {
+        setSelectedTask(task);
+    };
+
+    // Funkcja do zamykania modalu
+    const closeTaskModal = () => {
+        setSelectedTask(null);
+    };
 
     return (
         <div className={styles.main_container}>
@@ -76,7 +98,7 @@ const Main = () => {
                     <h2>Menu</h2>
                     <ul>
                         <li>
-                            <Link to="/math"><strong>Matematyka:</strong></Link>
+                            <strong>Matematyka:</strong>
                             <ul>
                                 <li><strong>3-4 lata</strong>
                                 </li>
@@ -117,48 +139,29 @@ const Main = () => {
                     </ul>
                 </div>
             )}
-
             <div className={styles.main_area}>
-                <div className={styles.text_container}>
-                    <p>
-                        Na co czekasz? Bierz się za rozwiązywanie zadań!<br/>
-                    </p>
-                </div>
-                <div className={styles.tiles_container}>
-                    <div className={styles.tile}>
-                        Dla 5-latków:
-                        <li> Przyroda </li>
-                        <li> Matematyka</li>
-                        <li> Kolory</li>
-                    </div>
-                    <div className={styles.tile2}>
-                        Tu bedzie test listowania zadan:
-                        <h3> Lista zadań: </h3>
-                        <ul>
-                            {zadanie.length > 0 ? (
-                                zadanie.map((task) => (
-                                    <li key={task.id}>{task.nazwaZadania}, {task.opis}, {task.tresc}, {task.poprawnaOdpowiedz}</li>
-                                ))
-                            ) : (
-                                <li>Brak zadań do wyświetlenia</li>
-                            )}
-                        </ul>
-                    </div>
-                    <div className={styles.tile}>
-                        Tekst
-                    </div>
-                    <div className={styles.tile2}>
-                        Tekst
-                    </div>
+                {zadanie.length > 0 ? (
+                    zadanie.map((task, index) => (
+                        <div key={task.id} style={{marginBottom: "10px"}}>
+                            <button onClick={() => openTaskModal(task)}> Zadanie {index + 1} </button>
+                        </div>
+                    ))
+                ) : (
+                    <li>Brak zadań do wyświetlenia</li>
+                )}
 
-                </div>
+                {selectedTask && (
+                    <div className={styles.show_task}>
+                        <div className={styles.show_task_main}>
+                            <h2>{selectedTask.nazwaZadania}</h2>
+                            <p>{selectedTask.tresc}</p>
+                        </div>
+                    </div>
+                )}
+                <button> Przejdź do następnego zadania </button>
+                <button> Wróć do poprzedniego zadania </button>
             </div>
-
-            <footer className={styles.footer}>
-                <Link to="/contact">Kontakt</Link> <br/>
-                &copy; 2024 TeachChild. Wszelkie prawa zastrzeżone.
-            </footer>
         </div>
     )
 }
-export default Main
+export default MathTo34

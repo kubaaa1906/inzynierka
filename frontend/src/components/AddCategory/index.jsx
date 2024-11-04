@@ -127,9 +127,9 @@ const AddCategory = () => {
                                 <option value="" disabled>
                                     Wybierz przedzial wiekowy
                                 </option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                <option value="3-4">3-4</option>
+                                <option value="5-6">5-6</option>
+                                <option value="7-9">7-9</option>
                             </select>
                             {error && <div className={styles.error_msg}>{error}</div>}
                             <button type="submit" className={styles.green_btn}>
