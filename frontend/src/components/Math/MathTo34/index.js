@@ -1,7 +1,7 @@
 import styles from "./styles.module.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 const MathTo34 = () => {
 
@@ -15,6 +15,14 @@ const MathTo34 = () => {
     const [pokazMenu, ustawPokazMenu] = useState(false);
 
     const [selectedTask, setSelectedTask] = useState(null);
+
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+    const [powiadomienie, setPowiadomienie] = useState("");
+
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
+
+    const navigate = useNavigate();
 
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu);
@@ -42,8 +50,8 @@ const MathTo34 = () => {
                 );
 
                 console.log("Przefiltrowane zadania:", filteredTasks);
-
                 ustawZadanie(filteredTasks);
+                if (filteredTasks.length > 0) setSelectedTask(filteredTasks[0]);
 
             } catch(error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500){
@@ -58,14 +66,49 @@ const MathTo34 = () => {
         handleGetTasks();
     }, []);
 
-    const openTaskModal = (task) => {
+    const openTask = (task) => {
         setSelectedTask(task);
     };
 
-    // Funkcja do zamykania modalu
-    const closeTaskModal = () => {
+    const closeTask = () => {
         setSelectedTask(null);
     };
+
+    const handleAnswer = (answerIndex) => {
+        setSelectedAnswer(answerIndex);
+    }
+
+    const handleCheckAnswer = () => {
+        if(selectedAnswer === null){
+            setPowiadomienie("Nie wybrałeś odpowiedzi!");
+            return;
+        }
+        const isCorrect = selectedTask.wszystkieOdpowiedzi[selectedAnswer].czyPoprawna;
+        if(isCorrect){
+            setPowiadomienie("Brawo! Poprawna odpowiedź!");
+            setIsAnswerCorrect(true);
+            setTimeout(() => {
+                setPowiadomienie("");
+                goToNextTask();
+            }, 50000);
+        }
+        else{
+            setIsAnswerCorrect(false);
+            setPowiadomienie("Błąd! Niepoprawna odpowiedź :(")
+        }
+    }
+
+    const goToNextTask = () => {
+        const currentTask = zadanie.indexOf(selectedTask);
+        if(currentTask < zadanie.length - 1){
+            setSelectedTask(zadanie[currentTask + 1]);
+            setSelectedAnswer(null);
+        }
+        else{
+            setPowiadomienie("Skończyłeś wszystkie zadania z tej kategorii!")
+        }
+    }
+
 
     return (
         <div className={styles.main_container}>
@@ -140,26 +183,52 @@ const MathTo34 = () => {
                 </div>
             )}
             <div className={styles.main_area}>
-                {zadanie.length > 0 ? (
-                    zadanie.map((task, index) => (
-                        <div key={task.id} style={{marginBottom: "10px"}}>
-                            <button onClick={() => openTaskModal(task)}> Zadanie {index + 1} </button>
-                        </div>
-                    ))
-                ) : (
-                    <li>Brak zadań do wyświetlenia</li>
-                )}
+                <div className={styles.task_buttons}>
+                    {zadanie.length > 0 ? (
+                        zadanie.map((task, index) => (
+                            <button
+                                key={task.id}
+                                className={styles.task_buttons}
+                                onClick={() => openTask(task)}
+                            >
+                                Zadanie {index + 1}
+                            </button>
+                        ))
+                    ) : (
+                        <li>Brak zadań do wyświetlenia</li>
+                    )}
+                </div>
 
                 {selectedTask && (
                     <div className={styles.show_task}>
-                        <div className={styles.show_task_main}>
-                            <h2>{selectedTask.nazwaZadania}</h2>
-                            <p>{selectedTask.tresc}</p>
+                        <h2>{selectedTask.nazwaZadania}</h2>
+                        <p>{selectedTask.tresc}</p>
+                        <div className={styles.answers_container}>
+                            {selectedTask.wszystkieOdpowiedzi.map((answer, index) => (
+                                <div
+                                    key={index}
+                                    className={styles.answer_container}
+                                    onClick={() => setSelectedAnswer(index)}
+                                    style={{
+                                        backgroundColor: selectedAnswer === index ? (isAnswerCorrect ? 'lightgreen' : 'lightcoral') : 'transparent',
+                                    }}
+                                >
+                                    {answer.tekst} {/* Upewnij się, że to jest właściwość zawierająca treść odpowiedzi */}
+                                </div>
+                            ))}
                         </div>
+                        {powiadomienie && (
+                            <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
+                                {powiadomienie}
+                            </p>
+                        )}
+                        <button className={styles.button} onClick={handleCheckAnswer}>Sprawdź</button>
+                        <br/>
+                        <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>Następne
+                            zadanie
+                        </button>
                     </div>
                 )}
-                <button> Przejdź do następnego zadania </button>
-                <button> Wróć do poprzedniego zadania </button>
             </div>
         </div>
     )

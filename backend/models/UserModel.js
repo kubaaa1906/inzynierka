@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     nazwa: {type: String, required: true},
     email: {type: String, required: true},
     haslo: {type: String, required: true},
-    imieDziecka: {type: String, required: true}, //tu trzeba zmienic na required false
+    imieDziecka: {type: String, required: false},
     wiekDziecka: {type: String, required: true},
     czyAdmin: {type: Boolean, required: false},
 })

@@ -9,7 +9,8 @@ const AddTasks = () => {
         nazwaZadania: "",
         opis: "",
         tresc: "",
-        poprawnaOdpowiedz: "",
+        wszystkieOdpowiedzi: [{tekst: "", czyPoprawna: false }],
+        typZadania: "",
         kategoria: "",
     })
 
@@ -53,8 +54,6 @@ const AddTasks = () => {
         console.log(input.value)
     }
 
-
-
     const handleSubmit = async (e) => {
         const token = localStorage.getItem("token");
         e.preventDefault()
@@ -73,12 +72,31 @@ const AddTasks = () => {
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
                     setError(error.response.data.message)
                     //localStorage.removeItem("token")
-                    //window.location.reload()
+                    window.location.reload()
                 }
             }
         }
 
     }
+
+    const addAnswer = () => {
+        setData({
+            ...data,
+            wszystkieOdpowiedzi: [...data.wszystkieOdpowiedzi, { tekst: "", czyPoprawna: false }],
+        });
+        console.log("Dodano zadanie!")
+    };
+
+    const handleAnswerChange = (index, field, value) => {
+        const updatedAnswers = [...data.wszystkieOdpowiedzi];
+        updatedAnswers[index][field] = value;
+        setData({ ...data, wszystkieOdpowiedzi: updatedAnswers });
+    };
+
+    const removeAnswer = (index) => {
+        const updatedAnswers = data.wszystkieOdpowiedzi.filter((_, i) => i !== index);
+        setData({ ...data, wszystkieOdpowiedzi: updatedAnswers });
+    };
 
 
 
@@ -127,13 +145,41 @@ const AddTasks = () => {
                         />
                         <input
                             type="text"
-                            placeholder="Poprawna odpowiedz"
-                            name="poprawnaOdpowiedz"
+                            placeholder="Typ zadania"
+                            name="typZadania"
                             onChange={handleChange}
-                            value={data.poprawnaOdpowiedz}
+                            value={data.typZadania}
                             required
                             className={styles.input}
                         />
+                        Odpowiedzi:
+                        {data.wszystkieOdpowiedzi.map((answer, index) => (
+                                <div key={index} className={styles.answer}>
+                                    <input
+                                        type="text"
+                                        placeholder={`Odpowiedź ${index + 1}`}
+                                        value={answer.tekst}
+                                        onChange={(e) => handleAnswerChange(index, "tekst", e.target.value)}
+                                        className={styles.input}
+                                        required
+                                    />
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={answer.czyPoprawna}
+                                            onChange={(e) => handleAnswerChange(index, "czyPoprawna", e.target.checked)}
+                                        />
+                                        Poprawna
+                                    </label>
+                                    <button type="button" onClick={() => removeAnswer(index)}>
+                                        Usuń
+                                    </button>
+                                </div>
+                            )
+                        )}
+                        <button type="button" onClick={addAnswer}>
+                            Dodaj odpowiedź
+                        </button>
                         <select name="kategoria" onChange={handleChange} value={data.kategoria} required>
                             <option value="" disabled> Wybierz kategorię</option>
                             {category.length > 0 ? (
