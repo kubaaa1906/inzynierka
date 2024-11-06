@@ -86,11 +86,14 @@ const MathTo34 = () => {
         const isCorrect = selectedTask.wszystkieOdpowiedzi[selectedAnswer].czyPoprawna;
         if(isCorrect){
             setPowiadomienie("Brawo! Poprawna odpowiedź!");
+            setTimeout(() => {
+                setPowiadomienie("");
+            }, 3000);
             setIsAnswerCorrect(true);
             setTimeout(() => {
                 setPowiadomienie("");
                 goToNextTask();
-            }, 50000);
+            }, 6000);
         }
         else{
             setIsAnswerCorrect(false);
@@ -213,7 +216,7 @@ const MathTo34 = () => {
                                         backgroundColor: selectedAnswer === index ? (isAnswerCorrect ? 'lightgreen' : 'lightcoral') : 'transparent',
                                     }}
                                 >
-                                    {answer.tekst} {/* Upewnij się, że to jest właściwość zawierająca treść odpowiedzi */}
+                                    {answer.tekst}
                                 </div>
                             ))}
                         </div>
