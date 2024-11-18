@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-const MathTo34 = () => {
+const Category = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token")
@@ -22,7 +22,12 @@ const MathTo34 = () => {
 
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
 
+    const [changeColor, setChangeColor] = useState(false);
+
     const navigate = useNavigate();
+
+    const {category, age} = useParams();
+
 
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu);
@@ -45,11 +50,14 @@ const MathTo34 = () => {
 
                 console.log("Odpowiedź z backendu:", res.data);
 
-                const filteredTasks = res.data.filter(task =>
-                    task.kategoria === "6728faba4064ee1eef2e81c0"
+                const filteredTasks = res.data.filter((task) =>
+                    task.kategoria.dziedzinaNaukowa === category && task.kategoria.przedzialWiekowy === age
                 );
 
+                console.log("Otrzymane zadania:", res.data);
+                console.log("Filtruj według:", category, age);
                 console.log("Przefiltrowane zadania:", filteredTasks);
+
                 ustawZadanie(filteredTasks);
                 if (filteredTasks.length > 0) setSelectedTask(filteredTasks[0]);
 
@@ -63,15 +71,13 @@ const MathTo34 = () => {
 
 
     useEffect(() => {
+        console.log("Category:", category, "Age:", age);
         handleGetTasks();
-    }, []);
+    }, [category, age]);
 
     const openTask = (task) => {
         setSelectedTask(task);
-    };
-
-    const closeTask = () => {
-        setSelectedTask(null);
+        setSelectedAnswer(null);
     };
 
     const handleAnswer = (answerIndex) => {
@@ -90,6 +96,7 @@ const MathTo34 = () => {
                 setPowiadomienie("");
             }, 3000);
             setIsAnswerCorrect(true);
+            setChangeColor(true);
             setTimeout(() => {
                 setPowiadomienie("");
                 goToNextTask();
@@ -106,6 +113,8 @@ const MathTo34 = () => {
         if(currentTask < zadanie.length - 1){
             setSelectedTask(zadanie[currentTask + 1]);
             setSelectedAnswer(null);
+            setIsAnswerCorrect(false);
+            setChangeColor(false);
         }
         else{
             setPowiadomienie("Skończyłeś wszystkie zadania z tej kategorii!")
@@ -189,16 +198,16 @@ const MathTo34 = () => {
                 <div className={styles.task_buttons}>
                     {zadanie.length > 0 ? (
                         zadanie.map((task, index) => (
-                            <button
+                            <div
                                 key={task.id}
                                 className={styles.task_buttons}
                                 onClick={() => openTask(task)}
                             >
-                                Zadanie {index + 1}
-                            </button>
+                                {index + 1}
+                            </div>
                         ))
                     ) : (
-                        <li>Brak zadań do wyświetlenia</li>
+                        <div>Ładowanie...</div>
                     )}
                 </div>
 
@@ -213,7 +222,7 @@ const MathTo34 = () => {
                                     className={styles.answer_container}
                                     onClick={() => setSelectedAnswer(index)}
                                     style={{
-                                        backgroundColor: selectedAnswer === index ? (isAnswerCorrect ? 'lightgreen' : 'lightcoral') : 'transparent',
+                                        backgroundColor: selectedAnswer === index ? 'lightgray' : 'transparent',
                                     }}
                                 >
                                     {answer.tekst}
@@ -225,7 +234,7 @@ const MathTo34 = () => {
                                 {powiadomienie}
                             </p>
                         )}
-                        <button className={styles.button} onClick={handleCheckAnswer}>Sprawdź</button>
+                        <button className={styles.button} onClick={handleCheckAnswer}>Odpowiedz</button>
                         <br/>
                         <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>Następne
                             zadanie
@@ -236,4 +245,4 @@ const MathTo34 = () => {
         </div>
     )
 }
-export default MathTo34
+export default Category

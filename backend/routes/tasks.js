@@ -32,7 +32,7 @@ router.get("/", tokenVerification, async(req, res) => {
     console.log("Pokaz zadania :)")
     Task.find().exec()
         .then(async () => {
-            const tasks = await Task.find();
+            const tasks = await Task.find().populate('kategoria');
             res.status(200).send({ data: tasks, message: "Lista zadań: "})
         })
         .catch(error => {

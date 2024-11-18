@@ -7,8 +7,7 @@ import MainBeforeLogging from "./components/MainBeforeLogging";
 import Contact from "./components/Contact"
 import AddApplication from "./components/AddReport";
 import AddCategory from "./components/AddCategory";
-import Math from "./components/Math";
-import MathTo34 from "./components/Math/MathTo34";
+import Category from "./components/Category/category";
 
 
 function App() {
@@ -25,8 +24,7 @@ function App() {
                   <Route path="/contact" exact element={<Contact />} />
                   <Route path="/addapplication" exact element={<AddApplication/>} />
                   <Route path="/addcategory" exact element={<AddCategory/>} />
-                  <Route path="/math" exact element={<Math/>} />
-                  <Route path="/math/math34" exact element={<MathTo34/>} />
+                  <Route path="/category/:category/age/:age" element={<Category />} />
               </>
           ):(
               <>

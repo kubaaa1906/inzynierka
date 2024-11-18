@@ -1,13 +1,15 @@
 import styles from "./styles.module.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 const Main = () => {
     const handleLogout = () => {
         localStorage.removeItem("token")
         window.location.reload()
     }
+
+    const navigate = useNavigate();
 
     const [pokazMenu, ustawPokazMenu] = useState(false);
 
@@ -39,6 +41,11 @@ const Main = () => {
                 }
             }
         }
+    }
+
+    const handleChooseCategory = (category, age) => {
+        const path = `/category/${category}/age/${age}`;
+        navigate(path);
     }
 
     useEffect(() => {
@@ -76,42 +83,20 @@ const Main = () => {
                     <h2>Menu</h2>
                     <ul>
                         <li>
-                            <Link to="/math"><strong>Matematyka:</strong></Link>
+                            <strong>Matematyka:</strong>
                             <ul>
-                                <li><strong>3-4 lata</strong>
-                                </li>
-                                <li><strong>5-6 lat</strong>
-                                </li>
-                                <li><strong>7-9 lat</strong>
-                                </li>
+                                <li onClick={() => handleChooseCategory("Matematyka", "3-4")}><strong>3-4 lata</strong></li>
+                                <li onClick={() => handleChooseCategory("Matematyka", "5-6")}><strong>5-6 lat</strong></li>
+                                <li onClick={() => handleChooseCategory("Matematyka", "7-9")}><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
 
                         <li>
-                            <strong>5-6 lat:</strong>
+                            <strong>Zadania logiczne:</strong>
                             <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <strong>7-9 lat:</strong>
-                            <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
+                                <li><strong>3-4 lata</strong></li>
+                                <li><strong>5-6 lat</strong></li>
+                                <li><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
                     </ul>
@@ -132,17 +117,7 @@ const Main = () => {
                         <li> Kolory</li>
                     </div>
                     <div className={styles.tile2}>
-                        Tu bedzie test listowania zadan:
-                        <h3> Lista zadań: </h3>
-                        <ul>
-                            {zadanie.length > 0 ? (
-                                zadanie.map((task) => (
-                                    <li key={task.id}>{task.nazwaZadania}, {task.opis}, {task.tresc}, {task.poprawnaOdpowiedz}</li>
-                                ))
-                            ) : (
-                                <li>Brak zadań do wyświetlenia</li>
-                            )}
-                        </ul>
+                        Tekst
                     </div>
                     <div className={styles.tile}>
                         Tekst
