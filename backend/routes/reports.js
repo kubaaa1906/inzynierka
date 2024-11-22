@@ -7,6 +7,7 @@ const {Task} = require("../models/TaskModel");
 //Funkcja do dodawania zadań
 router.post("/", tokenVerification, async (req, res) => {
     try {
+        console.log("dane z backendu:", req.body)
         const { tytul, opis } = req.body
         const newReport = new Report({
             userId: req.user._id,

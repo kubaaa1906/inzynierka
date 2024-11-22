@@ -10,6 +10,7 @@ const Category = () => {
         window.location.reload()
     }
 
+
     const [zadanie, ustawZadanie] = useState([])
 
     const [pokazMenu, ustawPokazMenu] = useState(false);
@@ -121,6 +122,66 @@ const Category = () => {
         }
     }
 
+    const handleChooseCategory = (category, age) => {
+        const path = `/category/${category}/age/${age}`;
+        navigate(path);
+    }
+
+    const [opinion, setOpinion] = useState(null);
+    const [powiadomienie2, setPowiadomienie2] = useState("");
+
+    const [error, setError] = useState("")
+    const [rating, setRating] = useState(null)
+
+    const handleRateTask = async (rateValue) => {
+        const token = localStorage.getItem("token");
+
+        console.log("token: ", token)
+
+        if(token){
+            try{
+                const url = "http://localhost:8080/api/opinions"
+                const headers = {
+                    "x-access-token": token,
+                };
+                console.log({zadanie: selectedTask._id, ocena: rateValue})
+                await axios.post(url,{ zadanie: selectedTask._id, ocena: rateValue }, { headers: headers })
+                setRating(rateValue)
+                setPowiadomienie2("Dziekujemy za ocenę zadania!")
+            }
+            catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500) {
+                    setError(error.response.data.message)
+                }
+            }
+        }
+
+    }
+
+
+    const [star, setStar] = useState(null);
+
+    const showStars = () => {
+        const stars = [];
+        for(let i=1; i<=5; i++){
+            stars.push(
+                <span
+                    key={i}
+                    onClick={() => handleRateTask(i)}
+                    onMouseEnter={() => setStar(i)}
+                    onMouseLeave={() => setStar(null)}
+                    style={{
+                    cursor: "pointer",
+                    fontSize: "24px",
+                    color: i <= (star || opinion) ? "gold" : "gray",
+                }}
+                >★</span>
+            )
+        }
+        return stars
+    }
+
+
 
     return (
         <div className={styles.main_container}>
@@ -155,45 +216,24 @@ const Category = () => {
                         <li>
                             <strong>Matematyka:</strong>
                             <ul>
-                                <li><strong>3-4 lata</strong>
-                                </li>
-                                <li><strong>5-6 lat</strong>
-                                </li>
-                                <li><strong>7-9 lat</strong>
-                                </li>
+                                <li onClick={() => handleChooseCategory("Matematyka", "3-4")}><strong>3-4 lata</strong></li>
+                                <li onClick={() => handleChooseCategory("Matematyka", "5-6")}><strong>5-6 lat</strong></li>
+                                <li onClick={() => handleChooseCategory("Matematyka", "7-9")}><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
 
                         <li>
-                            <strong>5-6 lat:</strong>
+                            <strong>Zadania logiczne:</strong>
                             <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <strong>7-9 lat:</strong>
-                            <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
+                                <li><strong>3-4 lata</strong></li>
+                                <li><strong>5-6 lat</strong></li>
+                                <li><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             )}
+
             <div className={styles.main_area}>
                 <div className={styles.task_buttons}>
                     {zadanie.length > 0 ? (
@@ -228,6 +268,7 @@ const Category = () => {
                                     {answer.tekst}
                                 </div>
                             ))}
+
                         </div>
                         {powiadomienie && (
                             <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
@@ -236,11 +277,18 @@ const Category = () => {
                         )}
                         <button className={styles.button} onClick={handleCheckAnswer}>Odpowiedz</button>
                         <br/>
-                        <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>Następne
-                            zadanie
+                        <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>
+                            Następne zadanie
                         </button>
+                        <div>
+                            <h2>Ocena zadania: </h2>
+                            <div>{showStars()}</div>
+                            {powiadomienie2 && <p>{powiadomienie2}</p>}
+                        </div>
                     </div>
+
                 )}
+
             </div>
         </div>
     )
