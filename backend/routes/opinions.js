@@ -30,7 +30,7 @@ router.post("/", tokenVerification, async (req, res) => {
         if (zadanie) {
             const task = await Task.findById(zadanie);
             if (!task) {
-                return res.status(404).send({ message: "Task not found" });
+                return res.status(404).send({ message: "Zadanie nie istnieje" });
             }
 
             task.oceny.push(newOpinion._id);

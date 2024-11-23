@@ -17,40 +17,10 @@ const Main = () => {
         ustawPokazMenu(!pokazMenu);
     }
 
-    const [zadanie, ustawZadanie] = useState([])
-
-    const handleGetTasks = async (e) => {
-        if (e && e.preventDefault) e.preventDefault();
-
-        const token = localStorage.getItem("token");
-
-        if(token){
-            try{
-                const config = {
-                    method: 'get',
-                    url: 'http://localhost:8080/api/tasks',
-                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
-                }
-
-                const { data: res } = await axios(config);
-                ustawZadanie(res.data);
-
-            } catch(error){
-                if(error.response && error.response.status >= 400 && error.response.status <= 500){
-                    window.location.reload();
-                }
-            }
-        }
-    }
-
-    const handleChooseCategory = (category, age) => {
-        const path = `/category/${category}/age/${age}`;
+    const handleChooseCategory = (category) => {
+        const path = `/category/${category}`;
         navigate(path);
     }
-
-    useEffect(() => {
-        handleGetTasks();
-    }, []);
 
     return (
         <div className={styles.main_container}>
@@ -82,11 +52,10 @@ const Main = () => {
                 <div className={styles.menu}>
                     <h2>Menu</h2>
                     <ul>
-                        <li>
-                            <strong>Matematyka:</strong>
+                        <li onClick={() => handleChooseCategory("Matematyka")}>
+                            Matematyka:
                             <ul>
-                                <li onClick={() => handleChooseCategory("Matematyka", "3-4")}><strong>3-4 lata</strong></li>
-                                <li onClick={() => handleChooseCategory("Matematyka", "5-6")}><strong>5-6 lat</strong></li>
+                                {/* test */}
                                 <li onClick={() => handleChooseCategory("Matematyka", "7-9")}><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
@@ -111,10 +80,12 @@ const Main = () => {
                 </div>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
-                        Dla 5-latków:
-                        <li> Przyroda </li>
-                        <li> Matematyka</li>
-                        <li> Kolory</li>
+                        <div onClick={() => handleChooseCategory("Matematyka")}> Matematyka </div>
+                        <div onClick={() => handleChooseCategory("Przyroda")}> Przyroda </div>
+                        <div onClick={() => handleChooseCategory("Język angielski")}> Język Angielski </div>
+                        <div onClick={() => handleChooseCategory("Dopasowywanie obrazków")}> Dopasowywanie obrazków </div>
+                        <div onClick={() => handleChooseCategory("Odkrywanie kart")}> Odkrywanie kart </div>
+                        <div onClick={() => handleChooseCategory("Zadania logiczne")}> Zadania logiczne </div>
                     </div>
                     <div className={styles.tile2}>
                         Tekst

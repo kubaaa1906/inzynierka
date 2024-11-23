@@ -65,7 +65,7 @@ const Contact = () => {
                         Telefon: 111 111 111 <br/>
                         <br/>
                         Wyślij nam swoje zgłoszenie! <br/>
-                        <Link to="/addapplication">
+                        <Link to="/addreport">
                             <button className={styles.btnform}> Przejdź do formularza</button>
                         </Link>
                     </div>
