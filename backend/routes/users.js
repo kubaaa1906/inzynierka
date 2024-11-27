@@ -29,6 +29,7 @@ router.post("/", async (req,res) => {
     }
 })
 
+
 //getowanie wszystkich userow
 router.get("/", tokenVerification, async(req,res) => {
     //pobranie wszystkich użytkowników z bd:
