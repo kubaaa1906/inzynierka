@@ -13,13 +13,6 @@ const userSchema = new mongoose.Schema({
     czyAdmin: {type: Boolean, required: false},
 })
 
-//Tworzenie authtoken dla uzytkownika
-userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {
-        expiresIn: "60d",
-    })
-    return token
-}
 
 //utworzenie modelu userschema w mongodb
 const User = mongoose.model("User", userSchema)
@@ -36,5 +29,7 @@ const validate = (data) => {
     })
     return schema.validate(data)
 }
+
+
 
 module.exports = { User, validate };

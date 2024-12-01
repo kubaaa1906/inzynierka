@@ -3,6 +3,12 @@ const { User, validate } = require("../models/UserModel")
 const bcrypt = require("bcrypt")
 const tokenVerification = require("../middleware/tokenVerification")
 
+
+
+
+const getUserById = async (id) => {
+    return User.findById(id);
+}
 //Rejestracja uzytkownika
 router.post("/", async (req,res) => {
     try{
@@ -48,6 +54,7 @@ router.get("/", tokenVerification, async(req,res) => {
 
 //getowanie pojedynczego usera
 router.get("/:id", tokenVerification, async(req, res)=> {
+    console.log("Fetching", req.params)
     try {
         const user = await User.findById(req.params.id);
         res.status(200).json(user);
