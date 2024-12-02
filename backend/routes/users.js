@@ -4,11 +4,10 @@ const bcrypt = require("bcrypt")
 const tokenVerification = require("../middleware/tokenVerification")
 
 
-
-
 const getUserById = async (id) => {
     return User.findById(id);
 }
+
 //Rejestracja uzytkownika
 router.post("/", async (req,res) => {
     try{
@@ -52,9 +51,44 @@ router.get("/", tokenVerification, async(req,res) => {
 
 })
 
+router.get("/me", tokenVerification, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).select("-password");
+        if (!user) return res.status(404).json({ message: "Użytkownik nie istnieje" });
+
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ message: "Wystąpił błąd serwera" });
+    }
+});
+
+router.put("/:id/change-password", tokenVerification, async(req,res) => {
+    const {oldPassword, newPassword} = req.body
+    try{
+        const user = await User.findById(req.params.id)
+
+        if(!user){
+            return res.status(404).json({message: "Uzytkownik nie istnieje"})
+        }
+
+        const isMatch = await bcrypt.compare(oldPassword, user.haslo)
+        if (!isMatch){
+            return res.status(400).json({message: "Stare haslo jest nieprawidlowe"})
+        }
+
+        const salt = await bcrypt.genSalt(Number(process.env.SALT))
+        user.haslo = await bcrypt.hash(newPassword, salt)
+        await user.save()
+
+        res.status(200).json({message: "Haslo zostalo zaktualizowane"})
+    } catch (error){
+        res.status(500).json({message: "Wystapil blad serwera"})
+    }
+
+})
+
 //getowanie pojedynczego usera
 router.get("/:id", tokenVerification, async(req, res)=> {
-    console.log("Fetching", req.params)
     try {
         const user = await User.findById(req.params.id);
         res.status(200).json(user);
@@ -73,6 +107,8 @@ router.put("/:id", tokenVerification, async(req, res) => {
     }
 })
 
+
+
 //delete pojedynczego usera
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
@@ -82,6 +118,8 @@ router.delete("/:id", tokenVerification, async(req, res) => {
         res.status(404).json({message: "Error przy delete"});
     }
 })
+
+
 
 
 

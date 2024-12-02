@@ -18,8 +18,9 @@ const Login = () => {
 
             // Zapisz token w localStorage
             localStorage.setItem("token", res.data);
+            localStorage.setItem("id",res.userId)
+            console.log(res.userId)
 
-            
             window.location = "/";
         } catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500) {

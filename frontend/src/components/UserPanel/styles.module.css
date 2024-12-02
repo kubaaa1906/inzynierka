@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: flex-start;
     margin: 20px;
+    max-width: 100vh;
 }
 
 .nav_center{
@@ -27,6 +28,8 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    max-width: 100vh;
+
 }
 
 .navbar h1 {
@@ -154,4 +157,61 @@
     width:  98%;
     margin-top: auto;
     padding: 20px;
+}
+
+.userContent{
+    background-color: white;
+    text-align: center;
+}
+.delete_btn{
+        color: black;
+        outline: none;
+        padding: 10px 0;
+        background-color: red;
+        border-radius: 10px;
+        border-color: black;
+        width: 200px;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: pointer;
+        margin-right: 20px;
+}
+
+.change_btn{
+    color: black;
+    outline: none;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    border-color: black;
+    width: 200px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.delete_btn:hover{
+    background-color: crimson;
+}
+
+.change_btn:hover{
+    background-color: lightgreen;
+}
+.panelInput{
+    color: black;
+    height: 20px;
+    width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    border-color: black;
+    font-size: 15px;
+
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
