@@ -33,7 +33,7 @@ const Login = () => {
     const [pokazMenu, ustawPokazMenu] = useState(false);
 
     const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
+        ustawPokazMenu(!pokazMenu)
     }
 
     return (<div className={styles.main_container}>
