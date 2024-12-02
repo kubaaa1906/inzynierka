@@ -11,7 +11,7 @@ import Category from "./components/Category/category";
 import Task from "./components/Category/Task/task";
 import DragAndDropTask from "./components/DragNDropTask";
 import UserPanel from "./components/UserPanel";
-
+import MemoryGame from "./components/MemoryGame";
 
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
                   <Route path="/category/:category/age/:age" element={<Task/>} />
                   <Route path="/tasks/drag" exact element={<DragAndDropTask/>} />
                   <Route path="/userpanel" exact element={<UserPanel/>} />
+                  <Route path="/memory" exact element={<MemoryGame/>}/>
 
               </>
           ):(
