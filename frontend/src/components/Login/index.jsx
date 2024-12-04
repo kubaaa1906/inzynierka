@@ -9,27 +9,31 @@ const Login = () => {
         setData({ ...data, [input.name]: input.value })
     };
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const url = "http://localhost:8080/api/auth"
-            const { data: res } = await axios.post(url, data)
-            localStorage.setItem("token", res.data)
-            window.location = "/"
+            const url = "http://localhost:8080/api/auth";
+            const { data: res } = await axios.post(url, data);
+
+            console.log("Response from backend:", res);
+
+            // Zapisz token w localStorage
+            localStorage.setItem("token", res.data);
+            localStorage.setItem("id",res.userId)
+            console.log(res.userId)
+
+            window.location = "/";
         } catch (error) {
-            if (
-                error.response &&
-                error.response.status >= 400 &&
-                error.response.status <= 500
-            ) {
-                setError(error.response.data.message)
+            if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                setError(error.response.data.message);
             }
         }
-    }
+    };
+
 
     const [pokazMenu, ustawPokazMenu] = useState(false);
 
     const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
+        ustawPokazMenu(!pokazMenu)
     }
 
     return (<div className={styles.main_container}>
