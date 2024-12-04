@@ -3,12 +3,13 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
 
-const MathTo34 = () => {
+const Task = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token")
         window.location.reload()
     }
+
 
     const [zadanie, ustawZadanie] = useState([])
 
@@ -22,7 +23,12 @@ const MathTo34 = () => {
 
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(false);
 
+    const [changeColor, setChangeColor] = useState(false);
+
     const navigate = useNavigate();
+
+    const {category, age} = useParams();
+
 
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu);
@@ -45,11 +51,15 @@ const MathTo34 = () => {
 
                 console.log("Odpowiedź z backendu:", res.data);
 
-                const filteredTasks = res.data.filter(task =>
-                    task.kategoria === "6728faba4064ee1eef2e81c0"
+                const filteredTasks = res.data.filter((task) =>
+                    task.kategoria.dziedzinaNaukowa === category && task.kategoria.przedzialWiekowy === age
                 );
 
+
+                console.log("Otrzymane zadania:", res.data);
+                console.log("Filtruj według:", category, age);
                 console.log("Przefiltrowane zadania:", filteredTasks);
+
                 ustawZadanie(filteredTasks);
                 if (filteredTasks.length > 0) setSelectedTask(filteredTasks[0]);
 
@@ -63,15 +73,13 @@ const MathTo34 = () => {
 
 
     useEffect(() => {
+        console.log("Category:", category, "Age:", age);
         handleGetTasks();
-    }, []);
+    }, [category, age]);
 
     const openTask = (task) => {
         setSelectedTask(task);
-    };
-
-    const closeTask = () => {
-        setSelectedTask(null);
+        setSelectedAnswer(null);
     };
 
     const handleAnswer = (answerIndex) => {
@@ -90,6 +98,7 @@ const MathTo34 = () => {
                 setPowiadomienie("");
             }, 3000);
             setIsAnswerCorrect(true);
+            setChangeColor(true);
             setTimeout(() => {
                 setPowiadomienie("");
                 goToNextTask();
@@ -106,11 +115,68 @@ const MathTo34 = () => {
         if(currentTask < zadanie.length - 1){
             setSelectedTask(zadanie[currentTask + 1]);
             setSelectedAnswer(null);
+            setIsAnswerCorrect(false);
+            setChangeColor(false);
         }
         else{
             setPowiadomienie("Skończyłeś wszystkie zadania z tej kategorii!")
         }
     }
+
+    const [opinion, setOpinion] = useState(null);
+    const [powiadomienie2, setPowiadomienie2] = useState("");
+
+    const [error, setError] = useState("")
+    const [rating, setRating] = useState(null)
+
+    const handleRateTask = async (rateValue) => {
+        const token = localStorage.getItem("token");
+
+        console.log("token: ", token)
+
+        if(token){
+            try{
+                const url = "http://localhost:8080/api/opinions"
+                const headers = {
+                    "x-access-token": token,
+                };
+                console.log({zadanie: selectedTask._id, ocena: rateValue})
+                await axios.post(url,{ zadanie: selectedTask._id, ocena: rateValue }, { headers: headers })
+                setRating(rateValue)
+                setPowiadomienie2("Dziekujemy za ocenę zadania!")
+            }
+            catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500) {
+                    setError(error.response.data.message)
+                }
+            }
+        }
+
+    }
+
+
+    const [star, setStar] = useState(null);
+
+    const showStars = () => {
+        const stars = [];
+        for(let i=1; i<=5; i++){
+            stars.push(
+                <span
+                    key={i}
+                    onClick={() => handleRateTask(i)}
+                    onMouseEnter={() => setStar(i)}
+                    onMouseLeave={() => setStar(null)}
+                    style={{
+                        cursor: "pointer",
+                        fontSize: "24px",
+                        color: i <= (star || opinion) ? "gold" : "gray",
+                    }}
+                >★</span>
+            )
+        }
+        return stars
+    }
+
 
 
     return (
@@ -146,62 +212,38 @@ const MathTo34 = () => {
                         <li>
                             <strong>Matematyka:</strong>
                             <ul>
-                                <li><strong>3-4 lata</strong>
-                                </li>
-                                <li><strong>5-6 lat</strong>
-                                </li>
-                                <li><strong>7-9 lat</strong>
-                                </li>
+
                             </ul>
                         </li>
 
                         <li>
-                            <strong>5-6 lat:</strong>
+                            <strong>Zadania logiczne:</strong>
                             <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <strong>7-9 lat:</strong>
-                            <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
+                                <li><strong>3-4 lata</strong></li>
+                                <li><strong>5-6 lat</strong></li>
+                                <li><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             )}
+            <h3><Link to="/main"> Wróć na stronę główną </Link></h3>
             <div className={styles.main_area}>
                 <div className={styles.task_buttons}>
                     {zadanie.length > 0 ? (
                         zadanie.map((task, index) => (
-                            <button
+                            <div
                                 key={task.id}
                                 className={styles.task_buttons}
                                 onClick={() => openTask(task)}
                             >
-                                Zadanie {index + 1}
-                            </button>
+                                {index + 1}
+                            </div>
                         ))
                     ) : (
-                        <li>Brak zadań do wyświetlenia</li>
+                        <div>...</div>
                     )}
                 </div>
-
                 {selectedTask && (
                     <div className={styles.show_task}>
                         <h2>{selectedTask.nazwaZadania}</h2>
@@ -213,27 +255,35 @@ const MathTo34 = () => {
                                     className={styles.answer_container}
                                     onClick={() => setSelectedAnswer(index)}
                                     style={{
-                                        backgroundColor: selectedAnswer === index ? (isAnswerCorrect ? 'lightgreen' : 'lightcoral') : 'transparent',
+                                        backgroundColor: selectedAnswer === index ? 'lightgray' : 'transparent',
                                     }}
                                 >
                                     {answer.tekst}
                                 </div>
                             ))}
+
                         </div>
                         {powiadomienie && (
                             <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
                                 {powiadomienie}
                             </p>
                         )}
-                        <button className={styles.button} onClick={handleCheckAnswer}>Sprawdź</button>
+                        <button className={styles.button} onClick={handleCheckAnswer}>Odpowiedz</button>
                         <br/>
-                        <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>Następne
-                            zadanie
+                        <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>
+                            Następne zadanie
                         </button>
+                        <div>
+                            <h2>Ocena zadania: </h2>
+                            <div>{showStars()}</div>
+                            {powiadomienie2 && <p>{powiadomienie2}</p>}
+                        </div>
                     </div>
+
                 )}
+
             </div>
         </div>
     )
 }
-export default MathTo34
+export default Task

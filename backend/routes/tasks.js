@@ -2,11 +2,13 @@ const router = require ("express").Router();
 const { Task, validate } = require("../models/TaskModel");
 const tokenVerification = require("../middleware/tokenVerification")
 const {Category} = require("../models/CategoryModel");
+const {Opinion} = require("../models/OpinionModel");
 
 
 //Funkcja do dodawania zadań
 router.post("/", tokenVerification, async (req, res) => {
     try {
+        console.log(req.body)
         const { error } = validate(req.body)
         if (error)
             return res.status(400).send({ message: error.details[0].message })
@@ -32,7 +34,7 @@ router.get("/", tokenVerification, async(req, res) => {
     console.log("Pokaz zadania :)")
     Task.find().exec()
         .then(async () => {
-            const tasks = await Task.find();
+            const tasks = await Task.find().populate('kategoria').populate('oceny');
             res.status(200).send({ data: tasks, message: "Lista zadań: "})
         })
         .catch(error => {

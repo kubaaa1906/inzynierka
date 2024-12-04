@@ -184,12 +184,13 @@
 	flex-wrap: wrap;
 	gap: 15px;
 	justify-content: center;
-	margin-bottom: 20px;
-	background-color: #3bb19b;
-	color: white;
-	border: none;
+	margin-bottom: 5px;
+	background-color: white;
+	color: black;
+	border: 2px;
 	border-radius: 5px;
 	text-align: center;
+	cursor: crosshair;
 }
 
 .show_task {

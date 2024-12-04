@@ -1,10 +1,9 @@
 import styles from "./styles.module.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
-import Main from "../Main";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
-const Math = () => {
+const Category = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("token")
@@ -13,8 +12,17 @@ const Math = () => {
 
     const [pokazMenu, ustawPokazMenu] = useState(false);
 
+    const navigate = useNavigate();
+
+    const {category} = useParams();
+
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu);
+    }
+
+    const handleChooseTasks = (category, age) => {
+        const path = `/category/${category}/age/${age}`;
+        navigate(path);
     }
 
     return (
@@ -50,50 +58,47 @@ const Math = () => {
                         <li>
                             <strong>Matematyka:</strong>
                             <ul>
-                                <li><strong>3-4 lata</strong>
-                                </li>
-                                <li><strong>5-6 lat</strong>
-                                </li>
-                                <li><strong>7-9 lat</strong>
-                                </li>
+
                             </ul>
                         </li>
 
                         <li>
-                            <strong>5-6 lat:</strong>
+                            <strong>Zadania logiczne:</strong>
                             <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <strong>7-9 lat:</strong>
-                            <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
+                                <li><strong>3-4 lata</strong></li>
+                                <li><strong>5-6 lat</strong></li>
+                                <li><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             )}
+
             <div className={styles.main_area}>
-                <h1> Matematyka </h1>
-                <Link to="/math/math34"><button> Zadania dla 3-4 latków </button></Link>
+                <div onClick={() => handleChooseTasks(category, "3-4")}>
+                    <h3>Zadania dla 3-4 latków </h3>
+                    <div>
+                        Opis jakiś, może jakie typy zadań itp
+                    </div>
+                </div>
+
+                <div onClick={() => handleChooseTasks(category, "5-6")}>
+                    <h3>Zadania dla 5-6 latków </h3>
+                    <div>
+                        Opis jakiś, może jakie typy zadań itp
+                    </div>
+                </div>
+
+
+                <div onClick={() => handleChooseTasks(category, "7-9")}>
+                    <h3>Zadania dla 7-9 latków </h3>
+                    <div>
+                        Opis jakiś, może jakie typy zadań itp
+                    </div>
+                </div>
+
             </div>
         </div>
     )
 }
-export default Math
+export default Category

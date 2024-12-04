@@ -64,7 +64,7 @@ const AddTasks = () => {
                 const headersTask = {
                     "x-access-token": token,
                 };
-
+                console.log(data)
                 await axios.post(urlTask, data, {headers: headersTask})
 
                 console.log("Zadanie dodano i przypisano do kategorii")

@@ -1,7 +1,7 @@
 import styles from "./styles.module.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 
 const Main = () => {
     const handleLogout = () => {
@@ -9,41 +9,18 @@ const Main = () => {
         window.location.reload()
     }
 
+    const navigate = useNavigate();
+
     const [pokazMenu, ustawPokazMenu] = useState(false);
 
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu);
     }
 
-    const [zadanie, ustawZadanie] = useState([])
-
-    const handleGetTasks = async (e) => {
-        if (e && e.preventDefault) e.preventDefault();
-
-        const token = localStorage.getItem("token");
-
-        if(token){
-            try{
-                const config = {
-                    method: 'get',
-                    url: 'http://localhost:8080/api/tasks',
-                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
-                }
-
-                const { data: res } = await axios(config);
-                ustawZadanie(res.data);
-
-            } catch(error){
-                if(error.response && error.response.status >= 400 && error.response.status <= 500){
-                    window.location.reload();
-                }
-            }
-        }
+    const handleChooseCategory = (category) => {
+        const path = `/category/${category}`;
+        navigate(path);
     }
-
-    useEffect(() => {
-        handleGetTasks();
-    }, []);
 
     return (
         <div className={styles.main_container}>
@@ -78,43 +55,20 @@ const Main = () => {
 
                     <h2>Menu</h2>
                     <ul>
-                        <li>
-                            <Link to="/math"><strong>Matematyka:</strong></Link>
+                        <li onClick={() => handleChooseCategory("Matematyka")}>
+                            Matematyka:
                             <ul>
-                                <li><strong>3-4 lata</strong>
-                                </li>
-                                <li><strong>5-6 lat</strong>
-                                </li>
-                                <li><strong>7-9 lat</strong>
-                                </li>
+                                {/* test */}
+                                <li onClick={() => handleChooseCategory("Matematyka", "7-9")}><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
 
                         <li>
-                            <strong>5-6 lat:</strong>
+                            <strong>Zadania logiczne:</strong>
                             <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <strong>7-9 lat:</strong>
-                            <ul>
-                                <li><strong>Matematyka</strong>
-                                </li>
-                                <li><strong>Historia</strong>
-                                </li>
-                                <li><strong>Przyroda</strong>
-                                </li>
-                                <li><strong>Zadania Logiczne</strong>
-                                </li>
+                                <li><strong>3-4 lata</strong></li>
+                                <li><strong>5-6 lat</strong></li>
+                                <li><strong>7-9 lat</strong></li>
                             </ul>
                         </li>
                     </ul>
@@ -129,23 +83,15 @@ const Main = () => {
                 </div>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
-                        Dla 5-latków:
-                        <li> Przyroda </li>
-                        <li> Matematyka</li>
-                        <li> Kolory</li>
+                        <div onClick={() => handleChooseCategory("Matematyka")}> Matematyka </div>
+                        <div onClick={() => handleChooseCategory("Przyroda")}> Przyroda </div>
+                        <div onClick={() => handleChooseCategory("Język angielski")}> Język Angielski </div>
+                        <div onClick={() => handleChooseCategory("Dopasowywanie obrazków")}> Dopasowywanie obrazków </div>
+                        <div onClick={() => handleChooseCategory("Odkrywanie kart")}> Odkrywanie kart </div>
+                        <div onClick={() => handleChooseCategory("Zadania logiczne")}> Zadania logiczne </div>
                     </div>
                     <div className={styles.tile2}>
-                        Tu bedzie test listowania zadan:
-                        <h3> Lista zadań: </h3>
-                        <ul>
-                            {zadanie.length > 0 ? (
-                                zadanie.map((task) => (
-                                    <li key={task.id}>{task.nazwaZadania}, {task.opis}, {task.tresc}, {task.poprawnaOdpowiedz}</li>
-                                ))
-                            ) : (
-                                <li>Brak zadań do wyświetlenia</li>
-                            )}
-                        </ul>
+                        Tekst
                     </div>
                     <div className={styles.tile}>
                         Tekst

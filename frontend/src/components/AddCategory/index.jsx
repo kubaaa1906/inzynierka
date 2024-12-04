@@ -120,7 +120,7 @@ const AddCategory = () => {
                                 <option value="Matematyka">Matematyka</option>
                                 <option value="Przyroda">Przyroda</option>
                                 <option value="Zadania logiczne">Zadania logiczne</option>
-                                <option value="Historia">Historia</option>
+                                <option value="Język angielski">Język angielski</option>
                             </select>
                             <select name="przedzialWiekowy" onChange={handleChange} value={data.przedzialWiekowy}
                                     required>

@@ -154,3 +154,90 @@
 	margin-top: auto;
 	padding: 20px;
 }
+
+.poprawnaOdp {
+	color: green;
+	font-weight: bold;
+}
+
+.errorOdp {
+	color: red;
+	font-weight: bold;
+}
+
+.taskButton {
+	background-color: white;
+}
+
+.taskButtonDone {
+	background-color: green;
+}
+
+.main_area {
+	width: 100%;
+	max-width: 1800px;
+	margin: 20px 0;
+}
+
+.task_buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+	justify-content: center;
+	margin-bottom: 5px;
+	background-color: white;
+	color: black;
+	border: 2px;
+	border-radius: 5px;
+	text-align: center;
+	cursor: crosshair;
+}
+
+.show_task {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #ccc;
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 8px;
+	width: 800px;
+	height: 700px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	align-items: center; /* Wyśrodkowanie elementów w poziomie */
+}
+
+.button {
+	background-color: #4CAF50;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 16px;
+	gap: 15px;
+	transition: background-color 0.3s ease;
+}
+
+.button:hover {
+	background-color: #45a049;
+}
+
+.answers_container {
+	display: flex; /* Użyj flexbox */
+	flex-wrap: wrap; /* Umożliwienie zawijania */
+	justify-content: center; /* Wyśrodkowanie odpowiedzi */
+	margin: 20px 0; /* Margines górny i dolny */
+	width: 400px;
+}
+
+.answer_container {
+	flex: 0 0 calc(50% - 20px); /* Każda odpowiedź zajmuje połowę szerokości z uwzględnieniem marginesów */
+	margin: 10px; /* Odstęp między odpowiedziami */
+	padding: 10px; /* Padding wewnętrzny */
+	border: 1px solid #ccc; /* Granica */
+	border-radius: 5px; /* Zaokrąglone rogi */
+	text-align: center; /* Wyrównanie tekstu do środka */
+	cursor: pointer; /* Kursor wskazujący */
+	transition: background-color 0.3s; /* Płynna zmiana koloru tła */
+}
