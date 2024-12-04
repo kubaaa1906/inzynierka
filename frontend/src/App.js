@@ -9,6 +9,11 @@ import AddReport from "./components/AddReport";
 import AddCategory from "./components/AddCategory";
 import Category from "./components/Category/category";
 import Task from "./components/Category/Task/task";
+import Math from "./components/Math";
+import MathTo34 from "./components/Math/MathTo34";
+import DragAndDropTask from "./components/DragNDropTask";
+import UserPanel from "./components/UserPanel";
+
 
 
 function App() {
@@ -27,6 +32,11 @@ function App() {
                   <Route path="/addcategory" exact element={<AddCategory/>} />
                   <Route path="/category/:category" element={<Category />} />
                   <Route path="/category/:category/age/:age" element={<Task/>} />
+                  <Route path="/math" exact element={<Math/>} />
+                  <Route path="/math/math34" exact element={<MathTo34/>} />
+                  <Route path="/tasks/drag" exact element={<DragAndDropTask/>
+                  <Route path="/userpanel" exact element={<UserPanel/>} />
+
               </>
           ):(
               <>
