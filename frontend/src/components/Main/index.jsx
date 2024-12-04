@@ -60,12 +60,13 @@ const Main = () => {
                     <Link to="/contact">
                         <button className={styles.white_btn}> Kontakt</button>
                     </Link>
-                    <Link to="">
-
+                    <Link to="/userpanel">
+                        <button className={styles.white_btn}> Konto</button>
                     </Link>
                     <button className={styles.white_btn} onClick={handleLogout}>
                         Wyloguj się
                     </button>
+
                 </div>
 
 
@@ -73,6 +74,8 @@ const Main = () => {
 
             {pokazMenu && (
                 <div className={styles.menu}>
+
+
                     <h2>Menu</h2>
                     <ul>
                         <li>
