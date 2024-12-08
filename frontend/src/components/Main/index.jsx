@@ -2,6 +2,9 @@ import styles from "./styles.module.css"
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Main = () => {
     const handleLogout = () => {
@@ -26,11 +29,15 @@ const Main = () => {
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
-                    <button className={styles.white_btn} onClick={showMenu}> Menu</button>
+
+
+                    <button className={styles.white_btn}  onClick={showMenu}>
+                        Menu
+                    </button>
                 </div>
                 <div className={styles.nav_center}>
                     <Link to="/">
-                        <a className={styles.text_logo}> TeachChild</a>
+                        <img src="/catchuplogo.png" alt="logo" className={styles.logo}/>
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
@@ -83,12 +90,12 @@ const Main = () => {
                 </div>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
-                        <div onClick={() => handleChooseCategory("Matematyka")}> Matematyka </div>
-                        <div onClick={() => handleChooseCategory("Przyroda")}> Przyroda </div>
-                        <div onClick={() => handleChooseCategory("Język angielski")}> Język Angielski </div>
-                        <div onClick={() => handleChooseCategory("Dopasowywanie obrazków")}> Dopasowywanie obrazków </div>
-                        <div onClick={() => handleChooseCategory("Odkrywanie kart")}> Odkrywanie kart </div>
-                        <div onClick={() => handleChooseCategory("Zadania logiczne")}> Zadania logiczne </div>
+                        <div onClick={() => handleChooseCategory("Matematyka")}> Matematyka</div>
+                        <div onClick={() => handleChooseCategory("Przyroda")}> Przyroda</div>
+                        <div onClick={() => handleChooseCategory("Język angielski")}> Język Angielski</div>
+                        <div onClick={() => handleChooseCategory("Dopasowywanie obrazków")}> Dopasowywanie obrazków</div>
+                        <div onClick={() => handleChooseCategory("Odkrywanie kart")}> Odkrywanie kart</div>
+                        <div onClick={() => handleChooseCategory("Zadania logiczne")}> Zadania logiczne</div>
                     </div>
                     <div className={styles.tile2}>
                         Tekst
