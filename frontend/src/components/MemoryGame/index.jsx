@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import styles from "./styles.module.css";
+import React, { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import styles from "./styles.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
-import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons';
-import { faRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
+import {faHeadset, faRotateLeft} from '@fortawesome/free-solid-svg-icons'
 
 const initialCards = [
     { id: 1, src: '/assets/jez.jpg', matched: false },
@@ -15,32 +14,32 @@ const initialCards = [
     { id: 6, src: '/assets/pies.jpg', matched: false },
     { id: 7, src: '/assets/zyrafa.jpg', matched: false },
     { id: 8, src: '/assets/zyrafa.jpg', matched: false },
-];
+]
 
 function shuffle(array) {
-    return [...array].sort(() => Math.random() - 0.5);
+    return [...array].sort(() => Math.random() - 0.5)
 }
 
 function MemoryGame() {
-    const [cardsData, setCardsData] = useState(shuffle(initialCards));
-    const [flippedCards, setFlippedCards] = useState([]);
-    const [moves, setMoves] = useState(0);
-    const [disabled, setDisabled] = useState(false);
-    const [gameWon, setGameWon] = useState(false);
+    const [cardsData, setCardsData] = useState(shuffle(initialCards))
+    const [flippedCards, setFlippedCards] = useState([])
+    const [moves, setMoves] = useState(0)
+    const [disabled, setDisabled] = useState(false)
+    const [gameWon, setGameWon] = useState(false)
 
     const handleFlip = (index) => {
-        if (disabled || flippedCards.includes(index) || cardsData[index].matched) return;
+        if (disabled || flippedCards.includes(index) || cardsData[index].matched) return
 
-        setFlippedCards((prev) => [...prev, index]);
-    };
+        setFlippedCards((prev) => [...prev, index])
+    }
 
     useEffect(() => {
         if (flippedCards.length === 2) {
-            setDisabled(true);
+            setDisabled(true)
 
-            const [firstIndex, secondIndex] = flippedCards;
-            const firstCard = cardsData[firstIndex];
-            const secondCard = cardsData[secondIndex];
+            const [firstIndex, secondIndex] = flippedCards
+            const firstCard = cardsData[firstIndex]
+            const secondCard = cardsData[secondIndex]
 
             if (firstCard.src === secondCard.src) {
                 setCardsData((prev) =>
@@ -49,17 +48,17 @@ function MemoryGame() {
                             ? { ...card, matched: true }
                             : card
                     )
-                );
+                )
             }
 
             setTimeout(() => {
-                setFlippedCards([]);
-                setDisabled(false);
-            }, 1000);
+                setFlippedCards([])
+                setDisabled(false)
+            }, 1000)
 
-            setMoves((prev) => prev + 1);
+            setMoves((prev) => prev + 1)
         }
-    }, [flippedCards]);
+    }, [flippedCards])
 
     useEffect(() => {
         if (cardsData.every((card) => card.matched)) {
@@ -69,19 +68,19 @@ function MemoryGame() {
 
 
         }
-    }, [cardsData]);
+    }, [cardsData])
 
     const restartGame = () => {
-        setDisabled(true);
-        setFlippedCards([]);
-        setMoves(0);
-        setGameWon(false);
+        setDisabled(true)
+        setFlippedCards([])
+        setMoves(0)
+        setGameWon(false)
 
         setTimeout(() => {
-            setCardsData(shuffle(initialCards));
-            setDisabled(false);
-        }, 600);
-    };
+            setCardsData(shuffle(initialCards))
+            setDisabled(false)
+        }, 600)
+    }
 
     return (
         <div className={styles.main_container}>
@@ -99,8 +98,7 @@ function MemoryGame() {
                 </div>
                 <div className={styles.nav_right}>
                     <Link to="/contact">
-
-                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faCircleQuestion}/> Kontakt</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset} /> Kontakt</button>
                     </Link>
                 </div>
             </nav>
@@ -159,8 +157,8 @@ function MemoryGame() {
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
-    );
+    )
 }
 
 
-export default MemoryGame;
+export default MemoryGame

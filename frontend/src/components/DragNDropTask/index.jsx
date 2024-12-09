@@ -1,13 +1,13 @@
-import styles from "./styles.module.css";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import styles from "./styles.module.css"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 const DragAndDropTask = () => {
-    const [selectedTask, setSelectedTask] = useState(null);
-    const [draggedImage, setDraggedImage] = useState(null);
-    const [correctMatches, setCorrectMatches] = useState(0);
-    const [message, setMessage] = useState("");
-    const [placedImages, setPlacedImages] = useState([]); // Nowa tablica przechowująca poprawne dopasowania
+    const [selectedTask, setSelectedTask] = useState(null)
+    const [draggedImage, setDraggedImage] = useState(null)
+    const [correctMatches, setCorrectMatches] = useState(0)
+    const [message, setMessage] = useState("")
+    const [placedImages, setPlacedImages] = useState([]) // Nowa tablica przechowująca poprawne dopasowania
 
     useEffect(() => {
         // Inicjalizacja przykładowego zadania
@@ -16,41 +16,41 @@ const DragAndDropTask = () => {
             tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
             images: ["pies.jpg", "kot.jpg", "chomik.jpg"],
             targets: ["pies", "kot", "chomik"],
-        });
-    }, []);
+        })
+    }, [])
 
     const handleDragStart = (imageIndex) => {
-        setDraggedImage(imageIndex);
-    };
+        setDraggedImage(imageIndex)
+    }
 
     const handleDrop = (targetIndex) => {
         if (draggedImage !== null && selectedTask) {
-            const isCorrect = draggedImage === targetIndex;
+            const isCorrect = draggedImage === targetIndex
             if (isCorrect) {
-                setPlacedImages((prev) => [...prev, { imageIndex: draggedImage, targetIndex }]); // Dodaj poprawne dopasowanie
-                setCorrectMatches((prev) => prev + 1);
-                setMessage("Dobrze!");
+                setPlacedImages((prev) => [...prev, { imageIndex: draggedImage, targetIndex }]) // Dodaj poprawne dopasowanie
+                setCorrectMatches((prev) => prev + 1)
+                setMessage("Dobrze!")
             } else {
-                setMessage("Spróbuj ponownie.");
+                setMessage("Spróbuj ponownie.")
             }
 
-            setTimeout(() => setMessage(""), 2000);
+            setTimeout(() => setMessage(""), 2000)
         }
-    };
+    }
 
     useEffect(() => {
         if (correctMatches === selectedTask?.targets.length) {
-            setMessage("Brawo! Zadanie wykonane!");
+            setMessage("Brawo! Zadanie wykonane!")
         }
-    }, [correctMatches]);
+    }, [correctMatches])
 
     const isImagePlaced = (imageIndex) =>
-        placedImages.some((placed) => placed.imageIndex === imageIndex);
+        placedImages.some((placed) => placed.imageIndex === imageIndex)
 
     const getImageForTarget = (targetIndex) => {
-        const placed = placedImages.find((placed) => placed.targetIndex === targetIndex);
-        return placed ? selectedTask.images[placed.imageIndex] : null;
-    };
+        const placed = placedImages.find((placed) => placed.targetIndex === targetIndex)
+        return placed ? selectedTask.images[placed.imageIndex] : null
+    }
 
     return (
         <div className={styles.main_container}>
@@ -104,7 +104,7 @@ const DragAndDropTask = () => {
                 )}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default DragAndDropTask;
+export default DragAndDropTask

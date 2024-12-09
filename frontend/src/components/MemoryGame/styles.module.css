@@ -78,12 +78,46 @@ body, html {
     gap: 5px;
 }
 
+@media (max-width: 1100px){
+    .memoryTitle{
+        font-size: 40px;
+    }
+    .hintBox{
+        font-size: 13px;
+        max-width: 200px;
+    }
+    .hintHeader{
+        font-size:17px;
+    }
 
-.scoreboard{
-    padding-top: 10px;
-    color: white;
-    font-size: 20px;
 }
+
+@media (max-width: 800px){
+    .memoryTitle{
+        font-size: 30px;
+    }
+    .hintBox{
+        font-size: 10px;
+        max-width: 150px;
+    }
+    .hintHeader{
+        font-size:14px;
+    }
+
+}
+
+@media (max-width: 620px){
+.memoryHeader{
+    left: 30%;
+    transform: translateX(-50%);
+
+}
+    .hintBox{
+        margin-right: -60px;
+    }
+}
+
+
 
 .nav_btn {
     color: white;
@@ -107,6 +141,42 @@ body, html {
     filter: drop-shadow(3px 3px 2px rgba(100, 40, 150, 0.7));
 }
 
+
+@media (max-width: 1100px){
+    .nav_btn{
+        font-size: 15px;
+    }
+}
+
+
+@media (max-width: 880px) {
+    .navbar{
+        height: 70px;
+    }
+    .nav_btn{
+        font-size: 12px;
+        margin-right: 5px;
+    }
+    .nav_center{
+        height: 70px;
+    }
+}
+@media (max-width: 786px){
+    .nav_btn{
+        margin: 2px;
+        white-space: nowrap;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .nav_btn{
+        font-size: 10px;
+    }
+
+}
+
+
 .main_container {
     background-color: rgba(100, 40, 150, 0.7);
     display: flex;
@@ -114,14 +184,7 @@ body, html {
     min-height: 100vh;
 }
 
-.footer {
-    background-color: #FFF8E1;
-    font-size: 16px;
-    color: #334927;
-    width:  98%;
-    margin-top: auto;
-    padding: 20px;
-}
+
 
 .userContent{
     text-align: center;
@@ -133,11 +196,12 @@ body, html {
 
 .board {
     display: grid;
-    grid-template-columns: repeat(4, 200px);
+    grid-template-columns: repeat(4, 0.1fr);
     gap: 20px;
     justify-content: center;
     margin-top: 20px;
 }
+
 
 .card {
     width: 200px;
@@ -148,6 +212,36 @@ body, html {
     position: relative;
     box-shadow: 8px 8px 8px rgba(100, 40, 150, 0.5);
     transition-duration: 0.3s;
+}
+
+@media (max-width: 1000px){
+    .card{
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 786px){
+    .card{
+        width: 130px;
+        height: 130px;
+    }
+}
+@media (max-width: 600px){
+    .card{
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px){
+    .board{
+        grid-template-columns: repeat(3, 0.1fr);
+    }
+    .card{
+        width: 80px;
+        height: 80px;
+    }
 }
 
 .card:hover{
@@ -179,7 +273,7 @@ body, html {
 }
 
 .card-front {
-    background-color: white;
+    background-color: #FFF8E1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -265,7 +359,38 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.scoreboard{
+    padding-top: 10px;
+    color: white;
+    font-size: 20px;
+}
 
+@media (max-width: 1100px){
+    .winMessageBox{
+    font-size: 22px;
+    }
+    .scoreboard{
+        font-size: 19px;
+    }
+}
+
+@media (max-width: 786px){
+    .winMessageBox{
+        font-size: 19px;
+    }
+    .scoreboard{
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px){
+    .winMessageBox{
+        font-size: 15px;
+    }
+    .scoreboard{
+        font-size: 14px;
+    }
 }
 
 .restart_btn {
@@ -278,6 +403,17 @@ body, html {
     cursor: pointer;
     margin-bottom: 20px;
 }
+@media (max-width: 786px){
+    .restart_btn{
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px){
+    .restart_btn{
+        font-size: 10px;
+    }
+}
 
 .restart_btn:hover {
     background-color: rgba(100, 50, 140);
@@ -285,4 +421,26 @@ body, html {
 
 .restart_btn:active {
     transform: translateY(1px);
+}
+
+
+.footer {
+    background-color: #FFF8E1;
+    font-size: 16px;
+    color: black;
+    width:  100%;
+    margin-top: auto;
+    padding: 20px;
+}
+
+
+@media (max-width: 768px){
+    .footer{
+        font-size: 14px;
+    }
+}
+@media (max-width: 480px){
+    .footer{
+        font-size: 12px;
+    }
 }
