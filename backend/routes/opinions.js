@@ -5,14 +5,19 @@ const { Task} = require("../models/TaskModel");
 const {Category} = require("../models/CategoryModel");
 
 router.post("/", tokenVerification, async (req, res) => {
+    const { error } = validate(req.body);
+
+    if (error) {
+        return res.status(400).send({ message: error.details[0].message });
+    }
+
     try {
         console.log("Dane z backendu: ", req.body);
-        const { error } = validate(req.body);
+        const existingOpinion = await Opinion.findOne({ userId: req.user._id, zadanie: req.body.zadanie });
 
-        if (error) {
-            return res.status(400).send({ message: error.details[0].message });
+        if(existingOpinion){
+            return res.status(400).send({message: "Użytkownik już ocenił to zadanie"});
         }
-
         const { zadanie, ocena } = req.body;
 
         if(!zadanie || !ocena){
@@ -57,15 +62,35 @@ router.get("/:id", tokenVerification, async(req, res) => {
     }
 })
 
+router.get("/user-rating/:zadanieId", tokenVerification, async(req, res) => {
+    try{
+        const userOpinion = await Opinion.findOne({
+            userId: req.user._id,
+            zadanie: req.params.zadanieId
+        })
+
+        if(userOpinion){
+            return res.status(200).send({ ocena: userOpinion})
+        }
+
+        return res.status(200).send({ocena: null})
+    } catch (error){
+        res.status(500).send({ message: "Error"})
+    }
+})
+
 router.get("/", tokenVerification, async(req, res) => {
-    Opinion.find().exec()
-        .then(async () => {
-            const opinions = await Opinion.find().populate('zadanie');
-            res.status(200).send({ data: opinions, message: "Lista opinii: "})
-        })
-        .catch(error => {
-            res.status(500).send({ message: error.message });
-        })
+    try{
+        const { zadanieId } = req.query;
+
+        const opinions = await Opinion.find({ zadanie: zadanieId });
+        const avgRating = opinions.length ?
+            (opinions.reduce((sum, o) => sum + o.ocena, 0) / opinions.length).toFixed(2) : null
+
+        res.status(200).send({ opinions, avgRating })
+    } catch (error){
+        res.status(500).send({message: error.message})
+    }
 })
 
 

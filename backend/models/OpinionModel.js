@@ -7,6 +7,8 @@ const opinionSchema = new mongoose.Schema({
     ocena: { type: Number, required: true, min: 1, max: 5 },
 })
 
+opinionSchema.index({ zadanie: 1, userId: 1 }, { unique: true });
+
 const Opinion = mongoose.model("Opinion", opinionSchema);
 
 const validate = (data) => {
