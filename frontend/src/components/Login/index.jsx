@@ -1,36 +1,38 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
 import styles from "./styles.module.css"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faFileSignature, faKey, faRotateLeft} from "@fortawesome/free-solid-svg-icons"
 const Login = () => {
     const [data, setData] = useState({ nazwa: "", haslo: "" })
     const [error, setError] = useState("")
     const handleChange = ({ currentTarget: input }) => {
         setData({ ...data, [input.name]: input.value })
-    };
+    }
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            const url = "http://localhost:8080/api/auth";
-            const { data: res } = await axios.post(url, data);
+            const url = "http://localhost:8080/api/auth"
+            const { data: res } = await axios.post(url, data)
 
-            console.log("Response from backend:", res);
+            console.log("Response from backend:", res)
 
             // Zapisz token w localStorage
-            localStorage.setItem("token", res.data);
+            localStorage.setItem("token", res.data)
             localStorage.setItem("id",res.userId)
             console.log(res.userId)
 
-            window.location = "/";
+            window.location = "/"
         } catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500) {
-                setError(error.response.data.message);
+                setError(error.response.data.message)
             }
         }
-    };
+    }
 
 
-    const [pokazMenu, ustawPokazMenu] = useState(false);
+    const [pokazMenu, ustawPokazMenu] = useState(false)
 
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu)
@@ -39,51 +41,32 @@ const Login = () => {
     return (<div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
-                    <button className={styles.white_btn} onClick={showMenu}> Menu</button>
+                    <Link to="/main">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft} /> Powrót</button>
+                    </Link>
                 </div>
                 <div className={styles.nav_center}>
-                    <Link to="/">
-                        <a className={styles.text_logo}> TeachChild</a>
+                    <Link to="/" >
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
                     <Link to="/login">
-                        <button className={styles.white_btn}> Zaloguj się</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faKey} /> Zaloguj się</button>
                     </Link>
                     <Link to="/signup">
-                        <button className={styles.white_btn}> Zarejestruj się</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faFileSignature} /> Zarejestruj się</button>
                     </Link>
                 </div>
 
 
             </nav>
-            {pokazMenu && (
-                <div className={styles.menu}>
-                    <ul>
-                        <li>
-                            3 Lata:
-                        </li>
-                        <li>
-                            4 Lata:
-                        </li>
-                        <li>
-                            5 Lat:
-                        </li>
-                        <li>
-                            6 lat:
-                        </li>
-                        <li>
-                            7 lat:
-                        </li>
-                    </ul>
-                </div>
-            )}
             <div className={styles.login_container}>
                 <div className={styles.login_form_container}>
-                    <div className={styles.left}>
+                    <div>
                         <form className={styles.form_container}
                               onSubmit={handleSubmit}>
-                            <h1>Zaloguj się</h1>
+                            <h1 className={styles.formTitle}>Zaloguj się</h1>
                             <input
                                 type="text"
                                 placeholder="Nazwa użytkownika"
@@ -103,22 +86,22 @@ const Login = () => {
                                 className={styles.input}
                             />
                             <a className={styles.forgot_password} href=""> Nie pamiętasz hasła? </a>
-                            {error && <div
-                                className={styles.error_msg}>{error}</div>}
+                            {error &&
+                                <div className={styles.error_msg}>{error}</div>}
                             <button type="submit"
-                                    className={styles.green_btnlogin}>
+                                    className={styles.login_btn}>
                                 Zaloguj się
                             </button>
-                            <p> Nie masz konta? <Link to="/signup"> Zarejestruj się tutaj!</Link></p>
+                             <Link to="/signup" className={styles.forgot_password}>Nie masz konta? Zarejestruj się tutaj!</Link>
                         </form>
                     </div>
                 </div>
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
-                &copy; 2024 TeachChild. Wszelkie prawa zastrzeżone.
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
     )
 }
-export default Login;
+export default Login

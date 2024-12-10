@@ -1,7 +1,9 @@
 import styles from "./styles.module.css"
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {faBars, faFileSignature, faKey} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 const Main = () => {
@@ -21,19 +23,19 @@ const Main = () => {
     return (<div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
-                    <button className={styles.white_btn} onClick={showMenu}> Menu</button>
+                    <Link to="/login">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faKey} /> Zaloguj się</button>
+                    </Link>
                 </div>
                 <div className={styles.nav_center}>
                     <Link to="/">
-                        <a className={styles.text_logo}> TeachChild</a>
+                        <img src="/catchuplogo.png" alt="logo" className={styles.logo}/>
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
-                    <Link to="/login">
-                        <button className={styles.white_btn}> Zaloguj się</button>
-                    </Link>
+
                     <Link to="/signup">
-                        <button className={styles.white_btn}> Zarejestruj się</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faFileSignature} /> Zarejestruj się</button>
                     </Link>
                 </div>
 
@@ -62,12 +64,12 @@ const Main = () => {
             )}
             <div className={styles.main_area}>
                 <div className={styles.text_container}>
-                    <p>
-                        <h3>Witaj na platformie edukacyjnej TeachChild! </h3><br/>
+
+                        <p className={styles.textTitle}>Witaj na platformie edukacyjnej CatchUp! </p>
                         Na naszej stronie zdobędziesz ogrom wiedzy z różnych
                         dziedzin naukowych, takich jak matematyka, biologia, geografia oraz wiele innych! <br/>
                         Wypróbuj już dziś zakładając darmowe konto!
-                    </p>
+
                 </div>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
@@ -76,14 +78,14 @@ const Main = () => {
                         <li> Matematyka</li>
                         <li> Kolory</li>
                     </div>
-                    <div className={styles.tile2}>
+                    <div className={styles.tile}>
                         Pamiętaj, że możesz nauczyć się wszystkiego, czego tylko chcesz! <br/>
-                        <Link to="/signup"> Wypróbuj tutaj! </Link>
+                       <div className={styles.tileLinkBox}><Link to="/signup" className={styles.tileLink}> Wypróbuj tutaj!</Link></div>
                     </div>
                     <div className={styles.tile}>
                         Wielu zadowolonych uczniów! Ponad 15000 dzieci spróbowało uczyć się na naszej stronie.
                     </div>
-                    <div className={styles.tile2}>
+                    <div className={styles.tile}>
                         Tekst jakiś dodać
                     </div>
 
@@ -93,7 +95,7 @@ const Main = () => {
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
-                &copy; 2024 TeachChild. Wszelkie prawa zastrzeżone.
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
     )
