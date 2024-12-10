@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken")
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
 
-//Dane o uzytkowniku w db
 const userSchema = new mongoose.Schema({
     nazwa: {type: String, required: true},
     email: {type: String, required: true},
@@ -11,9 +10,10 @@ const userSchema = new mongoose.Schema({
     imieDziecka: {type: String, required: false},
     wiekDziecka: {type: String, required: true},
     czyAdmin: {type: Boolean, required: false},
+    osiagniecia: [{order: {type: mongoose.Schema.Types.ObjectId, ref: 'Achievement'},
+        date: {type: Date, default: Date.now }}]
 })
 
-//Tworzenie authtoken dla uzytkownika
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {
         expiresIn: "60d",
@@ -21,10 +21,8 @@ userSchema.methods.generateAuthToken = function () {
     return token
 }
 
-//utworzenie modelu userschema w mongodb
 const User = mongoose.model("User", userSchema)
 
-//walidacja po stronie serwera
 const validate = (data) => {
     const schema = Joi.object({
         nazwa: Joi.string().required().label("Nazwa uzytkownika"),
