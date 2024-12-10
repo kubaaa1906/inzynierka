@@ -4,11 +4,6 @@ const bcrypt = require("bcrypt")
 const tokenVerification = require("../middleware/tokenVerification")
 
 
-const getUserById = async (id) => {
-    return User.findById(id);
-}
-
-//Rejestracja uzytkownika
 router.post("/", async (req,res) => {
     try{
         const {error} = validate(req.body)
@@ -25,7 +20,7 @@ router.post("/", async (req,res) => {
         const salt = await bcrypt.genSalt(Number(process.env.SALT))
         const hashPassword = await bcrypt.hash(req.body.haslo, salt)
 
-        const newUser = new User({ ...req.body, haslo: hashPassword })
+        const newUser = new User({ ...req.body, haslo: hashPassword, osiagniecia: [] })
         await newUser.save()
 
          res.status(201).send({ message: "User created successfully", user: newUser })
@@ -35,7 +30,6 @@ router.post("/", async (req,res) => {
 })
 
 
-//getowanie wszystkich userow
 router.get("/", tokenVerification, async(req,res) => {
     //pobranie wszystkich użytkowników z bd:
     User.find().exec()
@@ -87,7 +81,6 @@ router.put("/:id/change-password", tokenVerification, async(req,res) => {
 
 })
 
-//getowanie pojedynczego usera
 router.get("/:id", tokenVerification, async(req, res)=> {
     try {
         const user = await User.findById(req.params.id);
@@ -97,7 +90,6 @@ router.get("/:id", tokenVerification, async(req, res)=> {
     }
 })
 
-//edit pojedynczego usera
 router.put("/:id", tokenVerification, async(req, res) => {
     try{
         const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -109,7 +101,6 @@ router.put("/:id", tokenVerification, async(req, res) => {
 
 
 
-//delete pojedynczego usera
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
         await User.findByIdAndDelete(req.params.id);

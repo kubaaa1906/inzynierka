@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const pictureSchema = new mongoose.Schema({
+const imageSchema = new mongoose.Schema({
     nazwa: {type: String, required: true},
     link: {type: String, required: true}
 })
 
-const Picture = mongoose.model("Picture", pictureSchema)
+const Image = mongoose.model("Image", imageSchema)
 
 const validate = (data) => {
     const schema = Joi.object({
@@ -16,4 +16,4 @@ const validate = (data) => {
     return schema.validate(data)
 }
 
-module.exports = {Picture, validate}
+module.exports = {Image, validate}
