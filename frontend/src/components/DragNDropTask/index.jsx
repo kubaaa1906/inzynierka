@@ -1,6 +1,8 @@
 import styles from "./styles.module.css"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const DragAndDropTask = () => {
     const [selectedTask, setSelectedTask] = useState(null)
@@ -55,12 +57,25 @@ const DragAndDropTask = () => {
     return (
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
-                <Link to="/" className={styles.text_logo}>
-                    TeachChild
-                </Link>
+                <div className={styles.nav_left}>
+                    <Link to="/main">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
+                    </Link>
+                </div>
+                <div className={styles.nav_center}>
+                    <Link to="/">
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
+                    </Link>
+                </div>
+                <div className={styles.nav_right}>
+                    <Link to="/contact">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
+                    </Link>
+                </div>
             </nav>
 
-            <div className={styles.main_area}>
+            <div className={styles.userContent}>
                 {selectedTask && (
                     <div className={styles.task_container}>
                         <h2>{selectedTask.nazwaZadania}</h2>
@@ -103,6 +118,10 @@ const DragAndDropTask = () => {
                     </div>
                 )}
             </div>
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
     )
 }
