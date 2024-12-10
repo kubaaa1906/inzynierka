@@ -17,7 +17,7 @@ router.post("/", tokenVerification, async (req, res) => {
             if(!category){
                 return res.status(404).send({ message: "Category not found"})
             }
-            category.zadania.push(tavsk._id)
+            category.zadania.push(task._id)
             await category.save()
         }
 
