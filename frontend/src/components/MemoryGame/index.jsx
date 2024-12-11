@@ -126,7 +126,7 @@ function MemoryGame() {
                             >
                                 <div className={styles["card-inner"]}>
                                     <div className={styles["card-front"]}>
-                                        <img src="/assets/cardbacklogo.png" alt="Backcard" className={styles.backImage}/>
+                                        <img src="/assets/cardbacklogo.png" alt="Backcard"/>
                                     </div>
                                     <div className={styles["card-back"]}>
                                         <img className={styles.frontImg} src={card.src} alt="Card" />

@@ -32,12 +32,6 @@ const Login = () => {
     }
 
 
-    const [pokazMenu, ustawPokazMenu] = useState(false)
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu)
-    }
-
     return (<div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
