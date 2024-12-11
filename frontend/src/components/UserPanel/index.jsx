@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import styles from "./styles.module.css";
 import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -95,7 +95,7 @@ const UserPanel = () => {
         }
     }
 
-    const deleteAccount = async (e) => {
+    const deleteAccount = async () => {
         const token = localStorage.getItem("token")
 
         try{
