@@ -12,7 +12,6 @@ import Task from "./components/Category/Task/task";
 import DragAndDropTask from "./components/DragNDropTask";
 import UserPanel from "./components/UserPanel";
 import MemoryGame from "./components/MemoryGame";
-import AddImage from "./components/AddImages/formimage";
 
 
 function App() {

@@ -1,49 +1,134 @@
-.signup_container {
+body, html {
+	margin: 0;
+	padding: 0;
 	width: 100%;
+	overflow-x: hidden;
+	box-sizing: border-box;
+}
+
+.navbar {
+	width: 100%;
+	height: 100px;
+	background-color: #FFF8E1;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	box-shadow: 0 0 10px 20px rgba(100, 40, 150, 0.2);
+}
+
+.nav_left{
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	margin: 20px;
+}
+
+.nav_center{
+	height: 100px;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.nav_right{
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+
+}
+
+
+
+.nav_btn {
+	color: white;
+	padding: 10px 0;
+	background-color: rgba(100, 40, 150, 1);
+	border-radius: 10px;
+	border: none;
+	width: 120px;
+	font-weight: bold;
+	font-size: 20px;
+	cursor: pointer;
+	margin-right: 20px;
+}
+
+.nav_btn:hover{
+	background-color: rgba(100, 40, 150, 0.85);
+}
+
+.logo{
+	height: 100%;
+	filter: drop-shadow(3px 3px 2px rgba(100, 40, 150, 0.7));
+}
+
+
+@media (max-width: 1100px){
+	.nav_btn{
+		font-size: 15px;
+	}
+}
+
+
+@media (max-width: 880px) {
+	.navbar{
+		height: 70px;
+	}
+	.nav_btn{
+		font-size: 12px;
+		margin-right: 5px;
+	}
+	.nav_center{
+		height: 70px;
+	}
+}
+@media (max-width: 786px){
+	.nav_btn{
+		margin: 2px;
+		white-space: nowrap;
+	}
+}
+
+
+@media (max-width: 480px) {
+	.nav_btn{
+		font-size: 10px;
+	}
+
+}
+
+
+.main_container {
+	background-color: rgba(100, 40, 150, 0.7);
+	display: flex;
+	flex-direction: column;
 	min-height: 100vh;
-	background-color: #f5f5f5;
+}
+
+
+
+.signup_container {
+	text-align: center;
+	width: 100%;
+	min-height: 80vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .signup_form_container {
-	width: 900px;
-	height: 500px;
+	width: 65%;
 	display: flex;
-	border-radius: 10px;
-	box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
-	0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
-}
-
-.left {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background-color: #3bb19b;
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
+	border-radius: 30px;
+	box-shadow: 0 0 15px 15px rgba(100, 40, 150, 0.5);
+	padding: 0 0 40px 0;
+	background-color: #FFF8E1;
 }
 
-.left h1 {
-	margin-top: 0;
-	color: white;
-	font-size: 35px;
-	align-self: center;
-}
 
-.right {
-	flex: 2;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background-color: white;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
-}
 
 .form_container {
 	display: flex;
@@ -52,19 +137,39 @@
 }
 
 .form_container h1 {
-	font-size: 40px;
-	margin-top: 0;
+	font-size: 50px;
+	color: rgba(100, 40, 150, 1);
+	text-shadow: 1px 1px 4px white;
+	margin: 0;
+	padding: 20px 0 20px 0;
 }
 
-.input {
+.input, select{
 	outline: none;
 	border: none;
 	width: 370px;
 	padding: 15px;
 	border-radius: 10px;
-	background-color: #edf5f3;
+	background-color: rgb(170, 120, 210);
 	margin: 5px 0;
 	font-size: 14px;
+	color: black;
+	font-weight: bold;
+}
+
+input::placeholder {
+	font-weight: bold;
+	opacity: 0.5;
+	color: black;
+}
+select::placeholder{
+	font-weight: bold;
+	opacity: 0.5;
+	color: black;
+}
+
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px rgb(170, 120, 210) inset;
 }
 
 .error_msg {
@@ -78,28 +183,42 @@
 	text-align: center;
 }
 
-.white_btn,
-.green_btn {
+.send_btn {
+	margin: 10px;
+	background-color: rgba(100, 50, 140, 1);
+	color: white;
+	padding: 10px 20px;
+	font-size: 16px;
 	border: none;
-	outline: none;
-	padding: 12px 0;
-	background-color: white;
-	border-radius: 20px;
-	width: 180px;
-	font-weight: bold;
-	font-size: 14px;
+	border-radius: 8px;
 	cursor: pointer;
 }
-
-.green_btn {
-	background-color: #3bb19b;
-	color: white;
-	margin: 10px;
+.send_btn:hover {
+	background-color: rgba(100, 50, 140, 0.7);
 }
 
-.grey_btn{
-	background-color: grey;
-	color: white;
-	margin: 10px;
-	cursor: pointer;
+.send_btn:active {
+	transform: translateY(1px);
+}
+
+
+.footer {
+	background-color: #FFF8E1;
+	font-size: 16px;
+	color: black;
+	width:  100%;
+	margin-top: auto;
+	padding: 20px;
+}
+
+
+@media (max-width: 768px){
+	.footer{
+		font-size: 14px;
+	}
+}
+@media (max-width: 480px){
+	.footer{
+		font-size: 12px;
+	}
 }
