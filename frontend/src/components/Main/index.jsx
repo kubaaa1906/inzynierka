@@ -65,9 +65,8 @@ const Main = () => {
                         <li>
                             Zadania logiczne:
                             <ul>
-                                <li>3 - 4 lata</li>
-                                <li>5 - 6 lat</li>
-                                <li>7 - 9 lat</li>
+                                <li onClick={() => handleChooseCategory("memory")}>MemoryGame</li>
+                                <li onClick={() => handleChooseCategory("drag")}>DragNDropGame</li>
                             </ul>
                         </li>
                     </ul>
