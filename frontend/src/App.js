@@ -31,9 +31,9 @@ function App() {
                   <Route path="/addcategory" exact element={<AddCategory/>} />
                   <Route path="/category/:category" element={<Category />} />
                   <Route path="/category/:category/age/:age" element={<Task/>} />
-                  <Route path="/tasks/drag" exact element={<DragAndDropTask/>} />
+                  <Route path="/category/drag" exact element={<DragAndDropTask/>} />
                   <Route path="/userpanel" exact element={<UserPanel/>} />
-                  <Route path="/memory" exact element={<MemoryGame/>}/>
+                  <Route path="/category/memory" exact element={<MemoryGame/>}/>
                   <Route path="/addimage" exact element={<AddImage/>}/>
 
               </>
