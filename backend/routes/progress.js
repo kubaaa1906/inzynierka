@@ -23,10 +23,10 @@ router.post("/", async (req, res) =>{
 })
 
 
-router.get("/:id", async(req, res)=> {
+router.get("/", async(req, res)=> {
     try {
         const progress = await Progress.findOne({userId: req.params.id});
-        res.status(200).json(progress);
+        res.status(200).send(progress);
     } catch (error){
         res.status(404).json({message: error.message.details[0].message});
     }
@@ -38,10 +38,13 @@ router.put("/addTask/:userId", async(req,res)=>{
         const progress = await Progress.findOne({userId: req.params.userId})
 
         if(!progress){
+            console.log("Progress nie istnieje pozdrawiam!")
             return res.status(404).send({message: "Progress dla danego użytkownika nie istnieje!"})
         }
-        if(progress.ukonczoneZadania.includes(taskId))
+        if(progress.ukonczoneZadania.includes(taskId)) {
+            console.log("Zadanie juz wykonane")
             return res.status(405).send({message: "Zadanie juz wczesniej rozwiazane!"})
+        }
         progress.ukonczoneZadania.push(taskId)
         await progress.save()
 
