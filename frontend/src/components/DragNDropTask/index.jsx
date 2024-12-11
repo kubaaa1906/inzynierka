@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const DragAndDropTask = () => {
     const [selectedTask, setSelectedTask] = useState(null)
@@ -11,16 +12,44 @@ const DragAndDropTask = () => {
     const [message, setMessage] = useState("")
     const [placedImages, setPlacedImages] = useState([]) // Nowa tablica przechowująca poprawne dopasowania
 
+
+
     useEffect(() => {
         // Inicjalizacja przykładowego zadania
-        setSelectedTask({
-            nazwaZadania: "Dopasuj obrazki do kategorii",
-            tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
-            images: ["pies.jpg", "kot.jpg", "chomik.jpg"],
-            targets: ["pies", "kot", "chomik"],
-        })
-    }, [])
+        // setSelectedTask({
+        //     nazwaZadania: "Dopasuj obrazki do kategorii",
+        //     tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
+        //     images: [],
+        //     targets: [],
+        // })
+        handleGetImages()
 
+
+
+    }, [selectedTask])
+    const handleGetImages = async () =>{
+        try{
+            const url = "http://localhost:8080/api/images"
+            const { data:data } = await axios.get(url)
+            const images = data.map(item => item.nazwa)
+            const targets = data.map(item => item.link)
+
+
+            const updatedTask ={
+                nazwaZadania: "Dopasuj obrazki do kategorii",
+                tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
+                images: images,
+                targets: targets
+            }
+            setSelectedTask(updatedTask)
+
+
+        } catch (error){
+            if(error.response && error.response.status >= 400 && error.response.status <= 500) {
+                console.log(error)
+            }
+        }
+    }
     const handleDragStart = (imageIndex) => {
         setDraggedImage(imageIndex)
     }
