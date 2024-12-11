@@ -27,8 +27,10 @@ const Signup = () => {
         try{
             const url = "http://localhost:8080/api/users"
             const { data:res } = await axios.post(url,data)
+
+            const url1 = "http://localhost:8080/api/progress"
+            await axios.post(url1, {userId: res.user._id})
             navigate("/login")
-            console.log(res.message)
         } catch (error){
             if(error.response && error.response.status >= 400 && error.response.status <= 500) {
                 setError(error.response.data.message)
@@ -36,11 +38,6 @@ const Signup = () => {
         }
     }
 
-    const [pokazMenu, ustawPokazMenu] = useState(false);
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
-    }
 
     return (<div className={styles.main_container}>
             <nav className={styles.navbar}>

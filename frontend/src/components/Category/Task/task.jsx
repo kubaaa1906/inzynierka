@@ -30,7 +30,37 @@ const Task = () => {
     const {category, age} = useParams()
 
     const [blockAnswers, setBlockAnswers] = useState(false)
+    const [user,setUser] = useState(null)
 
+
+    const getUserData = async (e) =>{
+        if (e && e.preventDefault) e.preventDefault();
+
+        const token = localStorage.getItem("token")
+
+
+
+        if(token){
+            try{
+                const config = {
+                    method: 'get',
+                    url: `http://localhost:8080/api/users/me`,
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+
+                const { data: res } = await axios(config);
+                setUser(res)
+                console.log(res)
+
+            } catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    console.log(error)
+                }
+            }
+        } else {
+            console.log("Zaloguj sie ponownie")
+        }
+    }
 
     const showMenu = () => {
         ustawPokazMenu(!pokazMenu);
@@ -77,6 +107,7 @@ const Task = () => {
     useEffect(() => {
         console.log("Category:", category, "Age:", age);
         handleGetTasks();
+        getUserData();
     }, [category, age]);
 
 
@@ -84,13 +115,18 @@ const Task = () => {
         setSelectedAnswer(answerIndex);
     }
 
-    const handleCheckAnswer = () => {
-        if(selectedAnswer === null){
+    const handleCheckAnswer = async () => {
+        if (selectedAnswer === null) {
             setPowiadomienie("Nie wybrałeś odpowiedzi!");
             return;
         }
         const isCorrect = selectedTask.wszystkieOdpowiedzi[selectedAnswer].czyPoprawna;
-        if(isCorrect){
+        if (isCorrect) {
+            try {
+                await axios.put(`http://localhost:8080/api/progress/addTask/${user._id}`, {taskId: selectedTask._id})
+            }catch (error){
+                console.log(error)
+            }
             setPowiadomienie("Brawo! Poprawna odpowiedź!");
             setTimeout(() => {
                 setPowiadomienie("");
@@ -98,8 +134,7 @@ const Task = () => {
             setIsAnswerCorrect(true);
             setChangeColor(true);
             setBlockAnswers(true);
-        }
-        else{
+        } else {
             setIsAnswerCorrect(false);
             setPowiadomienie("Błąd! Niepoprawna odpowiedź :(")
         }

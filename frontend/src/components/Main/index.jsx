@@ -1,10 +1,6 @@
 import styles from "./styles.module.css"
-import React, {useEffect, useState} from "react";
-import axios from "axios";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import React, {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import {faArrowRightToBracket, faBars, faHeadset} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-regular-svg-icons";
