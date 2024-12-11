@@ -1,7 +1,9 @@
 import styles from "./styles.module.css"
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate, useParams} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const Task = () => {
 
@@ -248,7 +250,7 @@ const Task = () => {
                     style={{
                         cursor: "pointer",
                         fontSize: "24px",
-                        color: i <= (star || opinion) ? "gold" : "gray",
+                        color: i <= (star || opinion) ? "gold" : "mediumpurple",
                     }}
                 >★</span>
             )
@@ -298,51 +300,23 @@ const Task = () => {
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
-                    <button className={styles.white_btn} onClick={showMenu}> Menu</button>
+                    <Link to="/main">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
+                    </Link>
                 </div>
                 <div className={styles.nav_center}>
                     <Link to="/">
-                        <a className={styles.text_logo}> TeachChild</a>
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
                     <Link to="/contact">
-                        <button className={styles.white_btn}> Kontakt</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
                     </Link>
-                    <Link to="">
-
-                    </Link>
-                    <button className={styles.white_btn} onClick={handleLogout}>
-                        Wyloguj się
-                    </button>
                 </div>
-
-
             </nav>
 
-            {pokazMenu && (
-                <div className={styles.menu}>
-                    <h2>Menu</h2>
-                    <ul>
-                        <li>
-                            <strong>Matematyka:</strong>
-                            <ul>
-
-                            </ul>
-                        </li>
-
-                        <li>
-                            <strong>Zadania logiczne:</strong>
-                            <ul>
-                                <li><strong>3-4 lata</strong></li>
-                                <li><strong>5-6 lat</strong></li>
-                                <li><strong>7-9 lat</strong></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            )}
-            <h3><Link to="/main"> Wróć na stronę główną </Link></h3>
             <div className={styles.main_area}>
                 <div className={styles.task_buttons}>
                     {zadanie.length > 0 ? (
@@ -370,11 +344,12 @@ const Task = () => {
                                     className={styles.answer_container}
                                     onClick={() => setSelectedAnswer(index)}
                                     style={{
-                                        backgroundColor: selectedAnswer === index ? (blockAnswers ? 'white' : 'lightgray')
-                                            : 'transparent',
+                                        backgroundColor: selectedAnswer === index ? (blockAnswers ? 'purple' : 'mediumpurple')
+                                            : 'rgba(100,40,150,0.7)',
+                                        pointerEvents: blockAnswers ? 'none' : 'auto',
                                         cursor: blockAnswers ? 'not-allowed' : 'pointer',
                                     }}
-                                >
+                                 >
                                     {answer.tekst}
                                 </div>
                             ))}
@@ -386,7 +361,10 @@ const Task = () => {
                             </p>
                         )}
                         <button className={styles.button} onClick={handleCheckAnswer} disabled={blockAnswers}
-                            style={{backgroundColor: blockAnswers ? 'gray' : '', cursor: blockAnswers ? 'not-allowed' : 'pointer',}}>
+                                style={{
+                                    backgroundColor: blockAnswers ? 'gray' : '',
+                                    cursor: blockAnswers ? 'not-allowed' : 'pointer',
+                                }}>
                             Odpowiedz
                         </button>
                         <br/>
@@ -397,13 +375,13 @@ const Task = () => {
                             <h2>Ocena zadania: </h2>
                             {!rating ? (
                                 <div>{showStars()}</div>
-                            ): (
+                            ) : (
                                 <p> Twoja ocena: {rating} ★</p>
                             )}
 
                             {powiadomienie2 && <p>{powiadomienie2}</p>}
                             <div>
-                                Średnia ocen użytkowników: {averageRating ? averageRating:"Brak ocen"}
+                                Średnia ocen użytkowników: {averageRating ? averageRating : "Brak ocen"}
                             </div>
                         </div>
                     </div>
@@ -411,6 +389,10 @@ const Task = () => {
                 )}
 
             </div>
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
     )
 }

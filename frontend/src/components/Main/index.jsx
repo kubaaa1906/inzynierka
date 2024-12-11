@@ -84,8 +84,8 @@ const Main = () => {
                         <div onClick={() => handleChooseCategory("Matematyka")} className={styles.tileLink}> Matematyka</div>
                         <div onClick={() => handleChooseCategory("Przyroda")} className={styles.tileLink}> Przyroda</div>
                         <div onClick={() => handleChooseCategory("Język angielski")} className={styles.tileLink}> Język Angielski</div>
-                        <div onClick={() => handleChooseCategory("Dopasowywanie obrazków")} className={styles.tileLink}> Dopasowywanie obrazków</div>
-                        <div onClick={() => handleChooseCategory("Odkrywanie kart")} className={styles.tileLink}> Odkrywanie kart</div>
+                        <div onClick={() => handleChooseCategory("drag")} className={styles.tileLink}> Dopasowywanie obrazków</div>
+                        <div onClick={() => handleChooseCategory("memory")} className={styles.tileLink}> Odkrywanie kart</div>
                         <div onClick={() => handleChooseCategory("Zadania logiczne")} className={styles.tileLink}> Zadania logiczne</div>
                     </div>
                     <div className={styles.tile}>

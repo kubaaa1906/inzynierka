@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {Link, useParams} from "react-router-dom";
 import styles from "./styles.module.css";
 import axios from "axios";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const UserPanel = () => {
 
@@ -32,7 +34,6 @@ const UserPanel = () => {
 
                 const { data: res } = await axios(config);
                 setUser(res)
-                console.log(res)
                 setLoading(false)
 
             } catch(error){
@@ -152,90 +153,95 @@ const UserPanel = () => {
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
                     <Link to="/main">
-                        <button className={styles.white_btn}>Powrót</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
                     </Link>
                 </div>
                 <div className={styles.nav_center}>
                     <Link to="/">
-                        <a className={styles.text_logo}>TeachChild</a>
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
                     <Link to="/contact">
-                        <button className={styles.white_btn}>Kontakt</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
                     </Link>
+                </div>
+            </nav>
 
+            <h1>Witaj, {user.nazwa}!</h1>
+            <div className={styles.userContent}>
+
+
+                <div className={styles.changeBox}>
+                    <button onClick={handleShowChangeUsername} className={styles.change_btn}>
+                        Zmień nazwę
+                    </button>
+                    {showChangeUsername && (
+                        <form onSubmit={updateUsername} className={styles.form}>
+                            <input
+                                type="text"
+                                placeholder="Nowa nazwa użytkownika"
+                                value={newUsername}
+                                onChange={(e) => setNewUsername(e.target.value)}
+                                required
+                                className={styles.panelInput}/>
+                            <button type="submit" className={styles.change_btn}>Zapisz</button>
+
+                        </form>
+                    )}
                 </div>
 
 
-            </nav>
-            <div className={styles.userContent}>
-            <div>
-                <h1>Witaj, {user.nazwa}!</h1>
-                <button onClick={handleShowChangeUsername} className={styles.change_btn}>
-                    Zmień nazwę
-                </button>
-                {showChangeUsername && (
-                    <form onSubmit={updateUsername} className={styles.form}>
-                        <input
-                            type="text"
-                            placeholder="Nowa nazwa użytkownika"
-                            value={newUsername}
-                            onChange={(e) => setNewUsername(e.target.value)}
-                            required
-                        className={styles.panelInput}/>
-                        <button type="submit" className={styles.change_btn}>Zapisz</button>
+                <div className={styles.changeBox}>
+                    <button onClick={handleShowChangePassword} className={styles.change_btn}>
+                        Zmień hasło
+                    </button>
+                    {showChangePassword && (
+                        <form onSubmit={updatePassword} className={styles.form}>
+                            <input
+                                type="password"
+                                placeholder="Stare hasło"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                required
+                                className={styles.panelInput}/>
 
-                    </form>
-                )}
 
+                            <input
+                                type="password"
+                                placeholder="Nowe hasło"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required
+                                className={styles.panelInput}/>
+                            <button type="submit" className={styles.change_btn}>Zapisz</button>
+
+                        </form>
+                    )}
+
+                </div>
+                <div className={styles.changeBox}>
+                    <button onClick={handlePopupOn} className={styles.change_btn}>Usuń konto
+
+                    </button>
+                    {showPopup && (
+                        <div className={styles.deleteBox}>
+                            <h3>Czy na pewno chcesz usunąć konto? Usuniętego konta nie można odzyskać.</h3>
+                            <button onClick={handlePopupOn} className={styles.change_btn}>Anuluj</button>
+                            <button onClick={deleteAccount} className={styles.delete_btn}>Usuń konto</button>
+                        </div>
+
+                    )
+
+                    }
+
+                </div>
             </div>
-
-            <div>
-                <button onClick={handleShowChangePassword} className={styles.change_btn}>
-                    Zmień hasło
-                </button>
-                {showChangePassword && (
-                    <form onSubmit={updatePassword} className={styles.form}>
-                        <input
-                            type="password"
-                            placeholder="Stare hasło"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                            required
-                        className={styles.panelInput}/>
-
-
-                        <input
-                            type="password"
-                            placeholder="Nowe hasło"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            required
-                        className={styles.panelInput}/>
-                        <button type="submit" className={styles.change_btn}>Zapisz</button>
-
-                    </form>
-                )}
-
-            </div>
-            <div>
-                <button onClick={handlePopupOn} className={styles.delete_btn}>Usun konto
-
-                </button>
-                {showPopup && (
-                    <div>
-                        <h3>Czy na pewno chcesz usunac konto? Usunietego konta nie mozna odzyskac.</h3>
-                        <button onClick={handlePopupOn} className={styles.change_btn}>Anuluj</button>
-                        <button onClick={deleteAccount} className={styles.delete_btn}>Usun konto</button>
-                    </div>
-
-                )
-
-                }
-
-            </div>
-            </div>
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
+            </footer>
 
         </div>
     );
