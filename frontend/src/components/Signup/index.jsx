@@ -27,7 +27,6 @@ const Signup = () => {
         try{
             const url = "http://localhost:8080/api/users"
             const { data:res } = await axios.post(url,data)
-
             const url1 = "http://localhost:8080/api/progress"
             await axios.post(url1, {userId: res.user._id})
             navigate("/login")
@@ -37,7 +36,6 @@ const Signup = () => {
             }
         }
     }
-
 
     return (<div className={styles.main_container}>
             <nav className={styles.navbar}>
@@ -59,12 +57,9 @@ const Signup = () => {
                         <button className={styles.nav_btn}><FontAwesomeIcon icon={faFileSignature} /> Zarejestruj się</button>
                     </Link>
                 </div>
-
-
             </nav>
             <div className={styles.signup_container}>
                 <div className={styles.signup_form_container}>
-
                     <form className={styles.form_container}
                           onSubmit={handleSubmit}>
                         <h1 className={styles.formTitle}>Zarejestruj się</h1>
@@ -129,5 +124,5 @@ const Signup = () => {
             </footer>
         </div>
     );
-};
+}
 export default Signup

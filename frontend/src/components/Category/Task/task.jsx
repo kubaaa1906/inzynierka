@@ -7,15 +7,8 @@ import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const Task = () => {
 
-    const handleLogout = () => {
-        localStorage.removeItem("token")
-        window.location.reload()
-    }
-
 
     const [zadanie, ustawZadanie] = useState([])
-
-    const [pokazMenu, ustawPokazMenu] = useState(false)
 
     const [selectedTask, setSelectedTask] = useState(null)
 
@@ -62,10 +55,6 @@ const Task = () => {
         } else {
             console.log("Zaloguj sie ponownie")
         }
-    }
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
     }
 
     const handleGetTasks = async (e) => {

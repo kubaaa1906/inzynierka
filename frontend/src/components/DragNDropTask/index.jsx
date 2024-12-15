@@ -35,7 +35,6 @@ const DragAndDropTask = () => {
             } else {
                 setMessage("Spróbuj ponownie.")
             }
-
             setTimeout(() => setMessage(""), 2000)
         }
     }
@@ -65,7 +64,6 @@ const DragAndDropTask = () => {
                 <div className={styles.nav_center}>
                     <Link to="/">
                         <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
-
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
@@ -74,7 +72,6 @@ const DragAndDropTask = () => {
                     </Link>
                 </div>
             </nav>
-
             <div className={styles.userContent}>
                 {selectedTask && (
                     <div className={styles.task_container}>
@@ -100,8 +97,7 @@ const DragAndDropTask = () => {
                                     key={index}
                                     className={styles.drop_target}
                                     onDragOver={(e) => e.preventDefault()}
-                                    onDrop={() => handleDrop(index)}
-                                >
+                                    onDrop={() => handleDrop(index)}>
                                     {getImageForTarget(index) ? (
                                         <img
                                             src={`/img/${getImageForTarget(index)}`}
@@ -123,7 +119,5 @@ const DragAndDropTask = () => {
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
-    )
-}
-
+    )}
 export default DragAndDropTask
