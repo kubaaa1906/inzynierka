@@ -19,11 +19,7 @@ const UserPanel = () => {
 
     const getUserData = async (e) =>{
         if (e && e.preventDefault) e.preventDefault();
-
         const token = localStorage.getItem("token")
-
-
-
         if(token){
             try{
                 const config = {
@@ -31,17 +27,13 @@ const UserPanel = () => {
                     url: `http://localhost:8080/api/users/me`,
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
-
                 const { data: res } = await axios(config);
                 setUser(res)
                 setLoading(false)
-
             } catch(error){
                 setLoading(false)
-
                 if(error.response && error.response.status >= 400 && error.response.status <= 500){
                     setError(error.response.data.message || "Wystąpił bład")
-
                 }
             }
         } else {
@@ -50,11 +42,9 @@ const UserPanel = () => {
         }
     }
 
-
     const updateUsername = async (e) =>{
         e.preventDefault()
         const  token = localStorage.getItem("token")
-
         try{
             const config = {
                 method:"put",
@@ -64,7 +54,6 @@ const UserPanel = () => {
             }
             const {data:updatedUser } = await axios(config)
             setUser(updatedUser)
-            //window.location.reload()
             alert("Nazwa uzytkownika zostala zaktualizowana")
             setShowChangeUsername(false)
             setNewUsername("")
@@ -76,7 +65,6 @@ const UserPanel = () => {
     const updatePassword = async (e) =>{
         e.preventDefault()
         const token = localStorage.getItem("token")
-
         try{
             const config = {
                 method: "put",
@@ -84,7 +72,6 @@ const UserPanel = () => {
                 headers: {"Content-Type": "application/json", "x-access-token": token},
                 data: {oldPassword, newPassword}
             }
-
             await axios(config)
             alert("Haslo zostalo zaktualizowane")
             setShowChangePassword(false)
@@ -97,16 +84,13 @@ const UserPanel = () => {
 
     const deleteAccount = async () => {
         const token = localStorage.getItem("token")
-
         try{
             const config = {
                 method: "delete",
                 url: `http://localhost:8080/api/users/${user._id}`,
                 headers: {"Content-Type": "application/json", "x-access-token": token}
             }
-
             await axios(config)
-
             alert("Twoje konto zostalo usuniete")
             localStorage.removeItem("token")
             window.location = "/"
@@ -133,10 +117,6 @@ const UserPanel = () => {
         setShowChangePassword(!showChangePassword)
     }
 
-
-
-
-
     useEffect(() => {
         getUserData();
     }, []);
@@ -144,9 +124,6 @@ const UserPanel = () => {
     if (loading) return(<h1>Loading...</h1>)
     if(error) return(<h1>Error: {error}</h1>)
     if(!user) return(<h1>User data not found</h1>)
-
-
-
 
     return (
         <div className={styles.main_container}>
@@ -168,11 +145,8 @@ const UserPanel = () => {
                     </Link>
                 </div>
             </nav>
-
             <h1>Witaj, {user.nazwa}!</h1>
             <div className={styles.userContent}>
-
-
                 <div className={styles.changeBox}>
                     <button onClick={handleShowChangeUsername} className={styles.change_btn}>
                         Zmień nazwę
@@ -187,12 +161,9 @@ const UserPanel = () => {
                                 required
                                 className={styles.panelInput}/>
                             <button type="submit" className={styles.change_btn}>Zapisz</button>
-
                         </form>
                     )}
                 </div>
-
-
                 <div className={styles.changeBox}>
                     <button onClick={handleShowChangePassword} className={styles.change_btn}>
                         Zmień hasło
@@ -206,8 +177,6 @@ const UserPanel = () => {
                                 onChange={(e) => setOldPassword(e.target.value)}
                                 required
                                 className={styles.panelInput}/>
-
-
                             <input
                                 type="password"
                                 placeholder="Nowe hasło"
@@ -216,14 +185,11 @@ const UserPanel = () => {
                                 required
                                 className={styles.panelInput}/>
                             <button type="submit" className={styles.change_btn}>Zapisz</button>
-
                         </form>
                     )}
-
                 </div>
                 <div className={styles.changeBox}>
                     <button onClick={handlePopupOn} className={styles.change_btn}>Usuń konto
-
                     </button>
                     {showPopup && (
                         <div className={styles.deleteBox}>
@@ -231,18 +197,13 @@ const UserPanel = () => {
                             <button onClick={handlePopupOn} className={styles.change_btn}>Anuluj</button>
                             <button onClick={deleteAccount} className={styles.delete_btn}>Usuń konto</button>
                         </div>
-
-                    )
-
-                    }
-
+                    )}
                 </div>
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
-
         </div>
     );
 }

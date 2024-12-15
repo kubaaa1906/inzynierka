@@ -152,7 +152,9 @@ body, html {
 
 .menu li {
 	margin-bottom: 10px;
+	cursor: pointer;
 }
+
 @media (max-width: 786px){
 	.menu li {
 		margin-bottom: 6px;
@@ -305,7 +307,7 @@ body, html {
 }
 .tile {
 	background-color: #FFF8E1;
-	padding: 20px;
+	padding: 20px 30px 20px 20px;
 	font-size: 20px;
 	color: rgba(100, 40, 150, 1);
 	margin-bottom: 10px;

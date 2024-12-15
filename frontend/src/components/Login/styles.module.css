@@ -99,7 +99,7 @@ body, html {
 	align-items: center;
 }
 
-input {
+.input {
 	outline: none;
 	border: none;
 	width: 370px;

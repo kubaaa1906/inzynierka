@@ -47,16 +47,6 @@ const AddCategory = () => {
 
     }
 
-    const handleLogout = () => {
-        localStorage.removeItem("token")
-        window.location.reload()
-    }
-
-    const [pokazMenu, ustawPokazMenu] = useState(false);
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
-    }
 
     return (
         <div className={styles.main_container}>

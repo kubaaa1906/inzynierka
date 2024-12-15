@@ -5,7 +5,6 @@ import Login from "./components/Login"
 import AddTasks from "./components/AddTasks";
 import MainBeforeLogging from "./components/MainBeforeLogging";
 import Contact from "./components/Contact"
-import AddReport from "./components/AddReport";
 import AddCategory from "./components/AddCategory";
 import Category from "./components/Category/category";
 import Task from "./components/Category/Task/task";
@@ -26,7 +25,6 @@ function App() {
                   {/* kazda inna wpisana sciezka po zalogowaniu przekierowuje na main */}
                   <Route path="*" element={<Navigate replace to="/main" />} />
                   <Route path="/contact" exact element={<Contact />} />
-                  <Route path="/addreport" exact element={<AddReport/>} />
                   <Route path="/addcategory" exact element={<AddCategory/>} />
                   <Route path="/category/:category" element={<Category />} />
                   <Route path="/category/:category/age/:age" element={<Task/>} />

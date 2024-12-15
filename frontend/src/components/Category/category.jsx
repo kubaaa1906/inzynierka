@@ -1,26 +1,13 @@
 import styles from "./styles.module.css"
-import React, {useEffect, useState} from "react";
-import axios from "axios";
+import React from "react";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const Category = () => {
 
-    const handleLogout = () => {
-        localStorage.removeItem("token")
-        window.location.reload()
-    }
-
-    const [pokazMenu, ustawPokazMenu] = useState(false);
-
     const navigate = useNavigate();
-
     const {category} = useParams();
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
-    }
 
     const handleChooseTasks = (category, age) => {
         const path = `/category/${category}/age/${age}`;
@@ -38,7 +25,6 @@ const Category = () => {
                 <div className={styles.nav_center}>
                     <Link to="/">
                         <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
-
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
@@ -47,7 +33,6 @@ const Category = () => {
                     </Link>
                 </div>
             </nav>
-
             <div className={styles.main_area}>
                 <div className={styles.categoryContent}>
                 <div onClick={() => handleChooseTasks(category, "3-4")}>
@@ -56,15 +41,12 @@ const Category = () => {
                         Opis jakiś, może jakie typy zadań itp
                     </div>
                 </div>
-
                 <div onClick={() => handleChooseTasks(category, "5-6")}>
                     <h3>Zadania dla 5-6 latków </h3>
                     <div>
                         Opis jakiś, może jakie typy zadań itp
                     </div>
                 </div>
-
-
                 <div onClick={() => handleChooseTasks(category, "7-9")}>
                     <h3>Zadania dla 7-9 latków </h3>
                     <div>
@@ -78,6 +60,5 @@ const Category = () => {
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
-    )
-}
+    )}
 export default Category
