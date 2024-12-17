@@ -16,27 +16,17 @@ const Task = () => {
 
     const [powiadomienie, setPowiadomienie] = useState("")
 
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState(false)
-
-    const [changeColor, setChangeColor] = useState(false)
-
-
     const {category, age} = useParams()
 
     const [blockAnswers, setBlockAnswers] = useState(false)
     const [user,setUser] = useState(null)
-    const [wlaczZadania, setWlaczZadania] = useState(false)
+    const [currentHighlightedTaskIndex, setCurrentHighlightedTaskIndex] = useState(0)
 
-
-    const showTasks = () => {
-        setWlaczZadania(true)
-    }
 
     const getUserData = async (e) =>{
         if (e && e.preventDefault) e.preventDefault();
 
         const token = localStorage.getItem("token")
-
 
 
         if(token){
@@ -126,11 +116,10 @@ const Task = () => {
             setTimeout(() => {
                 setPowiadomienie("");
             }, 7000);
-            setIsAnswerCorrect(true);
-            setChangeColor(true);
+
             setBlockAnswers(true);
         } else {
-            setIsAnswerCorrect(false);
+
             showNotification("Błąd! Niepoprawna odpowiedź :(")
         }
     }
@@ -140,12 +129,11 @@ const Task = () => {
         if(currentTask < zadanie.length - 1){
             setSelectedTask(zadanie[currentTask + 1]);
             setSelectedAnswer(null);
-            setIsAnswerCorrect(false);
-            setChangeColor(false);
             setPowiadomienie("");
             setBlockAnswers(false);
             setRating(null)
             setShowPopup(false)
+            setCurrentHighlightedTaskIndex(currentTask+1)
         }
         else{
             setPowiadomienie("Skończyłeś wszystkie zadania z tej kategorii!")
@@ -280,6 +268,7 @@ const Task = () => {
         console.log("Selected task id: ", task._id)
         setRating(null)
         setShowPopup(false)
+        setBlockAnswers(false)
     };
 
     const [showPopup, setShowPopup] = useState(false);
@@ -322,8 +311,16 @@ const Task = () => {
                         zadanie.map((task, index) => (
                             <div
                                 key={task._id}
-                                className={styles.task_buttons}
-                                onClick={() => openTask(task)}
+                                className={styles.task_button}
+                                style={{
+                                    backgroundColor: currentHighlightedTaskIndex === index ? 'violet' : 'transparent',
+                                    color: currentHighlightedTaskIndex === index ? 'white' : 'black',
+                                    cursor: 'pointer',
+                                    padding: '10px',
+                                    marginBottom: '5px',
+                                    borderRadius: '5px',
+                                    transition: 'background-color 0.3s ease',
+                                }}
                             >
                                 {index + 1}
                             </div>

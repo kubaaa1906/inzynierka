@@ -252,6 +252,20 @@ body, html {
 	100% { opacity: 0; }
 }
 
+.task_button {
+	cursor: pointer;
+	padding: 10px;
+	margin-bottom: 5px;
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+}
+
+.task_button:hover {
+	background-color: rgba(100, 40, 150, 0.2); /* Subtelny efekt hover */
+}
+
+
+
 
 
 @media (max-width: 768px){
