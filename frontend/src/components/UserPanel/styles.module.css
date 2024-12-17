@@ -140,10 +140,16 @@ body, html {
     margin-bottom: 10px;
 }
 
-.deleteBox h3{
+.deleteWarning{
+    font-size: 20px;
     color: rgba(100, 40, 150, 0.9);
-    margin-top: 0;
+    margin: 0;
     width: 410px;
+    font-weight: bold;
+}
+.deleteInput{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .delete_btn{

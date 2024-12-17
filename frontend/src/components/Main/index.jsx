@@ -76,21 +76,34 @@ const Main = () => {
                 <h3 className={styles.text_container}>Na co czekasz? Bierz się za rozwiązywanie zadań!</h3>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
-                        <div onClick={() => handleChooseCategory("Matematyka")} className={styles.tileLink}><FontAwesomeIcon icon={faCalculator} /> Matematyka</div>
-                        <div onClick={() => handleChooseCategory("Przyroda")} className={styles.tileLink}><FontAwesomeIcon icon={faSeedling} /> Przyroda</div>
-                        <div onClick={() => handleChooseCategory("Język angielski")} className={styles.tileLink}><FontAwesomeIcon icon={faLanguage} /> Język Angielski</div>
-                        <div onClick={() => handleChooseCategory("drag")} className={styles.tileLink}><FontAwesomeIcon icon={faImages} /> Dopasowywanie obrazków</div>
-                        <div onClick={() => handleChooseCategory("memory")} className={styles.tileLink}><FontAwesomeIcon icon={faBrain} /> Odkrywanie kart</div>
-                        <div onClick={() => handleChooseCategory("Zadania logiczne")} className={styles.tileLink}><FontAwesomeIcon icon={faGears} /> Zadania logiczne</div>
+                        <div onClick={() => handleChooseCategory("Matematyka")} className={styles.tileLink}>
+                            <FontAwesomeIcon icon={faCalculator}/> Matematyka
+                        </div>
                     </div>
                     <div className={styles.tile}>
-                        Tekst
+                        <div onClick={() => handleChooseCategory("Przyroda")} className={styles.tileLink}>
+                            <FontAwesomeIcon icon={faSeedling}/> Przyroda
+                        </div>
                     </div>
                     <div className={styles.tile}>
-                        Tekst
+                        <div onClick={() => handleChooseCategory("Język angielski")} className={styles.tileLink}>
+                            <FontAwesomeIcon icon={faLanguage}/> Język Angielski
+                        </div>
                     </div>
                     <div className={styles.tile}>
-                        Tekst
+                        <div onClick={() => handleChooseCategory("drag")} className={styles.tileLink}><FontAwesomeIcon
+                            icon={faImages}/> Dopasowywanie obrazków
+                        </div>
+                    </div>
+                    <div className={styles.tile}>
+                        <div onClick={() => handleChooseCategory("memory")} className={styles.tileLink}><FontAwesomeIcon
+                            icon={faBrain}/> Odkrywanie kart
+                        </div>
+                    </div>
+                    <div className={styles.tile}>
+                        <div onClick={() => handleChooseCategory("Zadania logiczne")} className={styles.tileLink}>
+                            <FontAwesomeIcon icon={faGears}/> Zadania logiczne
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,5 +112,6 @@ const Main = () => {
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
-    )}
+    )
+}
 export default Main

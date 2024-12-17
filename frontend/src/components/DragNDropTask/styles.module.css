@@ -250,25 +250,12 @@ body, html {
     width: 100%;
 }
 
-@keyframes moveDown {
-    0%{
-        transform: translateY(0);
-    }
-    100%{
-        transform: translateY(70px);
-
-    }
-
-}
-
 .draggable_image {
     width: 200px;
     height: 200px;
     cursor: grab;
     border: 2px solid transparent;
     border-radius: 8px;
-    transition: transform 0.3s ease, border 0.3s ease;
-    animation: moveDown 0.5s ease-in-out 6 alternate;
 }
 
 

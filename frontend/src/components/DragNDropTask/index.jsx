@@ -9,10 +9,9 @@ const DragAndDropTask = () => {
     const [draggedImage, setDraggedImage] = useState(null)
     const [correctMatches, setCorrectMatches] = useState(0)
     const [message, setMessage] = useState("")
-    const [placedImages, setPlacedImages] = useState([]) // Nowa tablica przechowująca poprawne dopasowania
+    const [placedImages, setPlacedImages] = useState([])
 
     useEffect(() => {
-        // Inicjalizacja przykładowego zadania
         setSelectedTask({
             nazwaZadania: "Dopasuj obrazki do kategorii",
             tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
@@ -29,7 +28,7 @@ const DragAndDropTask = () => {
         if (draggedImage !== null && selectedTask) {
             const isCorrect = draggedImage === targetIndex
             if (isCorrect) {
-                setPlacedImages((prev) => [...prev, { imageIndex: draggedImage, targetIndex }]) // Dodaj poprawne dopasowanie
+                setPlacedImages((prev) => [...prev, { imageIndex: draggedImage, targetIndex }])
                 setCorrectMatches((prev) => prev + 1)
                 setMessage("Dobrze!")
             } else {
@@ -79,7 +78,7 @@ const DragAndDropTask = () => {
                         <p>{selectedTask.tresc}</p>
                         <div className={styles.images_container}>
                             {selectedTask.images.map((image, index) => (
-                                !isImagePlaced(index) && ( // Wyświetl tylko obrazki, które nie są jeszcze dopasowane
+                                !isImagePlaced(index) && (
                                     <img
                                         key={index}
                                         src={`/img/${image}`}

@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import styles from "./styles.module.css";
 import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
+import {faHeadset, faRotateLeft, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
 
 const UserPanel = () => {
 
@@ -17,9 +17,10 @@ const UserPanel = () => {
     const[newPassword, setNewPassword] = useState("")
     const[showPopup, setShowPopup] = useState(false)
 
+    const token = localStorage.getItem("token")
+
     const getUserData = async (e) =>{
         if (e && e.preventDefault) e.preventDefault();
-        const token = localStorage.getItem("token")
         if(token){
             try{
                 const config = {
@@ -44,7 +45,6 @@ const UserPanel = () => {
 
     const updateUsername = async (e) =>{
         e.preventDefault()
-        const  token = localStorage.getItem("token")
         try{
             const config = {
                 method:"put",
@@ -64,7 +64,6 @@ const UserPanel = () => {
 
     const updatePassword = async (e) =>{
         e.preventDefault()
-        const token = localStorage.getItem("token")
         try{
             const config = {
                 method: "put",
@@ -83,12 +82,12 @@ const UserPanel = () => {
     }
 
     const deleteAccount = async () => {
-        const token = localStorage.getItem("token")
         try{
             const config = {
                 method: "delete",
                 url: `http://localhost:8080/api/users/${user._id}`,
-                headers: {"Content-Type": "application/json", "x-access-token": token}
+                headers: {"Content-Type": "application/json", "x-access-token": token},
+                data: {oldPassword}
             }
             await axios(config)
             alert("Twoje konto zostalo usuniete")
@@ -193,7 +192,14 @@ const UserPanel = () => {
                     </button>
                     {showPopup && (
                         <div className={styles.deleteBox}>
-                            <h3>Czy na pewno chcesz usunąć konto? Usuniętego konta nie można odzyskać.</h3>
+                            <p className={styles.deleteWarning}><FontAwesomeIcon icon={faTriangleExclamation} /> Czy na pewno chcesz usunąć konto? <FontAwesomeIcon icon={faTriangleExclamation} />Usuniętego konta nie można odzyskać.</p>
+                            <input
+                                type="password"
+                                placeholder="Podaj hasło aby usunąć konto"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                required
+                                className={styles.deleteInput}/>
                             <button onClick={handlePopupOn} className={styles.change_btn}>Anuluj</button>
                             <button onClick={deleteAccount} className={styles.delete_btn}>Usuń konto</button>
                         </div>
