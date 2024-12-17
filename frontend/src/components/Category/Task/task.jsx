@@ -20,13 +20,17 @@ const Task = () => {
 
     const [changeColor, setChangeColor] = useState(false)
 
-    const navigate = useNavigate()
 
     const {category, age} = useParams()
 
     const [blockAnswers, setBlockAnswers] = useState(false)
     const [user,setUser] = useState(null)
+    const [wlaczZadania, setWlaczZadania] = useState(false)
 
+
+    const showTasks = () => {
+        setWlaczZadania(true)
+    }
 
     const getUserData = async (e) =>{
         if (e && e.preventDefault) e.preventDefault();
@@ -140,6 +144,7 @@ const Task = () => {
             setChangeColor(false);
             setPowiadomienie("");
             setBlockAnswers(false);
+            setRating(null)
         }
         else{
             setPowiadomienie("Skończyłeś wszystkie zadania z tej kategorii!")
@@ -180,9 +185,10 @@ const Task = () => {
 
     }
 
+
     const [averageRating, setAverageRating] = useState(null)
 
-    /*
+
     const handleGetOpinions = async (e) => {
         if (e && e.preventDefault) e.preventDefault();
         const token = localStorage.getItem("token")
@@ -191,25 +197,18 @@ const Task = () => {
             try{
                 const config = {
                     method: 'get',
-                    url: `http://localhost:8080/api/opinions`,
+                    url: `http://localhost:8080/api/opinions?zadanieId=${selectedTask._id}`,
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
 
-                const url = "http://localhost:8080/api/opinions"
-                const headers = {
-                    "x-access-token": token
+                const { data } = await axios(config)
+                console.log("Dane opinii z backendu: ", data)
+                if (data.avgRating){
+                    setAverageRating(data.avgRating)
                 }
-
-                await axios.get(url, {zadanie: selectedTask._id, ocena: rating}, { headers: headers})
-
-                if(filteredOpinions.length > 0){
-                    const total = filteredOpinions.reduce((sum, opinion) => sum + opinion.ocena, 0);
-                    const avg = (total / filteredOpinions.length).toFixed(2);
-                    setAverageRating(avg)
-                } else{
-                    setAverageRating(null)
+                else{
+                    setAverageRating(0)
                 }
-
 
             }
             catch (error){
@@ -219,15 +218,11 @@ const Task = () => {
             }
         }
     }
-    */
+
 
     const [star, setStar] = useState(null);
 
     const showStars = () => {
-        /*if(rating){
-            return null
-        }
-        */
         const stars = [];
         for(let i=1; i<=5; i++){
             stars.push(
@@ -246,19 +241,20 @@ const Task = () => {
         }
         return stars
     }
-    /*
+
     const checkIfRated = async (taskId) => {
         const token = localStorage.getItem("token")
 
         if(token){
             try{
                 const {data} = await axios.get(
-                    `http://localhost:8080/api/opinions/user-rating/${taskId}`,
-                    { headers : { "x-access-token": token }}
+                    `http://localhost:8080/api/opinions?zadanieId=${taskId}`,
+                    { headers : { "x-access-token": token } }
                 )
 
-                if(data.ocena !== null){
-                    setRating(data.ocena);
+                const userOpinion = data.opinions.find(opinion => opinion.userId === user._id)
+                if(userOpinion){
+                    setRating(userOpinion.ocena)
                     setRated(true)
                 }
             } catch (error){
@@ -266,21 +262,22 @@ const Task = () => {
             }
         }
     }
-    */
-    /*
+
+
     useEffect(() => {
         if(selectedTask){
             checkIfRated(selectedTask._id)
+            handleGetOpinions()
         }
     }, [selectedTask]);
-    */
+
 
     const openTask = (task) => {
         setSelectedTask(task)
         setSelectedAnswer(null)
         setAverageRating(null)
         console.log("Selected task id: ", task._id)
-        //checkIfRated(task._id)
+        setRating(null)
     };
 
 
@@ -341,14 +338,12 @@ const Task = () => {
                                  >
                                     {answer.tekst}
                                 </div>
-                            ))}
-
-                        </div>
-                        {powiadomienie && (
-                            <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
-                                {powiadomienie}
-                            </p>
+                            ))
+                        ) : (
+                            <div>...</div>
                         )}
+
+                    </div>
                         <button className={styles.button} onClick={handleCheckAnswer} disabled={blockAnswers}
                                 style={{
                                     backgroundColor: blockAnswers ? 'gray' : '',
@@ -368,20 +363,51 @@ const Task = () => {
                                 <p> Twoja ocena: {rating} ★</p>
                             )}
 
-                            {powiadomienie2 && <p>{powiadomienie2}</p>}
+                            </div>
+                            {powiadomienie && (
+                                <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
+                                    {powiadomienie}
+                                </p>
+                            )}
+                            <button className={styles.button} onClick={handleCheckAnswer} disabled={blockAnswers}
+                                    style={{
+                                        backgroundColor: blockAnswers ? 'gray' : '',
+                                        cursor: blockAnswers ? 'not-allowed' : 'pointer',
+                                    }}>
+                                Odpowiedz
+                            </button>
+                            <br/>
+                            <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>
+                                Następne zadanie
+                            </button>
                             <div>
+
+                                <h2>Ocena zadania: </h2>
+                                {!rating ? (
+                                    <div>{showStars()}</div>
+                                ) : (
+                                    <p> Twoja ocena: {rating} ★</p>
+                                )}
+
+                                {powiadomienie2 && <p>{powiadomienie2}</p>}
+
                                 Średnia ocen użytkowników: {averageRating ? averageRating : "Brak ocen"}
+
                             </div>
                         </div>
-                    </div>
 
-                )}
+                    )}
+
+                </div>
+            )}
+
 
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
+
         </div>
     )
 }

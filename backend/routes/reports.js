@@ -4,7 +4,6 @@ const tokenVerification = require("../middleware/tokenVerification")
 const {Task} = require("../models/TaskModel");
 
 
-//Funkcja do dodawania zadań
 router.post("/", tokenVerification, async (req, res) => {
     try {
         console.log("dane z backendu:", req.body)
@@ -21,9 +20,7 @@ router.post("/", tokenVerification, async (req, res) => {
     }
 })
 
-//Funkcja do listowania zgloszen
 router.get("/", tokenVerification, async(req, res) => {
-    //pobranie wszystkich taskow z bd
     console.log("Pokaz zgloszenia :)")
     Report.find().exec()
         .then(async () => {
@@ -38,6 +35,9 @@ router.get("/", tokenVerification, async(req, res) => {
 router.get("/:id", tokenVerification, async(req, res) => {
     try{
         const report = await Report.findById(req.params.id);
+        if(!report){
+            return res.status(404).json({message: "Zgłoszenie o podanym ID nie istnieje"})
+        }
         res.status(200).json(report);
     } catch(error){
         res.status(404).json({message: 'Error przy get po id'});
@@ -47,6 +47,9 @@ router.get("/:id", tokenVerification, async(req, res) => {
 router.put("/:id", tokenVerification, async(req, res) => {
     try{
         const updatedReport = await Report.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if(!updatedReport){
+            return res.status(404).json({message: "Zgłoszenie o podanym ID nie istnieje"})
+        }
         res.status(200).json(updatedReport);
     } catch (error){
         res.status(404).json({message: "Error przy update"});
@@ -55,7 +58,10 @@ router.put("/:id", tokenVerification, async(req, res) => {
 
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
-        await Report.findByIdAndDelete(req.params.id);
+        const report = await Report.findByIdAndDelete(req.params.id);
+        if(!report){
+            return res.status(404).json({message: "Zgłoszenie o podanym ID nie istnieje"})
+        }
         res.json({ message: "Zadanie usuniete"});
     } catch (error){
         res.status(404).json({message: "Error przy delete"});

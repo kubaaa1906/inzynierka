@@ -6,15 +6,13 @@ const {Category} = require("../models/CategoryModel");
 
 router.post("/", tokenVerification, async (req, res) => {
     const { error } = validate(req.body);
-
     if (error) {
         return res.status(400).send({ message: error.details[0].message });
     }
 
     try {
         console.log("Dane z backendu: ", req.body);
-        const existingOpinion = await Opinion.findOne({ userId: req.user._id, zadanie: req.body.zadanie });
-
+        const existingOpinion = await Opinion.findOne({ userId: req.body.userId, zadanie: req.body.zadanie._id });
         if(existingOpinion){
             return res.status(400).send({message: "Użytkownik już ocenił to zadanie"});
         }
@@ -29,7 +27,6 @@ router.post("/", tokenVerification, async (req, res) => {
             zadanie,
             ocena,
         });
-
         await newOpinion.save();
 
         if (zadanie) {
@@ -41,7 +38,6 @@ router.post("/", tokenVerification, async (req, res) => {
             task.oceny.push(newOpinion._id);
             await task.save();
         }
-
         res.status(201).send({ message: "Opinion created successfully" });
     } catch (error) {
         console.error(error);
@@ -54,7 +50,7 @@ router.get("/:id", tokenVerification, async(req, res) => {
         const opinion = await Opinion.findById(req.params.id).populate('zadanie');
 
         if(!opinion){
-            return res.status(404).json({ message: "Opinion nie istnieje"})
+            return res.status(404).json({ message: "Ocena o podanym ID nie istnieje"})
         }
         res.status(200).json(opinion);
     } catch(error){
@@ -62,22 +58,6 @@ router.get("/:id", tokenVerification, async(req, res) => {
     }
 })
 
-router.get("/user-rating/:zadanieId", tokenVerification, async(req, res) => {
-    try{
-        const userOpinion = await Opinion.findOne({
-            userId: req.user._id,
-            zadanie: req.params.zadanieId
-        })
-
-        if(userOpinion){
-            return res.status(200).send({ ocena: userOpinion})
-        }
-
-        return res.status(200).send({ocena: null})
-    } catch (error){
-        res.status(500).send({ message: "Error"})
-    }
-})
 
 router.get("/", tokenVerification, async(req, res) => {
     try{
@@ -92,6 +72,8 @@ router.get("/", tokenVerification, async(req, res) => {
         res.status(500).send({message: error.message})
     }
 })
+
+
 
 
 module.exports = router

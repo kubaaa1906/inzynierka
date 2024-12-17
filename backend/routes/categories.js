@@ -29,10 +29,15 @@ router.get("/", tokenVerification, async(req, res) => {
         })
 })
 
-//listowanie kategorii po id
+
 router.get("/:id", tokenVerification, async(req, res)=> {
     try {
         const category = await Category.findById(req.params.id);
+
+        if(!category){
+            return res.status(404).json({message: "Nie istnieje kategoria o podanym ID"})
+        }
+
         res.status(200).json(category);
     } catch (error){
         res.status(404).json({message: "Error przy get po id"});
@@ -49,7 +54,6 @@ router.put("/:id", tokenVerification, async(req, res) => {
     }
 })
 
-//delete pojedynczej kategorii
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
         await Category.findByIdAndDelete(req.params.id);

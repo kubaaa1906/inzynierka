@@ -26,6 +26,9 @@ router.post("/", async (req, res) =>{
 router.get("/", async(req, res)=> {
     try {
         const progress = await Progress.findOne({userId: req.params.id});
+        if(!progress){
+            return res.status(404).json({message: "Brak progresu dla tego użytkownika"})
+        }
         res.status(200).send(progress);
     } catch (error){
         res.status(404).json({message: error.message.details[0].message});
