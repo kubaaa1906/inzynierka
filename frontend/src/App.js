@@ -5,7 +5,6 @@ import Login from "./components/Login"
 import AddTasks from "./components/AddTasks";
 import MainBeforeLogging from "./components/MainBeforeLogging";
 import Contact from "./components/Contact"
-import AddReport from "./components/AddReport";
 import AddCategory from "./components/AddCategory";
 import Category from "./components/Category/category";
 import Task from "./components/Category/Task/task";
@@ -13,7 +12,6 @@ import DragAndDropTask from "./components/DragNDropTask";
 import UserPanel from "./components/UserPanel";
 import MemoryGame from "./components/MemoryGame";
 import AddImage from "./components/AddImages/formimage";
-
 
 function App() {
   const user = localStorage.getItem("token")
@@ -27,13 +25,12 @@ function App() {
                   {/* kazda inna wpisana sciezka po zalogowaniu przekierowuje na main */}
                   <Route path="*" element={<Navigate replace to="/main" />} />
                   <Route path="/contact" exact element={<Contact />} />
-                  <Route path="/addreport" exact element={<AddReport/>} />
                   <Route path="/addcategory" exact element={<AddCategory/>} />
                   <Route path="/category/:category" element={<Category />} />
                   <Route path="/category/:category/age/:age" element={<Task/>} />
-                  <Route path="/tasks/drag" exact element={<DragAndDropTask/>} />
+                  <Route path="/category/drag" exact element={<DragAndDropTask/>} />
                   <Route path="/userpanel" exact element={<UserPanel/>} />
-                  <Route path="/memory" exact element={<MemoryGame/>}/>
+                  <Route path="/category/memory" exact element={<MemoryGame/>}/>
                   <Route path="/addimage" exact element={<AddImage/>}/>
 
               </>

@@ -1,24 +1,10 @@
 import styles from "./styles.module.css"
-import React, {useState} from "react";
-import axios from "axios";
+import React from "react";
 import {Link} from "react-router-dom";
-import {faBars, faFileSignature, faKey} from "@fortawesome/free-solid-svg-icons";
+import {faFileSignature, faKey} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-
 const Main = () => {
-    const handleLogout = () => {
-        localStorage.removeItem("token")
-        window.location.reload()
-    }
-
-
-    const [pokazMenu, ustawPokazMenu] = useState(false);
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
-    }
-
 
     return (<div className={styles.main_container}>
             <nav className={styles.navbar}>
@@ -38,38 +24,13 @@ const Main = () => {
                         <button className={styles.nav_btn}><FontAwesomeIcon icon={faFileSignature} /> Zarejestruj się</button>
                     </Link>
                 </div>
-
-
             </nav>
-            {pokazMenu && (
-                <div className={styles.menu}>
-                    <ul>
-                        <li>
-                            3 Lata:
-                        </li>
-                        <li>
-                            4 Lata:
-                        </li>
-                        <li>
-                            5 Lat:
-                        </li>
-                        <li>
-                            6 lat:
-                        </li>
-                        <li>
-                            7 lat:
-                        </li>
-                    </ul>
-                </div>
-            )}
             <div className={styles.main_area}>
                 <div className={styles.text_container}>
-
                         <p className={styles.textTitle}>Witaj na platformie edukacyjnej CatchUp! </p>
                         Na naszej stronie zdobędziesz ogrom wiedzy z różnych
                         dziedzin naukowych, takich jak matematyka, biologia, geografia oraz wiele innych! <br/>
                         Wypróbuj już dziś zakładając darmowe konto!
-
                 </div>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
@@ -88,16 +49,12 @@ const Main = () => {
                     <div className={styles.tile}>
                         Tekst jakiś dodać
                     </div>
-
                 </div>
-
-
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
-    )
-}
+    )}
 export default Main

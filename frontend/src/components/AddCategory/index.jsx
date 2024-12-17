@@ -1,7 +1,9 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 
 const AddCategory = () => {
@@ -45,62 +47,29 @@ const AddCategory = () => {
 
     }
 
-    const handleLogout = () => {
-        localStorage.removeItem("token")
-        window.location.reload()
-    }
 
-    const [pokazMenu, ustawPokazMenu] = useState(false);
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
-    }
-
-    return (<div className={styles.main_container}>
+    return (
+        <div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
-                    <button className={styles.white_btn} onClick={showMenu}> Menu</button>
+                    <Link to="/main">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
+                    </Link>
                 </div>
                 <div className={styles.nav_center}>
                     <Link to="/">
-                        <a className={styles.text_logo}> TeachChild</a>
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
                     <Link to="/contact">
-                        <button className={styles.white_btn}> Kontakt</button>
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
                     </Link>
-                    <button className={styles.white_btn} onClick={handleLogout}>
-                        Wyloguj się
-                    </button>
                 </div>
-
-
             </nav>
-            {pokazMenu && (
-                <div className={styles.menu}>
-                    <ul>
-                        <li>
-                            3 Lata:
-                        </li>
-                        <li>
-                            4 Lata:
-                        </li>
-                        <li>
-                            5 Lat:
-                        </li>
-                        <li>
-                            6 lat:
-                        </li>
-                        <li>
-                            7 lat:
-                        </li>
-                    </ul>
-                </div>
-            )}
             <div className={styles.signup_container}>
                 <div className={styles.signup_form_container}>
-                    <div className={styles.right}>
                         <form className={styles.form_container} onSubmit={handleSubmit}>
                             <h1>Dodaj kategorię</h1>
                             <input
@@ -132,16 +101,15 @@ const AddCategory = () => {
                                 <option value="7-9">7-9</option>
                             </select>
                             {error && <div className={styles.error_msg}>{error}</div>}
-                            <button type="submit" className={styles.green_btn}>
+                            <button type="submit" className={styles.send_btn}>
                                 Wyślij zgłoszenie
                             </button>
                         </form>
-                    </div>
                 </div>
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
-                &copy; 2024 TeachChild. Wszelkie prawa zastrzeżone.
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
     );

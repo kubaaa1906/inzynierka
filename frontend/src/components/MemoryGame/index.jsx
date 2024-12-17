@@ -36,11 +36,9 @@ function MemoryGame() {
     useEffect(() => {
         if (flippedCards.length === 2) {
             setDisabled(true)
-
             const [firstIndex, secondIndex] = flippedCards
             const firstCard = cardsData[firstIndex]
             const secondCard = cardsData[secondIndex]
-
             if (firstCard.src === secondCard.src) {
                 setCardsData((prev) =>
                     prev.map((card, idx) =>
@@ -55,7 +53,6 @@ function MemoryGame() {
                 setFlippedCards([])
                 setDisabled(false)
             }, 1000)
-
             setMoves((prev) => prev + 1)
         }
     }, [flippedCards])
@@ -65,8 +62,6 @@ function MemoryGame() {
             setTimeout(() => {
                 setGameWon(true)
             }, 1000)
-
-
         }
     }, [cardsData])
 
@@ -75,7 +70,6 @@ function MemoryGame() {
         setFlippedCards([])
         setMoves(0)
         setGameWon(false)
-
         setTimeout(() => {
             setCardsData(shuffle(initialCards))
             setDisabled(false)
@@ -93,7 +87,6 @@ function MemoryGame() {
                 <div className={styles.nav_center}>
                     <Link to="/" >
                         <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
-
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
@@ -102,7 +95,6 @@ function MemoryGame() {
                     </Link>
                 </div>
             </nav>
-
             <div className={styles.userContent}>
                 <div className={styles.memoryGame}>
                     <div className={styles.memoryHeader}>
@@ -112,7 +104,6 @@ function MemoryGame() {
                             <p>Kliknij na obrazek żeby go odwrócić i znajdź wszystkie takie same pary.</p>
                         </div>
                     </div>
-
                     <div className={styles.board}>
                         {cardsData.map((card, index) => (
                             <div
@@ -122,11 +113,10 @@ function MemoryGame() {
                                         ? styles.flipped
                                         : ''
                                 }`}
-                                onClick={() => handleFlip(index)}
-                            >
+                                onClick={() => handleFlip(index)}>
                                 <div className={styles["card-inner"]}>
                                     <div className={styles["card-front"]}>
-                                        <img src="/assets/cardbacklogo.png" alt="Backcard" className={styles.backImage}/>
+                                        <img src="/assets/cardbacklogo.png" alt="Backcard"/>
                                     </div>
                                     <div className={styles["card-back"]}>
                                         <img className={styles.frontImg} src={card.src} alt="Card" />
@@ -159,6 +149,5 @@ function MemoryGame() {
         </div>
     )
 }
-
 
 export default MemoryGame

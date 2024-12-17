@@ -250,6 +250,17 @@ body, html {
     width: 100%;
 }
 
+@keyframes moveDown {
+    0%{
+        transform: translateY(0);
+    }
+    100%{
+        transform: translateY(70px);
+
+    }
+
+}
+
 .draggable_image {
     width: 200px;
     height: 200px;
@@ -257,7 +268,9 @@ body, html {
     border: 2px solid transparent;
     border-radius: 8px;
     transition: transform 0.3s ease, border 0.3s ease;
+    animation: moveDown 0.5s ease-in-out 6 alternate;
 }
+
 
 .draggable_image:active {
     cursor: grabbing;
@@ -277,6 +290,9 @@ body, html {
     place-items: center;
     min-height: 300px;
     width: 100%;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgba(100, 40, 150, 1);
 }
 
 .drop_target {

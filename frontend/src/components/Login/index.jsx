@@ -15,27 +15,16 @@ const Login = () => {
         try {
             const url = "http://localhost:8080/api/auth"
             const { data: res } = await axios.post(url, data)
-
             console.log("Response from backend:", res)
-
-            // Zapisz token w localStorage
             localStorage.setItem("token", res.data)
             localStorage.setItem("id",res.userId)
             console.log(res.userId)
-
             window.location = "/"
         } catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500) {
                 setError(error.response.data.message)
             }
         }
-    }
-
-
-    const [pokazMenu, ustawPokazMenu] = useState(false)
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu)
     }
 
     return (<div className={styles.main_container}>
@@ -58,8 +47,6 @@ const Login = () => {
                         <button className={styles.nav_btn}><FontAwesomeIcon icon={faFileSignature} /> Zarejestruj się</button>
                     </Link>
                 </div>
-
-
             </nav>
             <div className={styles.login_container}>
                 <div className={styles.login_form_container}>
@@ -102,6 +89,5 @@ const Login = () => {
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
-    )
-}
+    )}
 export default Login
