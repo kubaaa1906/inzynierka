@@ -80,10 +80,12 @@ router.put("/:id/change-password", tokenVerification, async(req,res) => {
     }
 
 })
-
 router.get("/:id", tokenVerification, async(req, res)=> {
     try {
         const user = await User.findById(req.params.id);
+        if(!user){
+            return res.status(404).json({message: "Użytkownik nie istnieje"})
+        }
         res.status(200).json(user);
     } catch (error){
         res.status(404).json({message: "Error przy get po id"});
@@ -93,6 +95,9 @@ router.get("/:id", tokenVerification, async(req, res)=> {
 router.put("/:id", tokenVerification, async(req, res) => {
     try{
         const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if(!updatedUser){
+            return res.status(404).json({message: "Użytkownik nie istnieje"})
+        }
         res.json(updatedUser);
     } catch (error){
         res.status(404).json({message: "Error przy update"});
@@ -103,7 +108,10 @@ router.put("/:id", tokenVerification, async(req, res) => {
 
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
-        await User.findByIdAndDelete(req.params.id);
+        const user = await User.findByIdAndDelete(req.params.id);
+        if(!user){
+            return res.status(404).json({message: "Użytkownik nie istnieje"})
+        }
         res.json({ message: "Uzytkownik usuniety"});
     } catch (error){
         res.status(404).json({message: "Error przy delete"});

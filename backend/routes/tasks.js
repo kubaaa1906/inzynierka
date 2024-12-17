@@ -41,7 +41,6 @@ router.get("/", tokenVerification, async(req, res) => {
         })
 })
 
-//listowanie zadania po id
 router.get("/:id", tokenVerification, async(req, res)=> {
     try {
         const task = await Task.findById(req.params.id);
@@ -51,7 +50,6 @@ router.get("/:id", tokenVerification, async(req, res)=> {
     }
 })
 
-//edit pojedynczego taska
 router.put("/:id", tokenVerification, async(req, res) => {
     try{
         const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -61,7 +59,6 @@ router.put("/:id", tokenVerification, async(req, res) => {
     }
 })
 
-//delete pojedynczego taska
 router.delete("/:id", tokenVerification, async(req, res) => {
     try{
         await Task.findByIdAndDelete(req.params.id);

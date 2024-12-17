@@ -1,8 +1,6 @@
 const router = require("express").Router()
 const {Difficulty} = require("../models/DifficultyModel")
 
-
-
 router.get("/", async(req,res) =>{
 
     Difficulty.find().exec()
@@ -16,12 +14,5 @@ router.get("/", async(req,res) =>{
         })
 
 })
-
-
-
-
-
-
-
 
 module.exports = router
