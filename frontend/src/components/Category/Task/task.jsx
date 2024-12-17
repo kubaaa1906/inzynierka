@@ -122,7 +122,7 @@ const Task = () => {
             }catch (error){
                 console.log(error)
             }
-            setPowiadomienie("Brawo! Poprawna odpowiedź!");
+            showNotification("Brawo! Poprawna odpowiedź!");
             setTimeout(() => {
                 setPowiadomienie("");
             }, 7000);
@@ -131,7 +131,7 @@ const Task = () => {
             setBlockAnswers(true);
         } else {
             setIsAnswerCorrect(false);
-            setPowiadomienie("Błąd! Niepoprawna odpowiedź :(")
+            showNotification("Błąd! Niepoprawna odpowiedź :(")
         }
     }
 
@@ -145,6 +145,7 @@ const Task = () => {
             setPowiadomienie("");
             setBlockAnswers(false);
             setRating(null)
+            setShowPopup(false)
         }
         else{
             setPowiadomienie("Skończyłeś wszystkie zadania z tej kategorii!")
@@ -278,7 +279,19 @@ const Task = () => {
         setAverageRating(null)
         console.log("Selected task id: ", task._id)
         setRating(null)
+        setShowPopup(false)
     };
+
+    const [showPopup, setShowPopup] = useState(false);
+    const showNotification = (message) => {
+        setPowiadomienie(message);
+        setShowPopup(true);
+
+        setTimeout(() => {
+            setShowPopup(false);
+        }, 3000);
+    };
+
 
 
 
@@ -338,10 +351,7 @@ const Task = () => {
                                  >
                                     {answer.tekst}
                                 </div>
-                            ))
-                        ) : (
-                            <div>...</div>
-                        )}
+                            ))}
 
                     </div>
                         <button className={styles.button} onClick={handleCheckAnswer} disabled={blockAnswers}
@@ -355,6 +365,14 @@ const Task = () => {
                         <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>
                             Następne zadanie
                         </button>
+                        {showPopup && (
+                            <div className={styles.popup}>
+                                <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
+                                    {powiadomienie}
+                                </p>
+                            </div>
+                        )}
+
                         <div>
                             <h2>Ocena zadania: </h2>
                             {!rating ? (
@@ -364,30 +382,8 @@ const Task = () => {
                             )}
 
                             </div>
-                            {powiadomienie && (
-                                <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
-                                    {powiadomienie}
-                                </p>
-                            )}
-                            <button className={styles.button} onClick={handleCheckAnswer} disabled={blockAnswers}
-                                    style={{
-                                        backgroundColor: blockAnswers ? 'gray' : '',
-                                        cursor: blockAnswers ? 'not-allowed' : 'pointer',
-                                    }}>
-                                Odpowiedz
-                            </button>
-                            <br/>
-                            <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>
-                                Następne zadanie
-                            </button>
-                            <div>
 
-                                <h2>Ocena zadania: </h2>
-                                {!rating ? (
-                                    <div>{showStars()}</div>
-                                ) : (
-                                    <p> Twoja ocena: {rating} ★</p>
-                                )}
+                            <div>
 
                                 {powiadomienie2 && <p>{powiadomienie2}</p>}
 
@@ -398,11 +394,9 @@ const Task = () => {
 
                     )}
 
-                </div>
-            )}
-
-
             </div>
+
+
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
