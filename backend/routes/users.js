@@ -107,14 +107,25 @@ router.put("/:id", tokenVerification, async(req, res) => {
 
 
 router.delete("/:id", tokenVerification, async(req, res) => {
+   const {oldPassword} = req.body
     try{
-        const user = await User.findByIdAndDelete(req.params.id);
+
+        const user = await User.findById(req.params.id);
         if(!user){
             return res.status(404).json({message: "Użytkownik nie istnieje"})
         }
-        res.json({ message: "Uzytkownik usuniety"});
+
+        const isMatch = await bcrypt.compare(oldPassword, user.haslo)
+        if (!isMatch){
+            return res.status(400).json({message: "Stare haslo jest nieprawidlowe"})
+        }
+
+        await User.findByIdAndDelete(req.params.id);
+
+        res.status(200).json({ message: "Twoje konto zostało usunięte."});
     } catch (error){
-        res.status(404).json({message: "Error przy delete"});
+       console.error(error)
+        res.status(500).json({message: "Wystąpił błąd."});
     }
 })
 

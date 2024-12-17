@@ -4,7 +4,9 @@ import { Link } from "react-router-dom"
 import styles from "./styles.module.css"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faFileSignature, faKey, faRotateLeft} from "@fortawesome/free-solid-svg-icons"
+
 const Login = () => {
+
     const [data, setData] = useState({ nazwa: "", haslo: "" })
     const [error, setError] = useState("")
     const handleChange = ({ currentTarget: input }) => {
@@ -15,10 +17,8 @@ const Login = () => {
         try {
             const url = "http://localhost:8080/api/auth"
             const { data: res } = await axios.post(url, data)
-            console.log("Response from backend:", res)
             localStorage.setItem("token", res.data)
             localStorage.setItem("id",res.userId)
-            console.log(res.userId)
             window.location = "/"
         } catch (error) {
             if (error.response && error.response.status >= 400 && error.response.status <= 500) {

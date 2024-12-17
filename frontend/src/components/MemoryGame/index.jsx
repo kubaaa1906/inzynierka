@@ -4,6 +4,7 @@ import styles from "./styles.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import {faHeadset, faRotateLeft} from '@fortawesome/free-solid-svg-icons'
+import {clear} from "@testing-library/user-event/dist/clear";
 
 const initialCards = [
     { id: 1, src: '/assets/jez.jpg', matched: false },
@@ -21,15 +22,16 @@ function shuffle(array) {
 }
 
 function MemoryGame() {
+
     const [cardsData, setCardsData] = useState(shuffle(initialCards))
     const [flippedCards, setFlippedCards] = useState([])
     const [moves, setMoves] = useState(0)
     const [disabled, setDisabled] = useState(false)
     const [gameWon, setGameWon] = useState(false)
+    const [showALlCards, setShowAllCards] = useState(true)
 
     const handleFlip = (index) => {
         if (disabled || flippedCards.includes(index) || cardsData[index].matched) return
-
         setFlippedCards((prev) => [...prev, index])
     }
 
@@ -48,7 +50,6 @@ function MemoryGame() {
                     )
                 )
             }
-
             setTimeout(() => {
                 setFlippedCards([])
                 setDisabled(false)
@@ -65,15 +66,22 @@ function MemoryGame() {
         }
     }, [cardsData])
 
+
+    useEffect(()=>{
+        const timer =  setTimeout(()=>{
+        setShowAllCards(false)}, 1000)
+        return () => clearTimeout(timer)
+    },[])
+
     const restartGame = () => {
         setDisabled(true)
         setFlippedCards([])
         setMoves(0)
         setGameWon(false)
-        setTimeout(() => {
-            setCardsData(shuffle(initialCards))
-            setDisabled(false)
-        }, 600)
+        setShowAllCards(true)
+        setCardsData(shuffle(initialCards))
+        setDisabled(false)
+        setTimeout(() => setShowAllCards(false),1000)
     }
 
     return (
@@ -109,7 +117,7 @@ function MemoryGame() {
                             <div
                                 key={index}
                                 className={`${styles.card} ${
-                                    flippedCards.includes(index) || card.matched
+                                    flippedCards.includes(index) || card.matched || showALlCards
                                         ? styles.flipped
                                         : ''
                                 }`}

@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileSignature, faKey, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const Signup = () => {
+
     const [data, setData] = useState({
         nazwa: "",
         email: "",
@@ -15,12 +16,12 @@ const Signup = () => {
         czyAdmin: false,
     })
 
-    const [error, setError] = useState("")
-    const navigate = useNavigate()
-
     const handleChange = ({ currentTarget: input }) => {
         setData({...data, [input.name]: input.value})
     }
+
+    const [error, setError] = useState("")
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -36,6 +37,8 @@ const Signup = () => {
             }
         }
     }
+
+
 
     return (<div className={styles.main_container}>
             <nav className={styles.navbar}>

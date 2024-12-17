@@ -257,7 +257,7 @@ body, html {
 
 .text_container {
 	max-width: 85%;
-	font-size: 40px;
+	font-size: 55px;
 	text-align: center;
 	color: #FFF8E1;
 	text-shadow: 0 0 10px rgba(100, 40, 150, 1);
@@ -285,9 +285,10 @@ body, html {
 .tiles_container {
 	display: grid;
 	grid-template-columns: repeat(3,1fr);
-	gap: 15px; /* Przestrzeń między kafelkami */
+	gap: 15px;
 	width: auto;
 	justify-content: center;
+	padding: 0 50px 50px 50px;
 }
 
 @media (max-width: 1000px){
@@ -308,11 +309,16 @@ body, html {
 .tile {
 	background-color: #FFF8E1;
 	padding: 20px 30px 20px 20px;
-	font-size: 20px;
+	font-size: 27px;
 	color: rgba(100, 40, 150, 1);
-	margin-bottom: 10px;
 	border-radius: 20px;
 	box-shadow: 0 0 5px 5px rgba(100, 40, 150, 0.3);
+	min-height: 100px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 }
 
 @media (max-width: 786px){
@@ -328,14 +334,14 @@ body, html {
 
 
 .tileLink{
+	display: inline-block;
 	cursor: pointer;
-	margin-bottom: 10px;
-	transform-origin: left;
+
+	transform-origin: center;
+	transition: transform 0.5s ease;
 }
 .tileLink:hover{
-	margin-bottom: 10px;
-	transition-duration: 0.3s;
-	transform: scale(1.1);
+	transform: scale(1.4);
 
 }
 
