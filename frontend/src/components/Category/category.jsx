@@ -38,19 +38,19 @@ const Category = () => {
                 <div onClick={() => handleChooseTasks(category, "3-4")}>
                     <h3>Zadania dla 3-4 latków </h3>
                     <div>
-                        Opis jakiś, może jakie typy zadań itp
+                        Zadania z wybranej dziedziny dla 3-4 latków!
                     </div>
                 </div>
                 <div onClick={() => handleChooseTasks(category, "5-6")}>
                     <h3>Zadania dla 5-6 latków </h3>
                     <div>
-                        Opis jakiś, może jakie typy zadań itp
+                        Zadania z wybranej dziedziny dla 5-6 latków!
                     </div>
                 </div>
                 <div onClick={() => handleChooseTasks(category, "7-9")}>
                     <h3>Zadania dla 7-9 latków </h3>
                     <div>
-                        Opis jakiś, może jakie typy zadań itp
+                        Zadania z wybranej dziedziny dla 7-9 latków!
                     </div>
                 </div>
                 </div>

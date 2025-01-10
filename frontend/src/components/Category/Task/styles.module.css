@@ -174,7 +174,7 @@ body, html {
 	margin:10px 0 20px 0;
 	border-radius: 8px;
 	width: 800px;
-	height: 700px;
+	height: 800px;
 	box-shadow: 0 0 10px 5px rgba(100, 40, 150, 0.7);
 	text-align: center;
 	align-items: center;
@@ -264,7 +264,13 @@ body, html {
 	background-color: rgba(100, 40, 150, 0.2); /* Subtelny efekt hover */
 }
 
+.emoji {
+	font-size: 2rem;
+}
 
+.text {
+	font-size: 1rem;
+}
 
 
 
