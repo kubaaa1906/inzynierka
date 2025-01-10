@@ -21,6 +21,7 @@ const Task = () => {
     const [blockAnswers, setBlockAnswers] = useState(false)
     const [user,setUser] = useState(null)
     const [currentHighlightedTaskIndex, setCurrentHighlightedTaskIndex] = useState(0)
+    const [blockButton, setBlockButton] = useState(true)
 
 
     const getUserData = async (e) =>{
@@ -96,10 +97,6 @@ const Task = () => {
     }, [category, age]);
 
 
-    const handleAnswer = (answerIndex) => {
-        setSelectedAnswer(answerIndex);
-    }
-
     const handleCheckAnswer = async () => {
         if (selectedAnswer === null) {
             setPowiadomienie("Nie wybrałeś odpowiedzi!");
@@ -118,6 +115,7 @@ const Task = () => {
             }, 7000);
 
             setBlockAnswers(true);
+            setBlockButton(false);
         } else {
 
             showNotification("Błąd! Niepoprawna odpowiedź :(")
@@ -125,18 +123,20 @@ const Task = () => {
     }
 
     const goToNextTask = () => {
-        const currentTask = zadanie.indexOf(selectedTask);
+        const currentTask = zadanie.indexOf(selectedTask)
         if(currentTask < zadanie.length - 1){
-            setSelectedTask(zadanie[currentTask + 1]);
-            setSelectedAnswer(null);
-            setPowiadomienie("");
-            setBlockAnswers(false);
+            setSelectedTask(zadanie[currentTask + 1])
+            setSelectedAnswer(null)
+            setPowiadomienie("")
+            setBlockAnswers(false)
+            setBlockButton(true)
             setRating(null)
             setShowPopup(false)
             setCurrentHighlightedTaskIndex(currentTask+1)
+            setPowiadomienie2("")
         }
         else{
-            setPowiadomienie("Skończyłeś wszystkie zadania z tej kategorii!")
+            showNotification("Brawo! Skończyłeś/aś wszystkie zadania z tej kategorii!")
         }
     }
 
@@ -261,24 +261,20 @@ const Task = () => {
     }, [selectedTask]);
 
 
-    const openTask = (task) => {
-        setSelectedTask(task)
-        setSelectedAnswer(null)
-        setAverageRating(null)
-        console.log("Selected task id: ", task._id)
-        setRating(null)
-        setShowPopup(false)
-        setBlockAnswers(false)
-    };
-
     const [showPopup, setShowPopup] = useState(false);
     const showNotification = (message) => {
+        setShowPopup(false);
         setPowiadomienie(message);
         setShowPopup(true);
 
         setTimeout(() => {
             setShowPopup(false);
-        }, 3000);
+        }, 2000);
+    };
+
+    const containsEmoji = (text) => {
+        const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F900}-\u{1F9FF}]|[\u{1F1E6}-\u{1F1FF}]/gu;
+        return emojiRegex.test(text);
     };
 
 
@@ -329,10 +325,16 @@ const Task = () => {
                         <div>...</div>
                     )}
                 </div>
-                {selectedTask && (
+                { selectedTask && (
                     <div className={styles.show_task}>
                         <h2>{selectedTask.nazwaZadania}</h2>
-                        <p>{selectedTask.tresc}</p>
+                        <p
+                            style={{
+                                fontSize: containsEmoji(selectedTask.tresc) ? '3rem' : '1rem',
+                            }}
+                        >
+                            {selectedTask.tresc}
+                        </p>
                         <div className={styles.answers_container}>
                             {selectedTask.wszystkieOdpowiedzi.map((answer, index) => (
                                 <div
@@ -340,17 +342,16 @@ const Task = () => {
                                     className={styles.answer_container}
                                     onClick={() => setSelectedAnswer(index)}
                                     style={{
-                                        backgroundColor: selectedAnswer === index ? (blockAnswers ? 'purple' : 'mediumpurple')
-                                            : 'rgba(100,40,150,0.7)',
+                                        backgroundColor: selectedAnswer === index ? (blockAnswers ? 'purple' : 'mediumpurple') : 'rgba(100,40,150,0.7)',
                                         pointerEvents: blockAnswers ? 'none' : 'auto',
                                         cursor: blockAnswers ? 'not-allowed' : 'pointer',
+                                        fontSize: containsEmoji(answer.tekst) ? '3rem' : '1rem',
                                     }}
-                                 >
+                                >
                                     {answer.tekst}
                                 </div>
                             ))}
-
-                    </div>
+                        </div>
                         <button className={styles.button} onClick={handleCheckAnswer} disabled={blockAnswers}
                                 style={{
                                     backgroundColor: blockAnswers ? 'gray' : '',
@@ -359,12 +360,18 @@ const Task = () => {
                             Odpowiedz
                         </button>
                         <br/>
-                        <button className={styles.button} onClick={goToNextTask} style={{marginTop: '10px'}}>
+                        <button className={styles.button} onClick={goToNextTask}
+                                style={{
+                                    marginTop: '10px', backgroundColor: blockButton ? 'gray'
+                                        : '',
+                                    pointerEvents: blockButton ? 'none' : 'auto',
+                                    cursor: blockButton ? 'not-allowed' : 'pointer',
+                                }}>
                             Następne zadanie
                         </button>
                         {showPopup && (
                             <div className={styles.popup}>
-                                <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" ? styles.poprawnaOdp : styles.errorOdp}>
+                                <p className={powiadomienie === "Brawo! Poprawna odpowiedź!" || powiadomienie === "Brawo! Skończyłeś/aś wszystkie zadania z tej kategorii!" ? styles.poprawnaOdp : styles.errorOdp}>
                                     {powiadomienie}
                                 </p>
                             </div>
@@ -378,18 +385,18 @@ const Task = () => {
                                 <p> Twoja ocena: {rating} ★</p>
                             )}
 
-                            </div>
-
-                            <div>
-
-                                {powiadomienie2 && <p>{powiadomienie2}</p>}
-
-                                Średnia ocen użytkowników: {averageRating ? averageRating : "Brak ocen"}
-
-                            </div>
                         </div>
 
-                    )}
+                        <div>
+
+                            {powiadomienie2 && <p>{powiadomienie2}</p>}
+
+                            Średnia ocen użytkowników: {averageRating ? averageRating : "Brak ocen"}
+
+                        </div>
+                    </div>
+
+                )}
 
             </div>
 
