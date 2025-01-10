@@ -1,35 +1,25 @@
 import styles from "./styles.module.css"
-import React, {useEffect, useState} from "react";
-import axios from "axios";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
+import React, {useEffect, useState} from "react"
+import axios from "axios"
+import {Link, useParams} from "react-router-dom"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons"
 
 const Task = () => {
 
-
     const [zadanie, ustawZadanie] = useState([])
-
     const [selectedTask, setSelectedTask] = useState(null)
-
     const [selectedAnswer, setSelectedAnswer] = useState(null)
-
     const [powiadomienie, setPowiadomienie] = useState("")
-
     const {category, age} = useParams()
-
     const [blockAnswers, setBlockAnswers] = useState(false)
     const [user,setUser] = useState(null)
     const [currentHighlightedTaskIndex, setCurrentHighlightedTaskIndex] = useState(0)
     const [blockButton, setBlockButton] = useState(true)
 
-
     const getUserData = async (e) =>{
-        if (e && e.preventDefault) e.preventDefault();
-
+        if (e && e.preventDefault) e.preventDefault()
         const token = localStorage.getItem("token")
-
-
         if(token){
             try{
                 const config = {
@@ -37,11 +27,9 @@ const Task = () => {
                     url: `http://localhost:8080/api/users/me`,
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
-
-                const { data: res } = await axios(config);
+                const { data: res } = await axios(config)
                 setUser(res)
                 console.log(res)
-
             } catch(error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500){
                     console.log(error)
@@ -53,10 +41,8 @@ const Task = () => {
     }
 
     const handleGetTasks = async (e) => {
-        if (e && e.preventDefault) e.preventDefault();
-
-        const token = localStorage.getItem("token");
-
+        if (e && e.preventDefault) e.preventDefault()
+        const token = localStorage.getItem("token")
         if(token){
             try{
                 const config = {
@@ -64,34 +50,21 @@ const Task = () => {
                     url: 'http://localhost:8080/api/tasks',
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
-
-                const { data: res } = await axios(config);
-
-                console.log("Odpowiedź z backendu:", res.data);
-
+                const { data: res } = await axios(config)
                 const filteredTasks = res.data.filter((task) =>
                     task.kategoria.dziedzinaNaukowa === category && task.kategoria.przedzialWiekowy === age
-                );
-
-
-                console.log("Otrzymane zadania:", res.data);
-                console.log("Filtruj według:", category, age);
-                console.log("Przefiltrowane zadania:", filteredTasks);
-
-                ustawZadanie(filteredTasks);
-                if (filteredTasks.length > 0) setSelectedTask(filteredTasks[0]);
-
+                )
+                ustawZadanie(filteredTasks)
+                if (filteredTasks.length > 0) setSelectedTask(filteredTasks[0])
             } catch(error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500){
-                    window.location.reload();
+                    window.location.reload()
                 }
             }
         }
     }
 
-
     useEffect(() => {
-        console.log("Category:", category, "Age:", age);
         handleGetTasks();
         getUserData();
     }, [category, age]);
@@ -99,25 +72,25 @@ const Task = () => {
 
     const handleCheckAnswer = async () => {
         if (selectedAnswer === null) {
-            setPowiadomienie("Nie wybrałeś odpowiedzi!");
-            return;
+            setPowiadomienie("Nie wybrałeś odpowiedzi!")
+            return
         }
-        const isCorrect = selectedTask.wszystkieOdpowiedzi[selectedAnswer].czyPoprawna;
+        const isCorrect = selectedTask.wszystkieOdpowiedzi[selectedAnswer].czyPoprawna
         if (isCorrect) {
             try {
                 await axios.put(`http://localhost:8080/api/progress/addTask/${user._id}`, {taskId: selectedTask._id})
             }catch (error){
-                console.log(error)
             }
-            showNotification("Brawo! Poprawna odpowiedź!");
+            showNotification("Brawo! Poprawna odpowiedź!")
             setTimeout(() => {
-                setPowiadomienie("");
-            }, 7000);
+                setPowiadomienie("")
+            }, 7000)
+            setBlockAnswers(true)
 
             setBlockAnswers(true);
             setBlockButton(false);
-        } else {
 
+        } else {
             showNotification("Błąd! Niepoprawna odpowiedź :(")
         }
     }
@@ -130,6 +103,7 @@ const Task = () => {
             setPowiadomienie("")
             setBlockAnswers(false)
             setBlockButton(true)
+
             setRating(null)
             setShowPopup(false)
             setCurrentHighlightedTaskIndex(currentTask+1)
@@ -140,48 +114,38 @@ const Task = () => {
         }
     }
 
-    const [opinion, setOpinion] = useState(null);
-    const [powiadomienie2, setPowiadomienie2] = useState("");
-
-    const [error, setError] = useState("")
+    const [powiadomienie2, setPowiadomienie2] = useState("")
     const [rating, setRating] = useState(null)
 
-    const [rated, setRated] = useState(false)
     const handleRateTask = async (rateValue) => {
-        const token = localStorage.getItem("token");
-
+        const token = localStorage.getItem("token")
         console.log("token: ", token)
-
         if(token){
             try{
-                const url = "http://localhost:8080/api/opinions"
-                const headers = {
-                    "x-access-token": token,
-                };
-                console.log({zadanie: selectedTask._id, ocena: rateValue})
-                await axios.post(url,{ zadanie: selectedTask._id, ocena: rateValue }, { headers: headers })
+                const config = {
+                    method: "post",
+                    url: "http://localhost:8080/api/opinions",
+                    headers: { "x-access-token": token },
+                    data: { zadanie: selectedTask._id, ocena: rateValue }
+                }
+                console.log({ zadanie: selectedTask._id, ocena: rateValue })
+                await axios(config)
                 setRating(rateValue)
-                setRated(true);
-                setPowiadomienie2("Dziekujemy za ocenę zadania!")
+                setPowiadomienie2("Dziękujemy za ocenę zadania!")
             }
             catch(error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
-                    setError(error.response.data.message)
-                    setRated(true)
+                    error.response.data.message("Błąd")
                 }
             }
         }
-
     }
-
 
     const [averageRating, setAverageRating] = useState(null)
 
-
     const handleGetOpinions = async (e) => {
-        if (e && e.preventDefault) e.preventDefault();
+        if (e && e.preventDefault) e.preventDefault()
         const token = localStorage.getItem("token")
-
         if(token){
             try{
                 const config = {
@@ -189,30 +153,25 @@ const Task = () => {
                     url: `http://localhost:8080/api/opinions?zadanieId=${selectedTask._id}`,
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
-
                 const { data } = await axios(config)
-                console.log("Dane opinii z backendu: ", data)
                 if (data.avgRating){
                     setAverageRating(data.avgRating)
                 }
                 else{
                     setAverageRating(0)
                 }
-
             }
             catch (error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
-                    setError(error.response.data.message)
+                    error.response.data.message("Błąd")
                 }
             }
         }
     }
 
-
-    const [star, setStar] = useState(null);
-
+    const [star, setStar] = useState(null)
     const showStars = () => {
-        const stars = [];
+        const stars = []
         for(let i=1; i<=5; i++){
             stars.push(
                 <span
@@ -223,7 +182,7 @@ const Task = () => {
                     style={{
                         cursor: "pointer",
                         fontSize: "24px",
-                        color: i <= (star || opinion) ? "gold" : "mediumpurple",
+                        color: i <= (star) ? "gold" : "mediumpurple",
                     }}
                 >★</span>
             )
@@ -233,18 +192,17 @@ const Task = () => {
 
     const checkIfRated = async (taskId) => {
         const token = localStorage.getItem("token")
-
         if(token){
             try{
-                const {data} = await axios.get(
-                    `http://localhost:8080/api/opinions?zadanieId=${taskId}`,
-                    { headers : { "x-access-token": token } }
-                )
-
+                const config = {
+                    method: "get",
+                    url: `http://localhost:8080/api/opinions?zadanieId=${taskId}`,
+                    headers: { "x-access-token": token }
+                }
+                const { data } = await axios(config)
                 const userOpinion = data.opinions.find(opinion => opinion.userId === user._id)
-                if(userOpinion){
+                if (userOpinion) {
                     setRating(userOpinion.ocena)
-                    setRated(true)
                 }
             } catch (error){
                 console.error("Error przy sprawdzaniu czy uzytkownik juz ocenil dane zadanie")
@@ -252,13 +210,12 @@ const Task = () => {
         }
     }
 
-
     useEffect(() => {
         if(selectedTask){
             checkIfRated(selectedTask._id)
             handleGetOpinions()
         }
-    }, [selectedTask]);
+    }, [selectedTask])
 
 
     const [showPopup, setShowPopup] = useState(false);
@@ -279,7 +236,6 @@ const Task = () => {
 
 
 
-
     return (
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
@@ -291,7 +247,6 @@ const Task = () => {
                 <div className={styles.nav_center}>
                     <Link to="/">
                         <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
-
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
@@ -300,7 +255,6 @@ const Task = () => {
                     </Link>
                 </div>
             </nav>
-
             <div className={styles.main_area}>
                 <div className={styles.task_buttons}>
                     {zadanie.length > 0 ? (
@@ -352,6 +306,7 @@ const Task = () => {
                                 </div>
                             ))}
                         </div>
+
                         <button className={styles.button} onClick={handleCheckAnswer} disabled={blockAnswers}
                                 style={{
                                     backgroundColor: blockAnswers ? 'gray' : '',
@@ -376,7 +331,6 @@ const Task = () => {
                                 </p>
                             </div>
                         )}
-
                         <div>
                             <h2>Ocena zadania: </h2>
                             {!rating ? (
@@ -385,27 +339,18 @@ const Task = () => {
                                 <p> Twoja ocena: {rating} ★</p>
                             )}
 
+                            </div>
+                            <div>
+                                {powiadomienie2 && <p>{powiadomienie2}</p>}
+                                Średnia ocen użytkowników: {averageRating ? averageRating : "Brak ocen"}
+                            </div>
                         </div>
-
-                        <div>
-
-                            {powiadomienie2 && <p>{powiadomienie2}</p>}
-
-                            Średnia ocen użytkowników: {averageRating ? averageRating : "Brak ocen"}
-
-                        </div>
-                    </div>
-
-                )}
-
+                    )}
             </div>
-
-
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
-
         </div>
     )
 }

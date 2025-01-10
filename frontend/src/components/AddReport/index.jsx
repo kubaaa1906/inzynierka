@@ -1,8 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
-
 
 const AddReport = () => {
     const currentDateTime = new Date()
@@ -29,7 +28,6 @@ const AddReport = () => {
                 const headers = {
                     "x-access-token": token,
                 };
-
                 const { data:res } = await axios.post(url,data, { headers })
                 navigate("/")
                 console.log(res.message)
@@ -44,46 +42,35 @@ const AddReport = () => {
 
     }
 
-    const handleLogout = () => {
-        localStorage.removeItem("token")
-        window.location.reload()
-    }
-
-    const [pokazMenu, ustawPokazMenu] = useState(false);
-
-    const showMenu = () => {
-        ustawPokazMenu(!pokazMenu);
-    }
-
     return (
-                        <form className={styles.form_container}
-                              onSubmit={handleSubmit}>
-                            <h1>Dodaj zgłoszenie</h1>
-                            <input
-                                type="text"
-                                placeholder="Tytuł zgłoszenia"
-                                name="tytul"
-                                onChange={handleChange}
-                                value={data.tytul}
-                                required
-                                className={styles.input}
-                            />
-                            <textarea
-                                placeholder="Opis"
-                                name="opis"
-                                onChange={handleChange}
-                                value={data.opis}
-                                required
-                                className={styles.input}
-                                style={{width: '370px', height: '100px'}}
-                            />
-                            {error && <div
-                                className={styles.error_msg}>{error}</div>}
-                            <button type="submit"
-                                    className={styles.send_btn} onClick={handleSubmit}>
-                                Wyślij zgłoszenie
-                            </button>
-                        </form>
-    );
-};
+        <form className={styles.form_container}
+              onSubmit={handleSubmit}>
+            <h1>Dodaj zgłoszenie</h1>
+            <input
+                type="text"
+                placeholder="Tytuł zgłoszenia"
+                name="tytul"
+                onChange={handleChange}
+                value={data.tytul}
+                required
+                className={styles.input}
+            />
+            <textarea
+                placeholder="Opis"
+                name="opis"
+                onChange={handleChange}
+                value={data.opis}
+                required
+                className={styles.input}
+                style={{width: '370px', height: '100px'}}
+            />
+            {error && <div
+                className={styles.error_msg}>{error}</div>}
+            <button type="submit"
+                    className={styles.send_btn} onClick={handleSubmit}>
+                Wyślij zgłoszenie
+            </button>
+        </form>
+    )
+}
 export default AddReport

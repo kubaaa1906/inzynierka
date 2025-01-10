@@ -2,7 +2,6 @@ const router = require ("express").Router();
 const { Opinion, validate } = require("../models/OpinionModel");
 const tokenVerification = require("../middleware/tokenVerification")
 const { Task} = require("../models/TaskModel");
-const {Category} = require("../models/CategoryModel");
 
 router.post("/", tokenVerification, async (req, res) => {
     const { error } = validate(req.body);

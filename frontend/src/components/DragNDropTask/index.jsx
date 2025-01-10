@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const DragAndDropTask = () => {
     const [selectedTask, setSelectedTask] = useState(null)
@@ -11,16 +12,54 @@ const DragAndDropTask = () => {
     const [message, setMessage] = useState("")
     const [placedImages, setPlacedImages] = useState([]) // Nowa tablica przechowująca poprawne dopasowania
 
+
+
     useEffect(() => {
         // Inicjalizacja przykładowego zadania
-        setSelectedTask({
-            nazwaZadania: "Dopasuj obrazki do kategorii",
-            tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
-            images: ["pies.jpg", "kot.jpg", "chomik.jpg"],
-            targets: ["pies", "kot", "chomik"],
-        })
-    }, [])
+        // setSelectedTask({
+        //     nazwaZadania: "Dopasuj obrazki do kategorii",
+        //     tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
+        //     images: [],
+        //     targets: [],
+        // })
+        handleGetImages()
 
+
+
+    }, [selectedTask])
+    const handleGetImages = async () =>{
+        const token = localStorage.getItem("token");
+
+        if(token) {
+            try {
+                const config = {
+                    method: 'get',
+                    url: 'http://localhost:8080/api/images',
+                    headers: {'Content-Type': 'application/json', 'x-access-token': token}
+                }
+
+
+                const {data: data} = await axios(config)
+                const images = data.data.map(item => item.link)
+                const targets = data.data.map(item => item.nazwa)
+
+
+                const updatedTask = {
+                    nazwaZadania: "Dopasuj obrazki do kategorii",
+                    tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
+                    images: images,
+                    targets: targets
+                }
+                setSelectedTask(updatedTask)
+
+
+            } catch (error) {
+                if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+                    console.log(error)
+                }
+            }
+        }
+    }
     const handleDragStart = (imageIndex) => {
         setDraggedImage(imageIndex)
     }
@@ -35,6 +74,7 @@ const DragAndDropTask = () => {
             } else {
                 setMessage("Spróbuj ponownie.")
             }
+
             setTimeout(() => setMessage(""), 2000)
         }
     }
@@ -64,6 +104,7 @@ const DragAndDropTask = () => {
                 <div className={styles.nav_center}>
                     <Link to="/">
                         <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
@@ -72,6 +113,7 @@ const DragAndDropTask = () => {
                     </Link>
                 </div>
             </nav>
+
             <div className={styles.userContent}>
                 {selectedTask && (
                     <div className={styles.task_container}>
@@ -97,7 +139,8 @@ const DragAndDropTask = () => {
                                     key={index}
                                     className={styles.drop_target}
                                     onDragOver={(e) => e.preventDefault()}
-                                    onDrop={() => handleDrop(index)}>
+                                    onDrop={() => handleDrop(index)}
+                                >
                                     {getImageForTarget(index) ? (
                                         <img
                                             src={`/img/${getImageForTarget(index)}`}
@@ -119,5 +162,7 @@ const DragAndDropTask = () => {
                 &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
             </footer>
         </div>
-    )}
+    )
+}
+
 export default DragAndDropTask
