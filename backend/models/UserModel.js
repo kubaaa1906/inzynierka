@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 const jwt = require("jsonwebtoken")
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
+const {Progress} = require("./ProgressModel");
 
 const userSchema = new mongoose.Schema({
     nazwa: {type: String, required: true},
@@ -11,14 +12,16 @@ const userSchema = new mongoose.Schema({
     wiekDziecka: {type: String, required: true},
     czyAdmin: {type: Boolean, required: false},
     osiagniecia: [{order: {type: mongoose.Schema.Types.ObjectId, ref: 'Achievement'},
-        date: {type: Date, default: Date.now }}]
+        date: {type: Date, default: Date.now }}],
+    tasksCompleted: {type: Progress, required: true},
+    memoryGameCompleted: { type: Number, default: 0 },
+    dragNDropGameCompleted: { type: Number, default: 0 }
 })
 
 userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {
+    return jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {
         expiresIn: "60d",
     })
-    return token
 }
 
 const User = mongoose.model("User", userSchema)
