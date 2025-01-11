@@ -1,0 +1,80 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const Stats = ({ userId }) => {
+    const [stats, setStats] = useState(null);
+    const [password, setPassword] = useState('');
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const token = localStorage.getItem("token")
+    const handlePasswordSubmit = async () => {
+        if(token) {
+            try {
+                const config = {
+                    method: "post",
+                    url: 'http://localhost:8080/api/users/validate-password',
+                    headers: {"Content-Type": "application/json", "x-access-token": token},
+                    data: {userId: userId, haslo: password}
+                }
+                const res = await axios(config);
+                if (res.data.success) {
+                    setIsAuthorized(true);
+                    fetchStats();
+                } else {
+                    alert('Invalid password');
+                }
+            } catch (error) {
+                console.log(userId)
+                console.error(error);
+            }
+        }else{
+            console.log("Nie podano tokena!")
+        }
+    };
+
+    const fetchStats = async () => {
+        try {
+            const config = {
+                method: "get",
+                url: 'http://localhost:8080/api/users/stats',
+                headers: {"Content-Type": "application/json", "x-access-token": token},
+                params: {userId: userId}
+            }
+            const res = await axios(config);
+            setStats(res.data);
+        } catch (error) {
+            console.log(userId, token)
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        // Fetch initial data if needed, e.g., user is already authenticated
+    }, []);
+
+    return (
+        <div>
+            {!isAuthorized ? (
+                <div>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter password"
+                    />
+                    <button onClick={handlePasswordSubmit}>Submit</button>
+                </div>
+            ) : (
+                stats && (
+                    <div>
+                        <h3>Statystyki</h3>
+                        <p>Progres: {stats.tasksCompleted}/{stats.totalTasks} ({((stats.tasksCompleted / stats.totalTasks) * 100).toFixed(2)}%)</p>
+                        <p>Ukonczone zadania pamięciowe: {stats.memoryGameCompleted}</p>
+                        <p>Ukonczone zadania typu dopasuj obrazek do tekstu: {stats.dragNDropGameCompleted}</p>
+                    </div>
+                )
+            )}
+        </div>
+    );
+};
+
+export default Stats;

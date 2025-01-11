@@ -2,6 +2,7 @@ const router = require("express").Router()
 const { User, validate } = require("../models/UserModel")
 const bcrypt = require("bcrypt")
 const tokenVerification = require("../middleware/tokenVerification")
+const {Task} = require("../models/TaskModel");
 
 
 router.post("/", async (req,res) => {
@@ -15,8 +16,12 @@ router.post("/", async (req,res) => {
         if(user)
             return res
                 .status(409)
-                .send({ message: "User with given username already Exist!"})
-
+                .send({ message: "Uzytkownik z podaną nazwą już istnieje!"})
+        const userEmail = await User.findOne({ nazwa: req.body.email })
+        if(userEmail)
+            return res
+                .status(409)
+                .send({ message: "Konto z podanym emailem widnieje juz w bazie danych!"})
         const salt = await bcrypt.genSalt(Number(process.env.SALT))
         const hashPassword = await bcrypt.hash(req.body.haslo, salt)
 
@@ -25,6 +30,7 @@ router.post("/", async (req,res) => {
 
          res.status(201).send({ message: "User created successfully", user: newUser })
     } catch (error){
+        console.log(error)
          res.status(500).send({message: "Internal Server Error" })
     }
 })
@@ -76,10 +82,27 @@ router.put("/:id/change-password", tokenVerification, async(req,res) => {
 
         res.status(200).json({message: "Haslo zostalo zaktualizowane"})
     } catch (error){
+        console.log(error)
         res.status(500).json({message: "Wystapil blad serwera"})
     }
 
 })
+router.get('/stats', async (req, res) => {
+    const {userId} = req.query;
+    console.log(req.query)
+    const user = await User.findById(userId);
+    if (user) {
+        res.status(200).json({
+            tasksCompleted: user.tasksCompleted.length,
+            totalTasks: await Task.countDocuments(),
+            memoryGameCompleted: user.memoryGameCompleted,
+            dragNDropGameCompleted: user.dragNDropGameCompleted,
+        });
+    } else {
+        res.status(404).json({ error: 'Uzytkownik nie znaleziony!' });
+    }
+});
+
 router.get("/:id", tokenVerification, async(req, res)=> {
     try {
         const user = await User.findById(req.params.id);
@@ -98,7 +121,7 @@ router.put("/:id", tokenVerification, async(req, res) => {
         if(!updatedUser){
             return res.status(404).json({message: "Użytkownik nie istnieje"})
         }
-        res.json(updatedUser);
+        res.send({data: updatedUser, message: "Nazwa uzytkownika zostala zmieniona!"});
     } catch (error){
         res.status(404).json({message: "Error przy update"});
     }
@@ -128,6 +151,15 @@ router.delete("/:id", tokenVerification, async(req, res) => {
         res.status(500).json({message: "Wystąpił błąd."});
     }
 })
+router.post('/validate-password', async (req, res) => {
+    const { userId, password } = req.body;
+    const user = await User.findById(userId);
+    if (user && user.password === password) {
+        res.status(200).json({ success: true });
+    } else {
+        res.status(401).json({ success: false });
+    }
+});
 
 
 

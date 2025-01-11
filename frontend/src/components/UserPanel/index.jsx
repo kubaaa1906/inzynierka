@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeadset, faRotateLeft, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
-
+import Stats from "../Stats/index"
 const UserPanel = () => {
 
     const [user,setUser] = useState(null)
@@ -204,6 +204,9 @@ const UserPanel = () => {
                             <button onClick={deleteAccount} className={styles.delete_btn}>Usuń konto</button>
                         </div>
                     )}
+                </div>
+                <div>
+                <Stats userId={user._id} token={token}/>
                 </div>
             </div>
             <footer className={styles.footer}>
