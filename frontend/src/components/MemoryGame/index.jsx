@@ -4,7 +4,6 @@ import styles from "./styles.module.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import {faHeadset, faRotateLeft} from '@fortawesome/free-solid-svg-icons'
-import {clear} from "@testing-library/user-event/dist/clear";
 import axios from "axios";
 
 const initialCards = [
@@ -17,18 +16,11 @@ const initialCards = [
     { id: 7, src: '/assets/zyrafa.jpg', matched: false },
     { id: 8, src: '/assets/zyrafa.jpg', matched: false },
 ]
-const token = localStorage.getItem("token")
 
 function shuffle(array) {
     return [...array].sort(() => Math.random() - 0.5)
 }
 
-const getUserConfig ={
-    method: 'get',
-    url: `http://localhost:8080/api/users/me`,
-    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
-}
-const user = axios(getUserConfig)
 
 function MemoryGame() {
 
@@ -68,7 +60,7 @@ function MemoryGame() {
             try{
                 const config = {
                     method: 'put',
-                    url: `http://localhost:8080/api/users/${user._id}/addMG`,
+                    url: `http://localhost:8080/api/users/${user._id}/addDnD`,
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
                 await axios(config);
