@@ -1,8 +1,9 @@
 const router = require("express").Router()
 const {Image} = require("../models/ImageModel")
+const authorizeRoles = require("../middleware/authorizeRoles");
 
 
-router.post("/", async (req,res) =>{
+router.post("/", authorizeRoles("ADMIN"), async (req,res) =>{
     try{
         const image = await Image.findOne({nazwa: req.body.nazwa, link: req.body.link})
         if(image)

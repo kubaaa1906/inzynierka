@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     haslo: {type: String, required: true},
     imieDziecka: {type: String, required: false},
     wiekDziecka: {type: String, required: true},
-    czyAdmin: {type: Boolean, required: false},
+    rola: {type: String, enum: ["USER", "ADMIN"], default: "USER"},
     osiagniecia: [{order: {type: mongoose.Schema.Types.ObjectId, ref: 'Achievement'},
         date: {type: Date, default: Date.now }}],
     tasksCompleted: [{type: mongoose.Schema.Types.ObjectId, ref: 'Task'}],
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.methods.generateAuthToken = function () {
-    return jwt.sign({_id: this._id}, process.env.JWTPRIVATEKEY, {
+    return jwt.sign({_id: this._id, rola: this.rola}, process.env.JWTPRIVATEKEY, {
         expiresIn: "60d",
     })
 }
@@ -31,7 +31,7 @@ const validate = (data) => {
         haslo: passwordComplexity().required().label("Haslo"),
         imieDziecka: Joi.string().required().label("Imie"),
         wiekDziecka: Joi.number().required().label("Wiek"),
-        czyAdmin: Joi.boolean().label("Uprawnienia administratora")
+        rola: Joi.string().valid("USER", "ADMIN").label("Rola")
     })
     return schema.validate(data)
 }

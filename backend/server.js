@@ -24,6 +24,7 @@ app.get("/api/opinions", tokenVerification)
 app.get("/api/progress", tokenVerification)
 app.get("/api/difficulties", tokenVerification)
 app.get("/api/images", tokenVerification)
+app.get("/api/users", tokenVerification)
 
 app.use(express.json())
 app.use(cors())
