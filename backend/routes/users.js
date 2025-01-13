@@ -80,6 +80,35 @@ router.put("/:id/addTask", tokenVerification,async(req,res)=>{
         res.status(500).send(error)
     }
 })
+
+router.put("/:id/addDnD", tokenVerification,async(req,res)=>{
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user){
+            return res.status(404).send({message: "Podany użytkownik nie istnieje!"})
+        }
+        user.dragNDropGameCompleted += 1
+        await user.save()
+        res.status(200).send({message: "Odnotowano wykonanie zadania typu DnD!"})
+    }catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
+})
+router.put("/:id/addMG", tokenVerification,async(req,res)=>{
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user){
+            return res.status(404).send({message: "Podany użytkownik nie istnieje!"})
+        }
+        user.memoryGameCompleted += 1
+        await user.save()
+        res.status(200).send({message: "Odnotowano wykonanie zadania typu MemoryGame!"})
+    }catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
+})
 router.put("/:id/change-password", tokenVerification, async(req,res) => {
     const {oldPassword, newPassword} = req.body
     try{
