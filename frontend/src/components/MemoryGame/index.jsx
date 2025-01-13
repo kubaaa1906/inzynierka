@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons'
 import {faHeadset, faRotateLeft} from '@fortawesome/free-solid-svg-icons'
 import {clear} from "@testing-library/user-event/dist/clear";
+import axios from "axios";
 
 const initialCards = [
     { id: 1, src: '/assets/jez.jpg', matched: false },
@@ -16,10 +17,18 @@ const initialCards = [
     { id: 7, src: '/assets/zyrafa.jpg', matched: false },
     { id: 8, src: '/assets/zyrafa.jpg', matched: false },
 ]
+const token = localStorage.getItem("token")
 
 function shuffle(array) {
     return [...array].sort(() => Math.random() - 0.5)
 }
+
+const getUserConfig ={
+    method: 'get',
+    url: `http://localhost:8080/api/users/me`,
+    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+}
+const user = axios(getUserConfig)
 
 function MemoryGame() {
 
@@ -29,13 +38,52 @@ function MemoryGame() {
     const [disabled, setDisabled] = useState(false)
     const [gameWon, setGameWon] = useState(false)
     const [showALlCards, setShowAllCards] = useState(true)
-
+    const [user,setUser] = useState("")
+    const token = localStorage.getItem("token")
     const handleFlip = (index) => {
         if (disabled || flippedCards.includes(index) || cardsData[index].matched) return
         setFlippedCards((prev) => [...prev, index])
     }
-
+    const getUser = async (e) =>{
+        if (e && e.preventDefault) e.preventDefault();
+        if(token){
+            try{
+                const config = {
+                    method: 'get',
+                    url: `http://localhost:8080/api/users/me`,
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+                const { data: res } = await axios(config);
+                setUser(res)
+            } catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    console.log(error)
+                }
+            }
+        }
+    }
+    const sendWin = async (e) =>{
+        if (e && e.preventDefault) e.preventDefault();
+        if(token){
+            try{
+                const config = {
+                    method: 'put',
+                    url: `http://localhost:8080/api/users/${user._id}/addMG`,
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+                await axios(config);
+                console.log("Dodano wygraną!")
+            } catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    console.log("Nie udalo się dodac wygranej! :", error)
+                }
+            }
+        } else {
+            console.log("Zaloguj sie ponownie")
+        }
+    }
     useEffect(() => {
+        getUser()
         if (flippedCards.length === 2) {
             setDisabled(true)
             const [firstIndex, secondIndex] = flippedCards
@@ -58,8 +106,9 @@ function MemoryGame() {
         }
     }, [flippedCards])
 
-    useEffect(() => {
+    useEffect( () => {
         if (cardsData.every((card) => card.matched)) {
+            sendWin()
             setTimeout(() => {
                 setGameWon(true)
             }, 1000)

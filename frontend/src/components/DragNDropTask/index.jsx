@@ -11,21 +11,49 @@ const DragAndDropTask = () => {
     const [correctMatches, setCorrectMatches] = useState(0)
     const [message, setMessage] = useState("")
     const [placedImages, setPlacedImages] = useState([]) // Nowa tablica przechowująca poprawne dopasowania
-
-
-
+    const [user,setUser] = useState("")
+    const token = localStorage.getItem("token")
+    const getUser = async (e) =>{
+        if (e && e.preventDefault) e.preventDefault();
+        if(token){
+            try{
+                const config = {
+                    method: 'get',
+                    url: `http://localhost:8080/api/users/me`,
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+                const { data: res } = await axios(config);
+                setUser(res)
+            } catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    console.log(error)
+                }
+            }
+        }
+    }
+    const sendWin = async (e) =>{
+        if (e && e.preventDefault) e.preventDefault();
+        if(token){
+            try{
+                const config = {
+                    method: 'put',
+                    url: `http://localhost:8080/api/users/${user._id}/addMG`,
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+                await axios(config);
+                console.log("Dodano wygraną!")
+            } catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    console.log("Nie udalo się dodac wygranej! :", error)
+                }
+            }
+        } else {
+            console.log("Zaloguj sie ponownie")
+        }
+    }
     useEffect(() => {
-        // Inicjalizacja przykładowego zadania
-        // setSelectedTask({
-        //     nazwaZadania: "Dopasuj obrazki do kategorii",
-        //     tresc: "Przeciągnij obrazki do odpowiednich kategorii.",
-        //     images: [],
-        //     targets: [],
-        // })
+        getUser()
         handleGetImages()
-
-
-
     }, [selectedTask])
     const handleGetImages = async () =>{
         const token = localStorage.getItem("token");
@@ -81,6 +109,7 @@ const DragAndDropTask = () => {
 
     useEffect(() => {
         if (correctMatches === selectedTask?.targets.length) {
+            sendWin()
             setMessage("Brawo! Zadanie wykonane!")
         }
     }, [correctMatches])
