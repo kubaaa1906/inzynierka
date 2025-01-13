@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt")
 const tokenVerification = require("../middleware/tokenVerification")
 const {Task} = require("../models/TaskModel");
 
-
 router.post("/", async (req,res) => {
     try{
         const {error} = validate(req.body)
@@ -62,6 +61,25 @@ router.get("/me", tokenVerification, async (req, res) => {
     }
 });
 
+router.put("/:id/addTask", tokenVerification,async(req,res)=>{
+    const {taskId} = req.body
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user){
+            return res.status(404).send({message: "Podany użytkownik nie istnieje!"})
+        }
+        if(user.tasksCompleted.includes(taskId)) {
+            console.log("Zadanie juz wykonane")
+            return res.status(404).send({message: "Zadanie juz wczesniej rozwiazane!"})
+        }
+        user.tasksCompleted.push(taskId)
+        await user.save()
+        res.status(200).send({message: "Zadanie dodane do tablicy poprawnie!"})
+    }catch(error){
+        console.log(error)
+        res.status(500).send(error)
+    }
+})
 router.put("/:id/change-password", tokenVerification, async(req,res) => {
     const {oldPassword, newPassword} = req.body
     try{

@@ -27,9 +27,7 @@ const Signup = () => {
         e.preventDefault()
         try{
             const url = "http://localhost:8080/api/users"
-            const { data:res } = await axios.post(url,data)
-            const url1 = "http://localhost:8080/api/progress"
-            await axios.post(url1, {userId: res.user._id})
+            await axios.post(url,data)
             navigate("/login")
         } catch (error){
             if(error.response && error.response.status >= 400 && error.response.status <= 500) {

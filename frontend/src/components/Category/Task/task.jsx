@@ -77,9 +77,24 @@ const Task = () => {
         }
         const isCorrect = selectedTask.wszystkieOdpowiedzi[selectedAnswer].czyPoprawna
         if (isCorrect) {
-            try {
-                await axios.put(`http://localhost:8080/api/progress/addTask/${user._id}`, {taskId: selectedTask._id})
-            }catch (error){
+            const token = localStorage.getItem("token")
+            console.log(token)
+            if(token){
+                try{
+                    const config = {
+                        method: 'put',
+                        url: `http://localhost:8080/api/users/${user._id}/addTask`,
+                        headers: { 'Content-Type': 'application/json', 'x-access-token': token },
+                        data: {taskId : selectedTask._id}
+                    }
+                    await axios(config)
+                } catch(error){
+                    if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                        console.log(error)
+                    }
+                }
+            } else {
+                console.log("Blad w zatwierdzaniu wykonania zadania!")
             }
             showNotification("Brawo! Poprawna odpowiedź!")
             setTimeout(() => {
