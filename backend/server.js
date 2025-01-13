@@ -11,7 +11,6 @@ const applicationRoutes = require("./routes/reports")
 const categoryRoutes = require("./routes/categories")
 const tokenVerification = require("./middleware/tokenVerification");
 const opinionRoutes = require("./routes/opinions");
-const progressRoutes = require("./routes/progress")
 const difficultiesRoutes = require("./routes/difficulty")
 const imagesRoutes = require("./routes/image")
 
@@ -35,7 +34,6 @@ app.use("/api/tasks", taskRoutes)
 app.use("/api/reports", applicationRoutes)
 app.use("/api/categories", categoryRoutes)
 app.use("/api/opinions", opinionRoutes)
-app.use("/api/progress", progressRoutes)
 app.use("/api/difficulties", difficultiesRoutes)
 app.use("/api/images", imagesRoutes)
 

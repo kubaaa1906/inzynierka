@@ -2,8 +2,6 @@ const mongoose = require("mongoose")
 const jwt = require("jsonwebtoken")
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
-const {Progress} = require("./ProgressModel");
-
 const userSchema = new mongoose.Schema({
     nazwa: {type: String, required: true},
     email: {type: String, required: true},
@@ -13,7 +11,7 @@ const userSchema = new mongoose.Schema({
     czyAdmin: {type: Boolean, required: false},
     osiagniecia: [{order: {type: mongoose.Schema.Types.ObjectId, ref: 'Achievement'},
         date: {type: Date, default: Date.now }}],
-    tasksCompleted: {type: Progress, required: true},
+    tasksCompleted: [{type: mongoose.Schema.Types.ObjectId, ref: 'Task'}],
     memoryGameCompleted: { type: Number, default: 0 },
     dragNDropGameCompleted: { type: Number, default: 0 }
 })
