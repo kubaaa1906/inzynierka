@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import styles from './styles.module.css'
 
 const ReportDetails = ({ report, onClose, onDelete }) => {
 

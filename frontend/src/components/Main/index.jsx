@@ -6,7 +6,7 @@ import {
     faBars, faBrain,
     faCalculator, faGears,
     faHeadset, faImages,
-    faLanguage,
+    faLanguage, faLock,
     faSeedling
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -38,6 +38,12 @@ const Main = () => {
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
                     <button className={styles.nav_btn}  onClick={showMenu}><FontAwesomeIcon icon={faBars} /> Menu </button>
+                    {rola === "ADMIN" && (
+                        <Link to="/adminpanel">
+                            <button className={styles.nav_btn}><FontAwesomeIcon icon={faLock} /> Panel Administratora
+                            </button>
+                        </Link>
+                    )}
                 </div>
                 <div className={styles.nav_center}>
                     <Link to="/">
@@ -45,12 +51,7 @@ const Main = () => {
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
-                    {rola === "ADMIN" && (
-                        <Link to="/adminpanel">
-                                <button className={styles.nav_btn}><FontAwesomeIcon icon={faUser} /> Panel Administratora
-                                </button>
-                        </Link>
-                        )}
+
                     <Link to="/contact">
                         <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset} /> Kontakt</button>
                     </Link>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from 'react';
 import CategoryDetails from "./CategoryDetails";
+import styles from './styles.module.css'
 
 const ShowCategories = ({ categories, setCategories }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -20,7 +21,7 @@ const ShowCategories = ({ categories, setCategories }) => {
 
 
     return (
-        <div>
+        <div className={styles.usersBox}>
             {selectedCategory ? (
                 <CategoryDetails category={selectedCategory} onClose={handleCloseDetails} onDelete={handleDeleteCategory} />
             ) : (

@@ -21,12 +21,12 @@ const ShowTasks = ({ tasks, setTasks }) => {
 
 
     return (
-        <div>
+        <div className={styles.usersBox}>
             {selectedTask ? (
                 <TaskDetails task={selectedTask} onClose={handleCloseDetails} onDelete={handleDeleteTask} />
             ) : (
                 tasks.map((task) => (
-                    <button key={task._id} onClick={() => handleSelectTask(task)}>
+                    <button className={styles.buttonContent} key={task._id} onClick={() => handleSelectTask(task)}>
                         {task.nazwaZadania} {task.opis} {task.tresc}
                     </button>
                 ))

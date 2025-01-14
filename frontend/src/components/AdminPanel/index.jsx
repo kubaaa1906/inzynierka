@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import {Link} from "react-router-dom";
 import styles from "./styles.module.css";
 import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeadset, faRotateLeft, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
+import {faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 import ShowTasks from "./ShowTasks";
 import ShowCategories from "./ShowCategories";
 import ShowReports from "./ShowReports";
@@ -138,20 +138,20 @@ const AdminPanel = () => {
             <div>
                 <h1> Panel administracyjny </h1>
             </div>
-            <div>
-                <div>
-                    <button onClick={handleGetUsers}> Użytkownicy</button>
-                    <button onClick={handleGetReports}> Zgłoszenia użytkowników</button>
-                    <button onClick={handleGetTasks}> Zadania</button>
-                    <button onClick={handleGetCategories}> Kategorie</button>
+            <div className={styles.contentBox}>
+                <div className={styles.mainButtons}>
+                    <button className={styles.change_btn} onClick={handleGetUsers}> Użytkownicy</button>
+                    <button className={styles.change_btn} onClick={handleGetReports}> Zgłoszenia użytkowników</button>
+                    <button className={styles.change_btn} onClick={handleGetTasks}> Zadania</button>
+                    <button className={styles.change_btn} onClick={handleGetCategories}> Kategorie</button>
 
                 </div>
                 <div>
                     {sekcjaWidocznosc === 'showTasks' ? (
-                        <div>
-                            <button onClick={zwin}> Zwiń </button>
+                        <div className={styles.contentBox2}>
+                            <button className={styles.delete_btn} onClick={zwin}> Zwiń </button>
                             <Link to="/addtask">
-                                <button>Dodaj zadanie</button>
+                                <button className={styles.delete_btn}>Dodaj zadanie</button>
                             </Link>
 
                             {zadanie.length > 0 ? <ShowTasks tasks={zadanie} setTasks={ustawZadanie}/> : <p></p>}
@@ -162,10 +162,10 @@ const AdminPanel = () => {
                         </div>
                     )}
                     {sekcjaWidocznosc === 'showCategories' ? (
-                        <div>
-                            <button onClick={zwin}> Zwiń </button>
+                        <div className={styles.contentBox2}>
+                            <button className={styles.delete_btn} onClick={zwin}> Zwiń </button>
                             <Link to="/addcategory">
-                                <button>Dodaj kategorię</button>
+                                <button className={styles.delete_btn}>Dodaj kategorię</button>
                             </Link>
 
                             {category.length > 0 ? <ShowCategories categories={category} setCategories={setCategory}/> : <p></p>}
@@ -176,8 +176,8 @@ const AdminPanel = () => {
                         </div>
                     )}
                     {sekcjaWidocznosc === 'showReports' ? (
-                        <div>
-                            <button onClick={zwin}> Zwiń </button>
+                        <div className={styles.contentBox2}>
+                            <button className={styles.delete_btn} onClick={zwin}> Zwiń </button>
 
                             {report.length > 0 ? <ShowReports reports={report} setReports={setReport}/> : <p></p>}
                         </div>
@@ -187,8 +187,8 @@ const AdminPanel = () => {
                         </div>
                     )}
                     {sekcjaWidocznosc === 'showUsers' ? (
-                        <div>
-                            <button onClick={zwin}> Zwiń </button>
+                        <div className={styles.contentBox2}>
+                            <button className={styles.delete_btn} onClick={zwin}> Zwiń </button>
 
                             {user.length > 0 ? <ShowUsers users={user} setUsers={setUser}/> : <p></p>}
                         </div>

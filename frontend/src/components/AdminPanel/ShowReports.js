@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from 'react';
 import ReportDetails from "./ReportDetails";
+import styles from "./styles.module.css";
 
 const ShowReports = ({ reports, setReports }) => {
     const [selectedReport, setSelectedReport] = useState(null);
@@ -20,12 +21,12 @@ const ShowReports = ({ reports, setReports }) => {
 
 
     return (
-        <div>
+        <div className={styles.usersBox}>
             {selectedReport ? (
                 <ReportDetails report={selectedReport} onClose={handleCloseDetails} onDelete={handleDeleteReport} />
             ) : (
                 reports.map((report) => (
-                    <button key={report._id} onClick={() => handleSelectReport(report)}>
+                    <button className={styles.buttonContent} key={report._id} onClick={() => handleSelectReport(report)}>
                         {report.tytul}, {report.dataZgloszenia}
                     </button>
                 ))
