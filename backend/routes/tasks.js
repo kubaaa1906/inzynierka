@@ -12,7 +12,7 @@ router.post("/", tokenVerification, authorizeRoles("ADMIN") ,async (req, res) =>
         const { error } = validate(req.body)
         if (error)
             return res.status(400).send({ message: error.details[0].message })
-        await new Task({ ...req.body}).save()
+        const task = await new Task({ ...req.body}).save()
         if(req.body.kategoria){
             const category = await Category.findById(req.body.kategoria)
             if(!category){

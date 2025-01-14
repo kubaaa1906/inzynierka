@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from 'react';
 import UserDetails from "./UserDetails";
+import styles from "./styles.module.css";
 
 const ShowUsers = ({ users, setUsers }) => {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -20,12 +21,12 @@ const ShowUsers = ({ users, setUsers }) => {
 
 
     return (
-        <div>
+        <div className={styles.usersBox}>
             {selectedUser ? (
                 <UserDetails user={selectedUser} onClose={handleCloseDetails} onDelete={handleDeleteUser} />
             ) : (
                 users.map((user) => (
-                    <button key={user._id} onClick={() => handleSelectUser(user)}>
+                    <button className={styles.buttonContent} key={user._id} onClick={() => handleSelectUser(user)}>
                         {user.nazwa}, {user.email}
                     </button>
                 ))

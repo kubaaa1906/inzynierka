@@ -145,6 +145,8 @@ const UserPanel = () => {
                 </div>
             </nav>
             <h1>Witaj, {user.nazwa}!</h1>
+
+            <Stats userId={user._id} token={token}/>
             <div className={styles.userContent}>
                 <div className={styles.changeBox}>
                     <button onClick={handleShowChangeUsername} className={styles.change_btn}>
@@ -205,9 +207,9 @@ const UserPanel = () => {
                         </div>
                     )}
                 </div>
-                <div>
-                <Stats userId={user._id} token={token}/>
-                </div>
+
+
+
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
