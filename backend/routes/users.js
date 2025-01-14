@@ -37,7 +37,6 @@ router.post("/", async (req,res) => {
 
 
 router.get("/", tokenVerification, authorizeRoles("ADMIN"), async(req,res) => {
-    //pobranie wszystkich użytkowników z bd:
     User.find().exec()
         .then(async () => {
             const users = await User.find();
@@ -51,7 +50,7 @@ router.get("/", tokenVerification, authorizeRoles("ADMIN"), async(req,res) => {
 
 router.get("/me", tokenVerification, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select("-password");
+        const user = await User.findById(req.user.id).select("-password").populate('osiagniecia.order');
         console.log("User: ", user)
         if (!user) return res.status(404).json({ message: "Użytkownik nie istnieje" });
 
@@ -64,7 +63,7 @@ router.get("/me", tokenVerification, async (req, res) => {
 router.put("/:id/addTask", tokenVerification,async(req,res)=>{
     const {taskId} = req.body
     try{
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.params.id).populate('osiagniecia.order')
         if(!user){
             return res.status(404).send({message: "Podany użytkownik nie istnieje!"})
         }
@@ -73,8 +72,25 @@ router.put("/:id/addTask", tokenVerification,async(req,res)=>{
             return res.status(404).send({message: "Zadanie juz wczesniej rozwiazane!"})
         }
         user.tasksCompleted.push(taskId)
+
+        const quizAchievements = [
+            {prog: 10, achievementId: "6786afad52f38499fe527951"},
+            {prog: 20, achievementId: "6786af6b52f38499fe52794d"},
+            {prog: 30, achievementId: "6786afb452f38499fe527953"},
+            {prog: 40, achievementId: "6786af8252f38499fe52794f"}
+        ]
+
+        const tasksCompletedCount = user.tasksCompleted.length;
+
+        for(const {prog, achievementId} of quizAchievements){
+            if(tasksCompletedCount === prog && !user.osiagniecia.some(a => a.order.toString() === achievementId)){
+                user.osiagniecia.push({order: achievementId})
+            }
+        }
+
+
         await user.save()
-        res.status(200).send({message: "Zadanie dodane do tablicy poprawnie!"})
+        res.status(200).send({message: "Zadanie i osiagniecie dodane do tablicy poprawnie!"})
     }catch(error){
         console.log(error)
         res.status(500).send(error)
@@ -83,11 +99,23 @@ router.put("/:id/addTask", tokenVerification,async(req,res)=>{
 
 router.put("/:id/addDnD", tokenVerification,async(req,res)=>{
     try{
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.params.id).populate('osiagniecia.order')
         if(!user){
             return res.status(404).send({message: "Podany użytkownik nie istnieje!"})
         }
         user.dragNDropGameCompleted += 1
+
+        const dragNDropAchievements = [
+            {prog: 20, achievementId: "6786b07052f38499fe527959"},
+            {prog: 40, achievementId: "6786b07652f38499fe52795b"}
+        ]
+
+        for(const {prog, achievementId} of dragNDropAchievements){
+            if(user.dragNDropGameCompleted === prog && !user.osiagniecia.some(a => a.order.toString() === achievementId)){
+                user.osiagniecia.push({order: achievementId})
+            }
+        }
+
         await user.save()
         res.status(200).send({message: "Odnotowano wykonanie zadania typu DnD!"})
     }catch(error){
@@ -97,11 +125,23 @@ router.put("/:id/addDnD", tokenVerification,async(req,res)=>{
 })
 router.put("/:id/addMG", tokenVerification,async(req,res)=>{
     try{
-        const user = await User.findById(req.params.id)
+        const user = await User.findById(req.params.id).populate('osiagniecia.order')
         if(!user){
             return res.status(404).send({message: "Podany użytkownik nie istnieje!"})
         }
         user.memoryGameCompleted += 1
+
+        const memoryGameAchievements = [
+            {prog: 20, achievementId: "6786b01b52f38499fe527955"},
+            {prog: 40, achievementId: "6786b02152f38499fe527957"}
+        ]
+
+        for(const {prog, achievementId} of dragNDropAchievements){
+            if(user.memoryGameCompleted === prog && !user.osiagniecia.some(a => a.order.toString() === achievementId)){
+                user.osiagniecia.push({order: achievementId})
+            }
+        }
+
         await user.save()
         res.status(200).send({message: "Odnotowano wykonanie zadania typu MemoryGame!"})
     }catch(error){

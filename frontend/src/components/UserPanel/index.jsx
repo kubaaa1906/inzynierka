@@ -207,9 +207,21 @@ const UserPanel = () => {
                         </div>
                     )}
                 </div>
-
-
-
+                <div>
+                <Stats userId={user._id} token={token}/>
+                </div>
+                <div>
+                    Zdobyte osiągnięcia:
+                    <ul>
+                        {user.osiagniecia && user.osiagniecia.length > 0 ? (
+                            user.osiagniecia.map((achievement, index) => (
+                                <div key={index}> {achievement.order.nazwa} <br/> {achievement.order.opis} </div>
+                            ))
+                        ) : (
+                            <p> Jeszcze nie zdobyłeś żadnych osiągnięć :( </p>
+                        )}
+                    </ul>
+                </div>
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>

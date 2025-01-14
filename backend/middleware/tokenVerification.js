@@ -16,7 +16,6 @@ function tokenVerification(req, res, next) {
             id: decodeduser._id,
             rola: decodeduser.rola
         }
-        //id: decodeduser._id,
         next()
     })
 }

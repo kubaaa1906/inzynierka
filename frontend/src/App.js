@@ -18,6 +18,7 @@ import Edittask from "./components/AdminPanel/Edittask";
 import Editcategory from "./components/AdminPanel/Editcategory";
 import Editreport from "./components/AdminPanel/Editreport";
 import Edituser from "./components/AdminPanel/Edituser";
+import AddAchievement from "./components/AddAchievement";
 import {jwtDecode} from "jwt-decode";
 
 function App() {
@@ -75,6 +76,12 @@ function App() {
                   <Route path="/addcategory" exact element={
                       <ProtectedRoute rola={rola} allowedRoles={["ADMIN"]}>
                             <AddCategory/>
+                      </ProtectedRoute>
+                  } />
+
+                  <Route path="/addachievement" exact element={
+                      <ProtectedRoute rola={rola} allowedRoles={["ADMIN"]}>
+                          <AddAchievement/>
                       </ProtectedRoute>
                   } />
 
