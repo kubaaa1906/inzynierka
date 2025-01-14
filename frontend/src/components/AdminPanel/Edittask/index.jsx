@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
 import styles from "../../AddTasks/styles.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const EditTask = () => {
     const { id } = useParams();
@@ -15,6 +17,14 @@ const EditTask = () => {
         kategoria: '',
     });
 
+    const addAnswer = () => {
+        setTask({
+            ...task,
+            wszystkieOdpowiedzi: [...task.wszystkieOdpowiedzi, { tekst: "", czyPoprawna: false }],
+        });
+        console.log("Dodano zadanie!")
+    };
+
     useEffect(() => {
         const fetchTask = async () => {
             const token = localStorage.getItem("token");
@@ -26,7 +36,7 @@ const EditTask = () => {
                     setTask(data);
                 } catch (error) {
                     if(error.response && error.response.status >= 400 && error.response.status <= 500){
-                        console.error("Error fetching the task data", error);
+                        console.error("Error fetching the task task", error);
                         //localStorage.removeItem("token")
                         //window.location.reload()
                     }
@@ -56,7 +66,7 @@ const EditTask = () => {
                 });
                 console.log("Edytowanie poszlo pomyslnie")
             } catch (error) {
-                console.error("Error updating the task data", error);
+                console.error("Error updating the task task", error);
             }
         }
     };
@@ -101,89 +111,125 @@ const EditTask = () => {
     };
 
     return (
-        <div>
-            <div>
-                <h2>Edytuj zadanie</h2>
-                <form onSubmit={handleSubmit}>
-                    Nazwa zadania:
-                    <input
-                        type="text"
-                        placeholder="Nazwa zadania"
-                        name="nazwaZadania"
-                        value={task.nazwaZadania}
-                        onChange={handleChange}
-                    /><br/>
-                    Opis:
-                    <input
-                        type="text"
-                        id="opis"
-                        placeholder="Opis"
-                        name="opis"
-                        value={task.opis}
-                        onChange={handleChange}
-                    /><br/>
-                    Treść:
-                    <input
-                        type="text"
-                        id="tresc"
-                        placeholder="Tresc"
-                        name="tresc"
-                        value={task.tresc}
-                        onChange={handleChange}
-                    /><br/>
-                    Wszystkie odpowiedzi:
-                    {task.wszystkieOdpowiedzi.map((answer, index) => (
-                            <div key={index} className={styles.answer}>
-                                <input
-                                    type="text"
-                                    placeholder={`Odpowiedź ${index + 1}`}
-                                    value={answer.tekst}
-                                    onChange={(e) => handleAnswerChange(index, "tekst", e.target.value)}
-                                    required
-                                />
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={answer.czyPoprawna}
-                                        onChange={(e) => handleAnswerChange(index, "czyPoprawna", e.target.checked)}
-                                    />
-                                    Poprawna
-                                </label>
-                                <button type="button" onClick={() => removeAnswer(index)}>
-                                    Usuń
-                                </button>
-                            </div>
-                        )
-                    )}<br/>
-                    Typ zadania:
-                    <input
-                        type="text"
-                        id="typZadania"
-                        placeholder="Typ zadania"
-                        name="typZadania"
-                        value={task.typZadania}
-                        onChange={handleChange}
-                    /><br/>
-                    Kategoria:
-                    <select name="kategoria" onChange={handleChange} value={task.kategoria} required>
-                        <option value="" disabled> Wybierz kategorię</option>
-                        {category.length > 0 ? (
-                            category.map((category) => (
-                                <option key={category._id} value={category._id}>{category.nazwaKategorii}</option>
-                            ))
-                        ) : (
-                            <option value="" disabled>Brak kategorii do wyświetlenia</option>
-                        )}
-                    </select><br/>
-                    <button type="submit">Zapisz</button>
-                    <Link to="/adminpanel">
-                        <button type="button">
-                            Wróć
-                        </button>
-                    </Link>
-                </form>
+
+            <div className={styles.main_container}>
+                <nav className={styles.navbar}>
+                    <div className={styles.nav_left}>
+                        <Link to="/main">
+                            <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
+                        </Link>
+                    </div>
+                    <div className={styles.nav_center}>
+                        <Link to="/">
+                            <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
+                        </Link>
+                    </div>
+                    <div className={styles.nav_right}>
+                        <Link to="/contact">
+                            <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
+                        </Link>
+                    </div>
+                </nav>
+                <div className={styles.signup_container}>
+                    <div className={styles.signup_form_container}>
+
+                        <form className={styles.form_container}
+                              onSubmit={handleSubmit}>
+                            <h1>Edytuj</h1>
+                            <input
+                                type="text"
+                                placeholder="Nazwa zadania"
+                                name="nazwaZadania"
+                                onChange={handleChange}
+                                value={task.nazwaZadania}
+                                required
+                                className={styles.input}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Opis"
+                                name="opis"
+                                onChange={handleChange}
+                                value={task.opis}
+                                required
+                                className={styles.input}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Treść"
+                                name="tresc"
+                                onChange={handleChange}
+                                value={task.tresc}
+                                required
+                                className={styles.input}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Typ zadania"
+                                name="typZadania"
+                                onChange={handleChange}
+                                value={task.typZadania}
+                                required
+                                className={styles.input}
+                            />
+                            Odpowiedzi:
+                            {task.wszystkieOdpowiedzi.map((answer, index) => (
+
+                                    <div key={index} className={styles.answer}>
+                                        <input
+                                            type="text"
+                                            placeholder={`Odpowiedź ${index + 1}`}
+                                            value={answer.tekst}
+                                            onChange={(e) => handleAnswerChange(index, "tekst", e.target.value)}
+                                            className={styles.input}
+                                            required
+                                        />
+                                        <label>
+                                            <input
+                                                className={styles.checkboxInput}
+                                                type="radio"
+                                                name="odpowiedz"
+                                                checked={answer.czyPoprawna}
+                                                onChange={(e) => handleAnswerChange(index, "czyPoprawna", e.target.checked)}
+                                            />
+                                            Poprawna
+                                        </label>
+                                        <button className={styles.delete_btn} type="button"
+                                                onClick={() => removeAnswer(index)}>
+                                            Usuń
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                            <button className={styles.send_btn} type="button" onClick={addAnswer}>
+                       Dodaj odpowiedź
+                    </button>
+                            <select name="kategoria" onChange={handleChange} value={task.kategoria} required>
+                                <option value="" disabled> Wybierz kategorię</option>
+                                {category.length > 0 ? (
+                                    category.map((category) => (
+                                        <option key={category._id}
+                                                value={category._id}>{category.nazwaKategorii}</option>
+                                    ))
+                                ) : (
+                                    <option value="" disabled>Brak kategorii do wyświetlenia</option>
+                                )}
+                            </select>
+                            {/*error && <div
+                        className={styles.error_msg}>{error}</div>*/}
+                            <button type="submit"
+                                    className={styles.send_btn} onClick={handleSubmit}>
+                                Dodaj zadanie
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <footer className={styles.footer}>
+                    <Link to="/contact">Kontakt</Link> <br/>
+                    &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
+                </footer>
             </div>
-        </div>
     );
 };
 

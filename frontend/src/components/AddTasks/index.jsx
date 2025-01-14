@@ -1,7 +1,9 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 
 const AddTasks = () => {
@@ -99,18 +101,28 @@ const AddTasks = () => {
 
 
     return (
-        <div className={styles.signup_container}>
-            <div className={styles.signup_form_container}>
-                <div className={styles.left}>
-                    <h1>Powrót na stronę główną</h1>
-                    <Link to="/">
-                        <button type="button"
-                                className={styles.white_btn}>
-                            Wróć
-                        </button>
+        <div className={styles.main_container}>
+            <nav className={styles.navbar}>
+                <div className={styles.nav_left}>
+                    <Link to="/main">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
                     </Link>
                 </div>
-                <div className={styles.right}>
+                <div className={styles.nav_center}>
+                    <Link to="/">
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
+                    </Link>
+                </div>
+                <div className={styles.nav_right}>
+                    <Link to="/contact">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
+                    </Link>
+                </div>
+            </nav>
+            <div className={styles.signup_container}>
+                <div className={styles.signup_form_container}>
+
                     <form className={styles.form_container}
                           onSubmit={handleSubmit}>
                         <h1>Dodaj zadanie</h1>
@@ -152,6 +164,7 @@ const AddTasks = () => {
                         />
                         Odpowiedzi:
                         {data.wszystkieOdpowiedzi.map((answer, index) => (
+
                                 <div key={index} className={styles.answer}>
                                     <input
                                         type="text"
@@ -163,19 +176,21 @@ const AddTasks = () => {
                                     />
                                     <label>
                                         <input
-                                            type="checkbox"
+                                            className={styles.checkboxInput}
+                                            type="radio"
+                                            name="odpowiedz"
                                             checked={answer.czyPoprawna}
                                             onChange={(e) => handleAnswerChange(index, "czyPoprawna", e.target.checked)}
                                         />
                                         Poprawna
                                     </label>
-                                    <button type="button" onClick={() => removeAnswer(index)}>
+                                    <button className={styles.delete_btn} type="button" onClick={() => removeAnswer(index)}>
                                         Usuń
                                     </button>
                                 </div>
                             )
                         )}
-                        <button type="button" onClick={addAnswer}>
+                        <button className={styles.send_btn} type="button" onClick={addAnswer}>
                             Dodaj odpowiedź
                         </button>
                         <select name="kategoria" onChange={handleChange} value={data.kategoria} required>
@@ -191,13 +206,18 @@ const AddTasks = () => {
                         {error && <div
                             className={styles.error_msg}>{error}</div>}
                         <button type="submit"
-                                className={styles.green_btn} onClick={handleSubmit}>
+                                className={styles.send_btn} onClick={handleSubmit}>
                             Dodaj zadanie
                         </button>
                     </form>
                 </div>
             </div>
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
+
     );
 };
 export default AddTasks

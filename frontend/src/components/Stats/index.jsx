@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from "./styles.module.css";
 
 const Stats = ({ userId }) => {
     const [stats, setStats] = useState(null);
@@ -53,26 +54,32 @@ const Stats = ({ userId }) => {
 
     return (
         <div>
+
             {!isAuthorized ? (
-                <div>
+
+                <div className={styles.statsBox}>
+                    <h3 className={styles.statsInfo}>Podaj hasło aby sprawdzić swoje statystyki.</h3>
                     <input
+                        className={styles.panelInput}
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Enter password"
+                        placeholder="Podaj hasło"
                     />
-                    <button onClick={handlePasswordSubmit}>Submit</button>
+                    <button className={styles.change_btn} onClick={handlePasswordSubmit}>Zapisz</button>
                 </div>
             ) : (
                 stats && (
-                    <div>
-                        <h3>Statystyki</h3>
+                    <div className={styles.statsBox}>
+                        <h3 className={styles.statsInfo}>Statystyki</h3>
                         <p>Progres: {stats.tasksCompleted}/{stats.totalTasks} ({((stats.tasksCompleted / stats.totalTasks) * 100).toFixed(2)}%)</p>
                         <p>Ukonczone zadania pamięciowe: {stats.memoryGameCompleted}</p>
                         <p>Ukonczone zadania typu dopasuj obrazek do tekstu: {stats.dragNDropGameCompleted}</p>
                     </div>
                 )
+
             )}
+
         </div>
     );
 };

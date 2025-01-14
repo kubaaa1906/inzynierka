@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import styles from './styles.module.css'
 
 const UserDetails = ({ user, onClose, onDelete }) => {
 
     const navigate = useNavigate()
-
     const handleEdit = () => {
         navigate(`/edituser/${user._id}`)
     }
@@ -32,9 +31,8 @@ const UserDetails = ({ user, onClose, onDelete }) => {
         <div>
             <p><strong>Nazwa użytkownika:</strong> {user.nazwa}</p>
             <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Hasło:</strong> {user.haslo}</p>
             <p><strong>Imie dziecka:</strong> {user.imieDziecka}</p>
-            <p><strong>Wiek dziecka:</strong>{user.wiekDziecka}</p>
+            <p><strong>Wiek dziecka:</strong> {user.wiekDziecka}</p>
             <p><strong>Rola:</strong> {user.rola}</p>
             <button onClick={handleEdit}>Edytuj</button>
             <button onClick={onClose}>Zwiń</button>
