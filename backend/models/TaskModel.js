@@ -25,7 +25,8 @@ const validate = (data) => {
                     czyPoprawna: Joi.boolean().label("Czy poprawna"),
                 })
             )
-            .min(1)
+            .min(2)
+            .max(4)
             .label("Wszystkie odpowiedzi"),
         typZadania: Joi.string().required().label("Typ zadania"),
         kategoria: Joi.string().required().label("Kategoria"),

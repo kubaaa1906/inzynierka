@@ -1,7 +1,7 @@
 const router = require ("express").Router();
 const { Report , validate } = require("../models/ReportModel");
 const tokenVerification = require("../middleware/tokenVerification")
-const {Task} = require("../models/TaskModel");
+const authorizeRoles = require("../middleware/authorizeRoles");
 
 
 router.post("/", tokenVerification, async (req, res) => {
@@ -20,7 +20,7 @@ router.post("/", tokenVerification, async (req, res) => {
     }
 })
 
-router.get("/", tokenVerification, async(req, res) => {
+router.get("/", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     console.log("Pokaz zgloszenia :)")
     Report.find().exec()
         .then(async () => {
@@ -32,7 +32,7 @@ router.get("/", tokenVerification, async(req, res) => {
         })
 })
 
-router.get("/:id", tokenVerification, async(req, res) => {
+router.get("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         const report = await Report.findById(req.params.id);
         if(!report){
@@ -44,7 +44,7 @@ router.get("/:id", tokenVerification, async(req, res) => {
     }
 })
 
-router.put("/:id", tokenVerification, async(req, res) => {
+router.put("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         const updatedReport = await Report.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if(!updatedReport){
@@ -56,7 +56,7 @@ router.put("/:id", tokenVerification, async(req, res) => {
     }
 })
 
-router.delete("/:id", tokenVerification, async(req, res) => {
+router.delete("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         const report = await Report.findByIdAndDelete(req.params.id);
         if(!report){

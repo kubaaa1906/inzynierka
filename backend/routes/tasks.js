@@ -1,11 +1,12 @@
 const router = require ("express").Router();
 const { Task, validate } = require("../models/TaskModel");
 const tokenVerification = require("../middleware/tokenVerification")
+const authorizeRoles = require("../middleware/authorizeRoles")
 const {Category} = require("../models/CategoryModel");
 
 
 //Funkcja do dodawania zadań
-router.post("/", tokenVerification, async (req, res) => {
+router.post("/", tokenVerification, authorizeRoles("ADMIN") ,async (req, res) => {
     try {
         console.log(req.body)
         const { error } = validate(req.body)
@@ -34,7 +35,7 @@ router.get("/", tokenVerification, async(req, res) => {
     Task.find().exec()
         .then(async () => {
             const tasks = await Task.find().populate('kategoria').populate('oceny');
-            res.status(200).send({ data: tasks, message: "Lista zadań: "})
+            res.status(200).send({ data: tasks, message: "Lista użytkownikow: "})
         })
         .catch(error => {
             res.status(500).send({ message: error.message });
@@ -50,7 +51,7 @@ router.get("/:id", tokenVerification, async(req, res)=> {
     }
 })
 
-router.put("/:id", tokenVerification, async(req, res) => {
+router.put("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json(updatedTask);
@@ -59,7 +60,7 @@ router.put("/:id", tokenVerification, async(req, res) => {
     }
 })
 
-router.delete("/:id", tokenVerification, async(req, res) => {
+router.delete("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         await Task.findByIdAndDelete(req.params.id);
         res.json({ message: "Zadanie usuniete"});

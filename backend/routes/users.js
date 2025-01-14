@@ -3,6 +3,7 @@ const { User, validate } = require("../models/UserModel")
 const bcrypt = require("bcrypt")
 const tokenVerification = require("../middleware/tokenVerification")
 const {Task} = require("../models/TaskModel");
+const authorizeRoles = require("../middleware/authorizeRoles");
 
 router.post("/", async (req,res) => {
     try{
@@ -35,14 +36,12 @@ router.post("/", async (req,res) => {
 })
 
 
-router.get("/", tokenVerification, async(req,res) => {
+router.get("/", tokenVerification, authorizeRoles("ADMIN"), async(req,res) => {
     //pobranie wszystkich użytkowników z bd:
     User.find().exec()
         .then(async () => {
             const users = await User.find();
-            res.json(users);
-            //konfiguracja odpowiedzi res z przekazaniem listy użytkowników:
-            res.status(200).send({ data: users });
+            res.status(200).send({ data: users,  message: "Lista użytkownikow: "});
         })
         .catch(error => {
             res.status(500).send({ message: error.message });
@@ -52,7 +51,8 @@ router.get("/", tokenVerification, async(req,res) => {
 
 router.get("/me", tokenVerification, async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).select("-password");
+        const user = await User.findById(req.user.id).select("-password");
+        console.log("User: ", user)
         if (!user) return res.status(404).json({ message: "Użytkownik nie istnieje" });
 
         res.status(200).json(user);
@@ -162,13 +162,40 @@ router.get("/:id", tokenVerification, async(req, res)=> {
     }
 })
 
-router.put("/:id", tokenVerification, async(req, res) => {
+router.put("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
-        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if(!updatedUser){
+        const {nazwa, email, haslo, imieDziecka, wiekDziecka, rola} = req.body
+        const user = await User.findById(req.params.id)
+
+        if(!user){
             return res.status(404).json({message: "Użytkownik nie istnieje"})
         }
-        res.send({data: updatedUser, message: "Nazwa uzytkownika zostala zmieniona!"});
+
+        if(haslo){
+            const salt = await bcrypt.genSalt(Number(process.env.SALT))
+            const hashPassword = await bcrypt.hash(haslo, salt)
+            user.haslo = hashPassword
+        }
+
+        if(nazwa !== undefined){
+            user.nazwa = nazwa;
+        }
+        if(email !== undefined){
+            user.email = email;
+        }
+        if(imieDziecka !== undefined){
+            user.imieDziecka = imieDziecka;
+        }
+        if(wiekDziecka !== undefined){
+            user.wiekDziecka = wiekDziecka;
+        }
+        if(rola !== undefined){
+            user.rola = rola;
+        }
+
+        await user.save()
+
+        res.send({data: user, message: "Dane użytkownika zostaly zmienione!"});
     } catch (error){
         res.status(404).json({message: "Error przy update"});
     }
@@ -198,6 +225,16 @@ router.delete("/:id", tokenVerification, async(req, res) => {
         res.status(500).json({message: "Wystąpił błąd."});
     }
 })
+
+router.delete("/paneladmin/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
+    try{
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ message: "Uzytkownik usuniety"});
+    } catch (error){
+        res.status(404).json({message: "Error przy delete"});
+    }
+})
+
 router.post('/validate-password', async (req, res) => {
     const { userId, password } = req.body;
     const user = await User.findById(userId);

@@ -12,7 +12,11 @@ function tokenVerification(req, res, next) {
             return res.status(401).send({ message: "Unauthorized!" });
         }
         console.log("Token poprawny, użytkownik: "+decodeduser._id)
-        req.user = decodeduser
+        req.user = {
+            id: decodeduser._id,
+            rola: decodeduser.rola
+        }
+        //id: decodeduser._id,
         next()
     })
 }

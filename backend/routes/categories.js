@@ -1,10 +1,11 @@
 const router = require ("express").Router();
 const {Category, validate}= require("../models/CategoryModel");
 const tokenVerification = require("../middleware/tokenVerification")
+const authorizeRoles = require("../middleware/authorizeRoles");
 
 
 //Funkcja do dodawania kategorii
-router.post("/", tokenVerification, async (req, res) => {
+router.post("/", tokenVerification, authorizeRoles("ADMIN"), async (req, res) => {
     try {
         const { error } = validate(req.body)
         if (error)
@@ -45,7 +46,7 @@ router.get("/:id", tokenVerification, async(req, res)=> {
 })
 
 //edit pojedynczej kategorii
-router.put("/:id", tokenVerification, async(req, res) => {
+router.put("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.status(200).json(updatedCategory);
@@ -54,7 +55,7 @@ router.put("/:id", tokenVerification, async(req, res) => {
     }
 })
 
-router.delete("/:id", tokenVerification, async(req, res) => {
+router.delete("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         await Category.findByIdAndDelete(req.params.id);
         res.json({ message: "Kategoria usunieta"});

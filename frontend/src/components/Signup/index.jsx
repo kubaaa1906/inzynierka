@@ -13,7 +13,7 @@ const Signup = () => {
         haslo: "",
         imieDziecka: "",
         wiekDziecka: "",
-        czyAdmin: false,
+        rola: "USER",
     })
 
     const handleChange = ({ currentTarget: input }) => {

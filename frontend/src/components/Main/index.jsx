@@ -11,12 +11,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-regular-svg-icons";
+import {getRoleFromToken} from "../../utils/auth";
 
 const Main = () => {
     const handleLogout = () => {
         localStorage.removeItem("token")
         window.location.reload()
     }
+
+    const rola = getRoleFromToken();
 
     const navigate = useNavigate();
     const [pokazMenu, ustawPokazMenu] = useState(false);
@@ -42,6 +45,12 @@ const Main = () => {
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
+                    {rola === "ADMIN" && (
+                        <Link to="/adminpanel">
+                                <button className={styles.nav_btn}><FontAwesomeIcon icon={faUser} /> Panel Administratora
+                                </button>
+                        </Link>
+                        )}
                     <Link to="/contact">
                         <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset} /> Kontakt</button>
                     </Link>
