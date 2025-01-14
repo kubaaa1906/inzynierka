@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
+import styles from "../../Contact/styles.module.css";
+import stylesReport from "../../AddReport/styles.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const EditReport = () => {
     const { id } = useParams();
-    const navigate = useNavigate()
     const [report, setReport] = useState({
         tytul: '',
         opis: '',
@@ -57,54 +60,72 @@ const EditReport = () => {
     };
 
     return (
-        <div>
-            <div>
-                <h2>Edytuj zgłoszenie</h2>
-                <form onSubmit={handleSubmit}>
-                    Tytuł zgłoszenia:
-                    <input
-                        type="text"
-                        placeholder="Tytuł zgłoszenia"
-                        name="tytul"
-                        value={report.tytul}
-                        onChange={handleChange}
-                    /><br/>
-                    Opis:
-                    <input
-                        type="text"
-                        id="opis"
-                        placeholder="Opis"
-                        name="opis"
-                        value={report.opis}
-                        onChange={handleChange}
-                    /><br/>
-                    Data zgłoszenia:
-                    <input
-                        type="text"
-                        id="dataZgloszenia"
-                        placeholder="Data zgłoszenia"
-                        name="dataZgloszenia"
-                        value={report.dataZgloszenia}
-                        onChange={handleChange}
-                    /><br/>
-                    Status zgłoszenia:
-                    <input
-                        type="text"
-                        id="status"
-                        placeholder="Status zgloszenia"
-                        name="status"
-                        value={report.status}
-                        onChange={handleChange}
-                    /><br/>
-                    <button type="submit">Zapisz</button>
-                    <Link to="/adminpanel">
-                        <button type="button">
-                            Wróć
-                        </button>
+        <div className={styles.main_container}>
+            <nav className={styles.navbar}>
+                <div className={styles.nav_left}>
+                    <Link to="/main">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
                     </Link>
-                </form>
+                </div>
+                <div className={styles.nav_center}>
+                    <Link to="/">
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+                    </Link>
+                </div>
+                <div className={styles.nav_right}>
+                    <Link to="/contact">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
+                    </Link>
+                </div>
+            </nav>
+            <div className={styles.main_area}>
+                <div className={styles.contactContent}>
+                    <form className={stylesReport.form_container}
+                          onSubmit={handleSubmit}>
+                        <h1>Edytuj zgłoszenie</h1>
+                        <input
+                            type="text"
+                            placeholder="Tytuł zgłoszenia"
+                            name="tytul"
+                            onChange={handleChange}
+                            value={report.tytul}
+                            required
+                            disabled
+                            className={stylesReport.input}
+                        />
+                        <textarea
+                            placeholder="Opis"
+                            name="opis"
+                            onChange={handleChange}
+                            value={report.opis}
+                            required
+                            disabled
+                            className={stylesReport.input}
+                            style={{width: '370px', height: '100px'}}
+                        />
+                        <select
+                            id="status"
+                            name="status"
+                            value={report.status}
+                            onChange={handleChange}
+                        >
+                            <option value={"Oczekujący"}>Oczekujący</option>
+                            <option value={"W trakcie"}>W trakcie</option>
+                            <option value={"Zamknięte"}>Zamknięte</option>
+                        </select>
+                        <button type="submit"
+                                className={stylesReport.send_btn} onClick={handleSubmit}>
+                            Edytuj zgłoszenie
+                        </button>
+                    </form>
+                </div>
             </div>
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
+
     );
 };
 
