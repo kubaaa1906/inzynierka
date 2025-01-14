@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
+import styles from "../../AddCategory/styles.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHeadset, faRotateLeft} from "@fortawesome/free-solid-svg-icons";
 
 const EditUser = () => {
     const { id } = useParams();
-    const navigate = useNavigate()
     const [user, setUser] = useState({
         nazwa: '',
         email: '',
@@ -59,73 +61,96 @@ const EditUser = () => {
     };
 
     return (
-        <div>
-            <div>
-                <h2>Edytuj użytkownika</h2>
-                <form onSubmit={handleSubmit}>
-                    Nazwa użytkownika:
-                    <input
-                        type="text"
-                        placeholder="Nazwa użytkownika"
-                        name="nazwa"
-                        value={user.nazwa}
-                        onChange={handleChange}
-                    /><br/>
-                    Email:
-                    <input
-                        type="text"
-                        id="email"
-                        placeholder="Email"
-                        name="email"
-                        value={user.email}
-                        onChange={handleChange}
-                    /><br/>
-                    Hasło:
-                    <input
-                        type="password"
-                        id="haslo"
-                        placeholder="Hasło"
-                        name="haslo"
-                        value={user.haslo}
-                        onChange={handleChange}
-                    /><br/>
-                    Imię dziecka:
-                    <input
-                        type="text"
-                        id="imieDziecka"
-                        placeholder="Imie dziecka"
-                        name="imieDziecka"
-                        value={user.imieDziecka}
-                        onChange={handleChange}
-                    /><br/>
-                    Wiek dziecka:
-                    <input
-                        type="text"
-                        id="wiekDziecka"
-                        placeholder="Wiek dziecka"
-                        name="wiekDziecka"
-                        value={user.wiekDziecka}
-                        onChange={handleChange}
-                    /><br/>
-                    Rola:
-                    <input
-                        type="text"
-                        id="rola"
-                        placeholder="Rola"
-                        name="rola"
-                        value={user.rola}
-                        onChange={handleChange}
-                    /><br/>
-                    <button type="submit">Zapisz</button>
-                    <Link to="/adminpanel">
-                        <button type="button">
-                            Wróć
-                        </button>
+
+        <div className={styles.main_container}>
+            <nav className={styles.navbar}>
+                <div className={styles.nav_left}>
+                    <Link to="/main">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
                     </Link>
-                </form>
+                </div>
+                <div className={styles.nav_center}>
+                    <Link to="/">
+                        <img src="/assets/cardbacklogo.png" alt="logo" className={styles.logo}/>
+
+                    </Link>
+                </div>
+                <div className={styles.nav_right}>
+                    <Link to="/contact">
+                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
+                    </Link>
+                </div>
+            </nav>
+            <div className={styles.signup_container}>
+                <div className={styles.signup_form_container}>
+                    <form className={styles.form_container} onSubmit={handleSubmit}>
+                        <h1>Edytuj uzytkownika</h1>
+                        Nazwa użytkownika:
+                        <input
+                            type="text"
+                            placeholder="Nazwa uzytkownika"
+                            name="nazwa"
+                            onChange={handleChange}
+                            value={user.nazwa}
+                            required
+                            className={styles.input}
+                        />
+                        Email:
+                        <input
+                            type="text"
+                            placeholder="Email"
+                            name="Email"
+                            id="email"
+                            onChange={handleChange}
+                            value={user.email}
+                            required
+                            className={styles.input}
+                        />
+                        Imię dziecka:
+                        <input
+                            type="text"
+                            id="imieDziecka"
+                            placeholder="Imie dziecka"
+                            name="imieDziecka"
+                            value={user.imieDziecka}
+                            onChange={handleChange}
+                            required
+                            className={styles.input}
+                        />
+                        Wiek dziecka:
+                        <input
+                            type="text"
+                            id="wiekDziecka"
+                            placeholder="Wiek dziecka"
+                            name="wiekDziecka"
+                            value={user.wiekDziecka}
+                            onChange={handleChange}
+                            required
+                            className={styles.input}
+                        />
+                        Rola:
+                        <select
+                            id="rola"
+                            name="rola"
+                            value={user.rola}
+                            onChange={handleChange}>
+                            <option value={"ADMIN"}>Admin</option>
+                            <option value={"USER"}>User</option>
+                        </select>
+
+                        <button type="submit" className={styles.send_btn}>
+                            Edytuj użytkownika
+                        </button>
+                    </form>
+                </div>
             </div>
+            <footer className={styles.footer}>
+                <Link to="/contact">Kontakt</Link> <br/>
+                &copy; 2024 CatchUp. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
-    );
+)
+    ;
 };
 
 export default EditUser;
