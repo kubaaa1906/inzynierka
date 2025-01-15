@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styles from "./styles.module.css";
 
@@ -21,10 +21,9 @@ const Stats = ({ userId }) => {
                     setIsAuthorized(true);
                     fetchStats();
                 } else {
-                    alert('Invalid password');
+                    alert('Niepoprawne hasło!');
                 }
             } catch (error) {
-                console.log(userId)
                 console.error(error);
             }
         }else{
@@ -43,15 +42,9 @@ const Stats = ({ userId }) => {
             const res = await axios(config);
             setStats(res.data);
         } catch (error) {
-            console.log(userId, token)
             console.error(error);
         }
     };
-
-    useEffect(() => {
-        // Fetch initial data if needed, e.g., user is already authenticated
-    }, []);
-
     return (
         <div>
 

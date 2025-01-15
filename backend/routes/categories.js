@@ -49,8 +49,9 @@ router.get("/:id", tokenVerification, async(req, res)=> {
 router.put("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
         const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).json(updatedCategory);
+        res.status(200).json({message:"Kategoria zaaktualizowana pomyślnie!", category: updatedCategory});
     } catch (error){
+        console.log(error)
         res.status(404).json({message: "Error przy update"});
     }
 })
