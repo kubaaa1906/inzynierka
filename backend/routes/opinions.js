@@ -37,10 +37,10 @@ router.post("/", tokenVerification, async (req, res) => {
             task.oceny.push(newOpinion._id);
             await task.save();
         }
-        res.status(201).send({ message: "Opinion created successfully" });
+        res.status(201).send({ message: "Opinia utworzona pomyślnie" });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ message: "Internal Server Error" });
+        res.status(500).send({ message: "Błąd serwera" });
     }
 });
 

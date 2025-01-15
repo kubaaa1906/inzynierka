@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
 
         const user = await User.findOne({ nazwa: req.body.nazwa })
         if(!user){
-            return res.status(401).send({ message: "Invalid username or password"})
+            return res.status(401).send({ message: "Nieprawidłowa nazwa użytkownika lub hasło"})
         }
 
         const validPassword = await bcrypt.compare(
@@ -23,14 +23,13 @@ router.post("/", async (req, res) => {
         )
 
         if(!validPassword){
-            return res.status(401).send({ message: "Invalid username or password"})
+            return res.status(401).send({ message: "Nieprawidłowa nazwa użytkownika lub hasło"})
         }
 
         const token = user.generateAuthToken();
-        res.status(200).send({data: token, message: "Logged in successfully"})
-        console.log('Zalogowano poprawnie')
+        res.status(200).send({data: token, message: "Zalogowano poprawnie"})
     } catch (error){
-        res.status(500).send({ message: "Internal Server Error: ", error})
+        res.status(500).send({ message: "Błąd serwera: ", error})
     }
 })
 

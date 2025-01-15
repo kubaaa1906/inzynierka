@@ -28,10 +28,10 @@ router.post("/", async (req,res) => {
         const newUser = new User({ ...req.body, haslo: hashPassword, osiagniecia: [] })
         await newUser.save()
 
-         res.status(201).send({ message: "User created successfully", user: newUser })
+         res.status(201).send({ message: "Użytkownik utworzony pomyślnie", user: newUser })
     } catch (error){
         console.log(error)
-         res.status(500).send({message: "Internal Server Error" })
+         res.status(500).send({message: "Błąd serwera" })
     }
 })
 

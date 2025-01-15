@@ -14,14 +14,13 @@ router.post("/", tokenVerification, async (req, res) => {
             opis,
         })
         await newReport.save()
-        res.status(201).send({ message: "Report created successfully" })
+        res.status(201).send({ message: "Zgłoszenie utworzone pomyślnie" })
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" })
+        res.status(500).send({ message: "Błąd serwera" })
     }
 })
 
 router.get("/", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
-    console.log("Pokaz zgloszenia :)")
     Report.find().exec()
         .then(async () => {
             const reports = await Report.find();
