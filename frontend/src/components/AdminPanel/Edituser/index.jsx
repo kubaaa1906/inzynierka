@@ -50,7 +50,7 @@ const EditUser = () => {
         const token = localStorage.getItem("token");
         if (token) {
             try {
-                await axios.put(`http://localhost:8080/api/users/${id}`, user, {
+                await axios.put(`http://localhost:8080/api/users/paneladmin/${id}`, user, {
                     headers: { 'x-access-token': token }
                 });
                 console.log("Edytowanie poszlo pomyslnie")
@@ -65,7 +65,7 @@ const EditUser = () => {
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
                 <div className={styles.nav_left}>
-                    <Link to="/main">
+                    <Link to="/adminpanel">
                         <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
                     </Link>
                 </div>

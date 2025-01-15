@@ -136,7 +136,7 @@ router.put("/:id/addMG", tokenVerification,async(req,res)=>{
             {prog: 40, achievementId: "6786b02152f38499fe527957"}
         ]
 
-        for(const {prog, achievementId} of dragNDropAchievements){
+        for(const {prog, achievementId} of memoryGameAchievements){
             if(user.memoryGameCompleted === prog && !user.osiagniecia.some(a => a.order.toString() === achievementId)){
                 user.osiagniecia.push({order: achievementId})
             }
@@ -202,7 +202,7 @@ router.get("/:id", tokenVerification, async(req, res)=> {
     }
 })
 
-router.put("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
+router.put("/paneladmin/:id", tokenVerification, async(req, res) => {
     try{
         const {nazwa, email, haslo, imieDziecka, wiekDziecka, rola} = req.body
         const user = await User.findById(req.params.id)
@@ -285,6 +285,17 @@ router.post('/validate-password', async (req, res) => {
     }
 });
 
+router.put("/:id", tokenVerification, async(req, res) => {
+    try{
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true})
+        if(!updatedUser){
+            return res.status(404).json({message: "Uzytkownik nie istnieje"})
+        }
+        res.json(updatedUser)
+    } catch (error){
+        res.status(404).json({message: "Error przy update"})
+    }
+})
 
 
 

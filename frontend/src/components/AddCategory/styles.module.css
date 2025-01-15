@@ -115,6 +115,8 @@ body, html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: rgba(100, 40, 150);
+	font-weight: bold;
 }
 
 .signup_form_container {

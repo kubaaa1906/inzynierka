@@ -109,7 +109,6 @@ body, html {
 .userContent{
     text-align: center;
     width: 70%;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,6 +137,36 @@ body, html {
     width: min-content;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.statsBox{
+    width: auto;
+}
+
+.achievementsBox{
+    border-radius: 20px;
+    padding: 20px 20px 20px 20px;
+    background-color: #FFF8E1;
+    width: auto;
+    text-align: center;
+    color: rgba(100, 40, 150, 0.9);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.icon{
+    color: gold;
+}
+.name{
+    margin-top: 10px;
+    border: solid 2px rgba(100, 40, 150, 0.7);
+    border-radius: 10px;
+    padding: 5px;
+
+}
+.achievementsBox h3{
+    font-size: 23px;
+    font-weight: bold;
+    margin-top: 0;
 }
 
 .deleteWarning{
@@ -224,5 +253,15 @@ body, html {
 @media (max-width: 480px){
     .footer{
         font-size: 12px;
+    }
+}
+
+@media (max-width: 880px){
+    .main_container h1 {
+        font-size: 40px;
+    }
+    .panelInput{
+        width: 100px;
+        height: 10px;
     }
 }

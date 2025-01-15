@@ -76,11 +76,15 @@ const Stats = ({ userId }) => {
                         <p>Ukonczone zadania pamięciowe: {stats.memoryGameCompleted}</p>
                         <p>Ukonczone zadania typu dopasuj obrazek do tekstu: {stats.dragNDropGameCompleted}</p>
                     </div>
+
+
                 )
 
             )}
 
+
         </div>
+
     );
 };
 

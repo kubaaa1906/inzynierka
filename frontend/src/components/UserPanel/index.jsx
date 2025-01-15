@@ -3,8 +3,9 @@ import {Link} from "react-router-dom";
 import styles from "./styles.module.css";
 import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHeadset, faRotateLeft, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
+import {faHeadset, faMedal, faRotateLeft, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
 import Stats from "../Stats/index"
+import {faFaceSadCry, faFaceSadTear} from "@fortawesome/free-regular-svg-icons";
 const UserPanel = () => {
 
     const [user,setUser] = useState(null)
@@ -16,6 +17,7 @@ const UserPanel = () => {
     const[oldPassword, setOldPassword] = useState("")
     const[newPassword, setNewPassword] = useState("")
     const[showPopup, setShowPopup] = useState(false)
+    const[showStats, setShowStats] = useState(false)
 
     const token = localStorage.getItem("token")
 
@@ -102,18 +104,27 @@ const UserPanel = () => {
         setShowPopup(!showPopup)
         setShowChangeUsername(false)
         setShowChangePassword(false)
+        setShowStats(false)
     }
 
     const handleShowChangeUsername = () => {
         setShowPopup(false)
         setShowChangeUsername(!showChangeUsername)
         setShowChangePassword(false)
+        setShowStats(false)
     }
 
     const handleShowChangePassword = () => {
         setShowPopup(false)
         setShowChangeUsername(false)
         setShowChangePassword(!showChangePassword)
+        setShowStats(false)
+    }
+    const handleShowStats = () => {
+        setShowPopup(false)
+        setShowChangeUsername(false)
+        setShowChangePassword(false)
+        setShowStats(!showStats)
     }
 
     useEffect(() => {
@@ -146,8 +157,32 @@ const UserPanel = () => {
             </nav>
             <h1>Witaj, {user.nazwa}!</h1>
 
-            <Stats userId={user._id} token={token}/>
+
+
             <div className={styles.userContent}>
+                <div className={styles.changeBox}>
+                    <button onClick={handleShowStats} className={styles.change_btn}>
+                        Pokaż statystyki
+                    </button>
+
+                    {showStats && (
+                        <div>
+                        <Stats userId={user._id} token={token}/>
+
+                        <div className={styles.achievementsBox}>
+                    <h3><FontAwesomeIcon icon={faMedal} className={styles.icon} /> Zdobyte osiągnięcia: <FontAwesomeIcon icon={faMedal} className={styles.icon}/></h3>
+
+                    {user.osiagniecia && user.osiagniecia.length > 0 ? (
+                        user.osiagniecia.map((achievement, index) => (
+                            <div key={index} className={styles.name}> <strong>{achievement.order.nazwa} </strong><br/> {achievement.order.opis} </div>
+                        ))
+                    ) : (
+                        <p> Jeszcze nie zdobyłeś żadnych osiągnięć <FontAwesomeIcon icon={faFaceSadTear}  /></p>
+                    )}
+                </div>
+                    </div>
+                    )}
+                </div>
                 <div className={styles.changeBox}>
                     <button onClick={handleShowChangeUsername} className={styles.change_btn}>
                         Zmień nazwę
@@ -194,7 +229,9 @@ const UserPanel = () => {
                     </button>
                     {showPopup && (
                         <div className={styles.deleteBox}>
-                            <p className={styles.deleteWarning}><FontAwesomeIcon icon={faTriangleExclamation} /> Czy na pewno chcesz usunąć konto? <FontAwesomeIcon icon={faTriangleExclamation} />Usuniętego konta nie można odzyskać.</p>
+                            <p className={styles.deleteWarning}><FontAwesomeIcon icon={faTriangleExclamation}/> Czy na
+                                pewno chcesz usunąć konto? <FontAwesomeIcon icon={faTriangleExclamation}/>Usuniętego
+                                konta nie można odzyskać.</p>
                             <input
                                 type="password"
                                 placeholder="Podaj hasło aby usunąć konto"
@@ -207,21 +244,8 @@ const UserPanel = () => {
                         </div>
                     )}
                 </div>
-                <div>
-                <Stats userId={user._id} token={token}/>
-                </div>
-                <div>
-                    Zdobyte osiągnięcia:
-                    <ul>
-                        {user.osiagniecia && user.osiagniecia.length > 0 ? (
-                            user.osiagniecia.map((achievement, index) => (
-                                <div key={index}> {achievement.order.nazwa} <br/> {achievement.order.opis} </div>
-                            ))
-                        ) : (
-                            <p> Jeszcze nie zdobyłeś żadnych osiągnięć :( </p>
-                        )}
-                    </ul>
-                </div>
+
+
             </div>
             <footer className={styles.footer}>
                 <Link to="/contact">Kontakt</Link> <br/>
