@@ -9,9 +9,9 @@ router.post("/", tokenVerification, authorizeRoles("ADMIN"), async (req, res) =>
         if (error)
             return res.status(400).send({ message: error.details[0].message })
         await new Achievement({ ...req.body}).save()
-        res.status(201).send({ message: "Achievement created successfully" })
+        res.status(201).send({ message: "Osiągnięcie utworzone pomyślnie" })
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" })
+        res.status(500).send({ message: "Błąd serwera" })
     }
 })
 

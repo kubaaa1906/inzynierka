@@ -11,15 +11,14 @@ router.post("/", tokenVerification, authorizeRoles("ADMIN"), async (req, res) =>
         if (error)
             return res.status(400).send({ message: error.details[0].message })
         await new Category({ ...req.body}).save()
-        res.status(201).send({ message: "Category created successfully" })
+        res.status(201).send({ message: "Kategoria utworzona pomyślnie" })
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" })
+        res.status(500).send({ message: "Błąd serwera" })
     }
 })
 
 //Funkcja do listowania kategorii
 router.get("/", tokenVerification, async(req, res) => {
-    console.log("Pokaz kategorie :)")
     Category.find().exec()
         .then(async () => {
             const categories = await Category.find();

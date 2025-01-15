@@ -131,6 +131,7 @@ const Task = () => {
 
     const [powiadomienie2, setPowiadomienie2] = useState("")
     const [rating, setRating] = useState(null)
+    const [rated, setRated] = useState(false)
 
     const handleRateTask = async (rateValue) => {
         const token = localStorage.getItem("token")
@@ -146,6 +147,7 @@ const Task = () => {
                 console.log({ zadanie: selectedTask._id, ocena: rateValue })
                 await axios(config)
                 setRating(rateValue)
+                setRated(true)
                 setPowiadomienie2("Dziękujemy za ocenę zadania!")
             }
             catch(error){
@@ -218,6 +220,7 @@ const Task = () => {
                 const userOpinion = data.opinions.find(opinion => opinion.userId === user._id)
                 if (userOpinion) {
                     setRating(userOpinion.ocena)
+                    setRated(true)
                 }
             } catch (error){
                 console.error("Error przy sprawdzaniu czy uzytkownik juz ocenil dane zadanie")

@@ -11,7 +11,6 @@ const applicationRoutes = require("./routes/reports")
 const categoryRoutes = require("./routes/categories")
 const tokenVerification = require("./middleware/tokenVerification");
 const opinionRoutes = require("./routes/opinions");
-const difficultiesRoutes = require("./routes/difficulty")
 const imagesRoutes = require("./routes/image")
 const achievementsRoutes = require("./routes/achievements")
 
@@ -22,7 +21,6 @@ app.get("/api/reports", tokenVerification)
 app.get("/api/categories", tokenVerification)
 app.get("/api/opinions", tokenVerification)
 app.get("/api/progress", tokenVerification)
-app.get("/api/difficulties", tokenVerification)
 app.get("/api/images", tokenVerification)
 app.get("/api/users", tokenVerification)
 app.get("/api/achievements", tokenVerification)
@@ -36,7 +34,6 @@ app.use("/api/tasks", taskRoutes)
 app.use("/api/reports", applicationRoutes)
 app.use("/api/categories", categoryRoutes)
 app.use("/api/opinions", opinionRoutes)
-app.use("/api/difficulties", difficultiesRoutes)
 app.use("/api/images", imagesRoutes)
 app.use("/api/achievements", achievementsRoutes)
 

@@ -16,22 +16,20 @@ router.post("/", tokenVerification, authorizeRoles("ADMIN") ,async (req, res) =>
         if(req.body.kategoria){
             const category = await Category.findById(req.body.kategoria)
             if(!category){
-                return res.status(404).send({ message: "Category not found"})
+                return res.status(404).send({ message: "Nie znaleziono kategorii"})
             }
             category.zadania.push(task._id)
             await category.save()
         }
 
-        res.status(201).send({ message: "Task created successfully" })
+        res.status(201).send({ message: "Zadanie utworzone pomyślnie" })
     } catch (error) {
-        res.status(500).send({ message: "Internal Server Error" })
+        res.status(500).send({ message: "Błąd serwera" })
     }
 })
 
 //Funkcja do listowania zadań
 router.get("/", tokenVerification, async(req, res) => {
-    //pobranie wszystkich taskow z bd
-    console.log("Pokaz zadania :)")
     Task.find().exec()
         .then(async () => {
             const tasks = await Task.find().populate('kategoria').populate('oceny');
