@@ -144,7 +144,7 @@ const AdminPanel = () => {
                     <button className={styles.change_btn} onClick={handleGetReports}> Zgłoszenia użytkowników</button>
                     <button className={styles.change_btn} onClick={handleGetTasks}> Zadania</button>
                     <button className={styles.change_btn} onClick={handleGetCategories}> Kategorie</button>
-                    <Link to="/addachievement"> <button>Dodaj osiągnięcie</button> </Link>
+                    <Link to="/addachievement"> <button className={styles.change_btn}>Dodaj osiągnięcie</button> </Link>
                 </div>
                 <div>
                     {sekcjaWidocznosc === 'showTasks' ? (

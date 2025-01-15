@@ -115,7 +115,7 @@ const EditTask = () => {
             <div className={styles.main_container}>
                 <nav className={styles.navbar}>
                     <div className={styles.nav_left}>
-                        <Link to="/main">
+                        <Link to="/adminpanel">
                             <button className={styles.nav_btn}><FontAwesomeIcon icon={faRotateLeft}/> Powrót</button>
                         </Link>
                     </div>
@@ -220,7 +220,7 @@ const EditTask = () => {
                         className={styles.error_msg}>{error}</div>*/}
                             <button type="submit"
                                     className={styles.send_btn} onClick={handleSubmit}>
-                                Dodaj zadanie
+                                Edytuj zadanie
                             </button>
                         </form>
                     </div>
