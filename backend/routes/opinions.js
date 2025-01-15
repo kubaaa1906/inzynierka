@@ -1,13 +1,10 @@
 const router = require ("express").Router();
-const { Opinion, validate } = require("../models/OpinionModel");
+const { Opinion} = require("../models/OpinionModel");
 const tokenVerification = require("../middleware/tokenVerification")
 const { Task} = require("../models/TaskModel");
 
 router.post("/", tokenVerification, async (req, res) => {
-    const { error } = validate(req.body);
-    if (error) {
-        return res.status(400).send({ message: error.details[0].message });
-    }
+
 
     try {
         console.log("Dane z backendu: ", req.body);
@@ -38,6 +35,7 @@ router.post("/", tokenVerification, async (req, res) => {
             await task.save();
         }
         res.status(201).send({ message: "Opinia utworzona pomyślnie" });
+
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Błąd serwera" });
