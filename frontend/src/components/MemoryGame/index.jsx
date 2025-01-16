@@ -60,7 +60,7 @@ function MemoryGame() {
             try{
                 const config = {
                     method: 'put',
-                    url: `http://localhost:8080/api/users/${user._id}/addDnD`,
+                    url: `http://localhost:8080/api/users/${user._id}/addMG`,
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
                 await axios(config);

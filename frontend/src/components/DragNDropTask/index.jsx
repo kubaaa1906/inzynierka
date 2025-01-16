@@ -37,7 +37,7 @@ const DragAndDropTask = () => {
             try{
                 const config = {
                     method: 'put',
-                    url: `http://localhost:8080/api/users/${user._id}/addMG`,
+                    url: `http://localhost:8080/api/users/${user._id}/addDND`,
                     headers: { 'Content-Type': 'application/json', 'x-access-token': token }
                 }
                 await axios(config);
