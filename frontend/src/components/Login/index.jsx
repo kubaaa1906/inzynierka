@@ -72,7 +72,6 @@ const Login = () => {
                                 required
                                 className={styles.input}
                             />
-                            <a className={styles.forgot_password} href=""> Nie pamiętasz hasła? </a>
                             {error &&
                                 <div className={styles.error_msg}>{error}</div>}
                             <button type="submit"

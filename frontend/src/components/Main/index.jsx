@@ -64,20 +64,12 @@ const Main = () => {
             {pokazMenu && (
                 <div className={styles.menu}>
                     <ul>
-                        <li onClick={() => handleChooseCategory("Matematyka")}>
-                            Matematyka:
-                            <ul>
-                                {/* test */}
-                                <li onClick={() => handleChooseCategory("Matematyka", "7-9")}>7 - 9 lat</li>
-                            </ul>
-                        </li>
-                        <li>
-                            Zadania logiczne:
-                            <ul>
-                                <li onClick={() => handleChooseCategory("memory")}>MemoryGame</li>
-                                <li onClick={() => handleChooseCategory("drag")}>DragNDropGame</li>
-                            </ul>
-                        </li>
+                        <li onClick={() => handleChooseCategory("Matematyka")}>Matematyka</li>
+                        <li onClick={() => handleChooseCategory("Zadania logiczne")}>Zadania logiczne</li>
+                        <li onClick={() => handleChooseCategory("Przyroda")}>Przyroda</li>
+                        <li onClick={() => handleChooseCategory("Język angielski")}>Język angielski</li>
+                        <li onClick={() => handleChooseCategory("memory")}>Odkrywanie kart</li>
+                        <li onClick={() => handleChooseCategory("drag")}>Dopasowywanie obrazków</li>
                     </ul>
                 </div>
             )}

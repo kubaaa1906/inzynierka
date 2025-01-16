@@ -34,10 +34,13 @@ const Main = () => {
                 </div>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
-                        Dla 5-latków:
+                        Dostępne kategorie zadań:
                         <li> Przyroda </li>
                         <li> Matematyka</li>
-                        <li> Kolory</li>
+                        <li> Język angielski</li>
+                        <li> Zadania logiczne </li>
+                        <li> Dopasowywanie obrazków </li>
+                        <li> Odkrywanie kart </li>
                     </div>
                     <div className={styles.tile}>
                         Pamiętaj, że możesz nauczyć się wszystkiego, czego tylko chcesz! <br/>
@@ -47,7 +50,10 @@ const Main = () => {
                         Wielu zadowolonych uczniów! Ponad 15000 dzieci spróbowało uczyć się na naszej stronie.
                     </div>
                     <div className={styles.tile}>
-                        Tekst jakiś dodać
+                        Oferujemy zadania dla dzieci w wieku:
+                        <li> 3-4 lata </li>
+                        <li> 5-6 lat </li>
+                        <li> 7-9 lat </li>
                     </div>
                 </div>
             </div>
