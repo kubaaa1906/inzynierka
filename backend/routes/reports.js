@@ -1,12 +1,11 @@
 const router = require ("express").Router();
-const { Report , validate } = require("../models/ReportModel");
+const { Report  } = require("../models/ReportModel");
 const tokenVerification = require("../middleware/tokenVerification")
 const authorizeRoles = require("../middleware/authorizeRoles");
 
 
 router.post("/", tokenVerification, async (req, res) => {
     try {
-        console.log("dane z backendu:", req.body)
         const { tytul, opis } = req.body
         const newReport = new Report({
             userId: req.user._id,
@@ -14,7 +13,7 @@ router.post("/", tokenVerification, async (req, res) => {
             opis,
         })
         await newReport.save()
-        res.status(201).send({ message: "Zgłoszenie utworzone pomyślnie" })
+        res.status(201).send({ message: "Zgłoszenie utworzone pomyślnie, dziękujemy!", report: newReport  })
     } catch (error) {
         res.status(500).send({ message: "Błąd serwera" })
     }
