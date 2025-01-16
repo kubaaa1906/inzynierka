@@ -7,19 +7,20 @@ router.post("/", tokenVerification, async (req, res) => {
 
 
     try {
+        console.log("Req.user: ", req.user)
         console.log("Dane z backendu: ", req.body);
-        const existingOpinion = await Opinion.findOne({ userId: req.body.userId, zadanie: req.body.zadanie});
+        const existingOpinion = await Opinion.findOne({ userId: req.user.id, zadanie: req.body.zadanie});
         if(existingOpinion){
             return res.status(400).send({message: "Użytkownik już ocenił to zadanie"});
         }
-        const {userId, zadanie, ocena } = req.body;
+        const {zadanie, ocena } = req.body;
 
-        if(!zadanie || !ocena || !userId){
+        if(!zadanie || !ocena){
             return res.status(400).send({message: "Brak wymaganych danych"})
         }
 
         const newOpinion = new Opinion({
-            userId: userId,
+            userId: req.user.id,
             zadanie: zadanie,
             ocena: ocena,
         });
