@@ -167,14 +167,20 @@ const UserPanel = () => {
 
                     {showStats && (
                         <div>
-                        <Stats userId={user._id} token={token}/>
-
+                            <Stats userId={user._id} token={token}/>
                         <div className={styles.achievementsBox}>
-                    <h3><FontAwesomeIcon icon={faMedal} className={styles.icon} /> Zdobyte osiągnięcia: <FontAwesomeIcon icon={faMedal} className={styles.icon}/></h3>
+                        <h3>
+                            <FontAwesomeIcon icon={faMedal} className={styles.icon} />
+                                Zdobyte osiągnięcia:
+                            <FontAwesomeIcon icon={faMedal} className={styles.icon}/>
+                        </h3>
 
                     {user.osiagniecia && user.osiagniecia.length > 0 ? (
                         user.osiagniecia.map((achievement, index) => (
-                            <div key={index} className={styles.name}> <strong>{achievement.order.nazwa} </strong><br/> {achievement.order.opis} </div>
+                            <div key={index} className={styles.name}>
+                                <strong>{achievement.order.nazwa}</strong><br/>
+                                {achievement.order.opis}
+                            </div>
                         ))
                     ) : (
                         <p> Jeszcze nie zdobyłeś żadnych osiągnięć <FontAwesomeIcon icon={faFaceSadTear}  /></p>
