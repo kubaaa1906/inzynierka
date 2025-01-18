@@ -102,7 +102,7 @@ const AddCategory = () => {
                             </select>
                             {error && <div className={styles.error_msg}>{error}</div>}
                             <button type="submit" className={styles.send_btn}>
-                                Wyślij zgłoszenie
+                                Dodaj kategorie
                             </button>
                         </form>
                 </div>

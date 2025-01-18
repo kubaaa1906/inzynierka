@@ -24,18 +24,19 @@ const AddReport = () => {
 
         if(token){
             try{
-                const url = "http://localhost:8080/api/reports"
-                const headers = {
-                    "x-access-token": token,
-                };
-                const { data:res } = await axios.post(url,data, { headers })
-                navigate("/")
+                const config = {
+                    method: 'post',
+                    url: 'http://localhost:8080/api/reports',
+                    data: data,
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+
+                const { data:res } = await axios(config)
+                navigate('/')
                 console.log(res.message)
             } catch (error){
                 if(error.response && error.response.status >= 400 && error.response.status <= 500) {
                     setError(error.response.data.message)
-                    localStorage.removeItem("token")
-                    window.location.reload()
                 }
             }
         }

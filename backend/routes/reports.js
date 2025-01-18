@@ -2,27 +2,30 @@ const router = require ("express").Router();
 const { Report  } = require("../models/ReportModel");
 const tokenVerification = require("../middleware/tokenVerification")
 const authorizeRoles = require("../middleware/authorizeRoles");
+const {User} = require("../models/UserModel");
 
 
 router.post("/", tokenVerification, async (req, res) => {
     try {
         const { tytul, opis } = req.body
         const newReport = new Report({
-            userId: req.user._id,
-            tytul,
-            opis,
+            userId: req.user.id,
+            tytul: tytul,
+            opis: opis,
         })
         await newReport.save()
         res.status(201).send({ message: "Zgłoszenie utworzone pomyślnie, dziękujemy!", report: newReport  })
     } catch (error) {
-        res.status(500).send({ message: "Błąd serwera" })
+        console.log(error)
+        res.status(500).send({ message: error })
     }
 })
 
 router.get("/", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     Report.find().exec()
         .then(async () => {
-            const reports = await Report.find();
+            const reports = await Report.find().populate('userId');
+            console.log(reports)
             res.status(200).send({ data: reports, message: "Lista zgloszen: "})
         })
         .catch(error => {
@@ -32,7 +35,7 @@ router.get("/", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
 
 router.get("/:id", tokenVerification, authorizeRoles("ADMIN"), async(req, res) => {
     try{
-        const report = await Report.findById(req.params.id);
+        const report = await Report.findById(req.params.id).populate('userId');
         if(!report){
             return res.status(404).json({message: "Zgłoszenie o podanym ID nie istnieje"})
         }

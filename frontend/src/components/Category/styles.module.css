@@ -136,6 +136,15 @@ body, html {
 
 }
 
+.name{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: solid 2px rgba(100, 40, 150, 0.7);
+	border-radius: 10px;
+	padding: 5px;
+	background-color: rgba(228, 201, 246, 0.7);
+}
+
 .footer {
 	background-color: #FFF8E1;
 	font-size: 16px;

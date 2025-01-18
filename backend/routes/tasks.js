@@ -4,8 +4,6 @@ const tokenVerification = require("../middleware/tokenVerification")
 const authorizeRoles = require("../middleware/authorizeRoles")
 const {Category} = require("../models/CategoryModel");
 
-
-//Funkcja do dodawania zadań
 router.post("/", tokenVerification, authorizeRoles("ADMIN") ,async (req, res) => {
     try {
         console.log(req.body)
@@ -28,7 +26,6 @@ router.post("/", tokenVerification, authorizeRoles("ADMIN") ,async (req, res) =>
     }
 })
 
-//Funkcja do listowania zadań
 router.get("/", tokenVerification, async(req, res) => {
     Task.find().exec()
         .then(async () => {
