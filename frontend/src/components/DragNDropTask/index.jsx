@@ -150,7 +150,7 @@ const DragAndDropTask = () => {
                         <p>{selectedTask.tresc}</p>
                         <div className={styles.images_container}>
                             {selectedTask.images.map((image, index) => (
-                                !isImagePlaced(index) && ( // Wyświetl tylko obrazki, które nie są jeszcze dopasowane
+                                !isImagePlaced(index) && (
                                     <img
                                         key={index}
                                         src={`/img/${image}`}

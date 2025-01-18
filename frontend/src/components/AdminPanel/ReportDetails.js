@@ -30,13 +30,13 @@ const ReportDetails = ({ report, onClose, onDelete }) => {
 
     return (
         <div>
+            <p><strong>Użytkownik:</strong> {report.userId.nazwa}</p>
             <p><strong>Tytuł:</strong> {report.tytul}</p>
             <p><strong>Opis:</strong> {report.opis}</p>
             <p><strong>Data zgloszenia:</strong> {report.dataZgloszenia}</p>
             <p><strong>Status:</strong> {report.status}</p>
-            <p><strong>Użytkownik:</strong> {report.userId}</p>
             <button onClick={handleEdit}>Edytuj</button>
-            <button onClick={onClose} >Zwiń</button>
+            <button onClick={onClose}>Zwiń</button>
             <button onClick={handleDelete}>Usuń</button>
         </div>
     );
