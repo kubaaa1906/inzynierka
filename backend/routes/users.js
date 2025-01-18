@@ -276,12 +276,8 @@ router.delete("/paneladmin/:id", tokenVerification, authorizeRoles("ADMIN"), asy
 
 router.post('/validate-password', tokenVerification, async (req, res) => {
     const { userId, haslo } = req.body;
-    console.log("Req.body:", req.body)
     const user = await User.findById(userId);
-    console.log("User: ", user)
-    console.log("PASSWORD: ", haslo)
     const isMatch = await bcrypt.compare(haslo,user.haslo)
-    console.log(isMatch)
     if (user && isMatch) {
         res.status(200).json({ success: true });
     } else {
