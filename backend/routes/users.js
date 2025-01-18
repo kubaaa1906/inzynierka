@@ -213,8 +213,7 @@ router.put("/paneladmin/:id", tokenVerification, async(req, res) => {
 
         if(haslo){
             const salt = await bcrypt.genSalt(Number(process.env.SALT))
-            const hashPassword = await bcrypt.hash(haslo, salt)
-            user.haslo = hashPassword
+            user.haslo = await bcrypt.hash(haslo, salt)
         }
 
         if(nazwa !== undefined){
@@ -275,10 +274,15 @@ router.delete("/paneladmin/:id", tokenVerification, authorizeRoles("ADMIN"), asy
     }
 })
 
-router.post('/validate-password', async (req, res) => {
-    const { userId, password } = req.body;
+router.post('/validate-password', tokenVerification, async (req, res) => {
+    const { userId, haslo } = req.body;
+    console.log("Req.body:", req.body)
     const user = await User.findById(userId);
-    if (user && user.password === password) {
+    console.log("User: ", user)
+    console.log("PASSWORD: ", haslo)
+    const isMatch = await bcrypt.compare(haslo,user.haslo)
+    console.log(isMatch)
+    if (user && isMatch) {
         res.status(200).json({ success: true });
     } else {
         res.status(401).json({ success: false });
