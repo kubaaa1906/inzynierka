@@ -14,7 +14,7 @@ router.post("/", tokenVerification, async (req, res) => {
             opis: opis,
         })
         await newReport.save()
-        res.status(201).send({ message: "Zgłoszenie utworzone pomyślnie, dziękujemy!", report: newReport  })
+        res.status(201).send({message:"Zgłoszenie utworzone pomyślnie, dziękujemy!",report: newReport})
     } catch (error) {
         console.log(error)
         res.status(500).send({ message: error })

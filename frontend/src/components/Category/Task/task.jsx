@@ -52,7 +52,8 @@ const Task = () => {
                 }
                 const { data: res } = await axios(config)
                 const filteredTasks = res.data.filter((task) =>
-                    task.kategoria.dziedzinaNaukowa === category && task.kategoria.przedzialWiekowy === age
+                    task.kategoria.dziedzinaNaukowa === category &&
+                        task.kategoria.przedzialWiekowy === age
                 )
                 ustawZadanie(filteredTasks)
                 if (filteredTasks.length > 0) setSelectedTask(filteredTasks[0])
@@ -101,10 +102,8 @@ const Task = () => {
                 setPowiadomienie("")
             }, 7000)
             setBlockAnswers(true)
-
             setBlockAnswers(true);
             setBlockButton(false);
-
         } else {
             showNotification("Błąd! Niepoprawna odpowiedź :(")
         }

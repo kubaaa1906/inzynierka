@@ -15,15 +15,12 @@ const userSchema = new mongoose.Schema({
     memoryGameCompleted: { type: Number, default: 0 },
     dragNDropGameCompleted: { type: Number, default: 0 }
 })
-
 userSchema.methods.generateAuthToken = function () {
     return jwt.sign({_id: this._id, rola: this.rola}, process.env.JWTPRIVATEKEY, {
         expiresIn: "60d",
     })
 }
-
 const User = mongoose.model("User", userSchema)
-
 const validate = (data) => {
     const schema = Joi.object({
         nazwa: Joi.string().required().label("Nazwa uzytkownika"),
@@ -35,7 +32,5 @@ const validate = (data) => {
     })
     return schema.validate(data)
 }
-
-
 
 module.exports = { User, validate };
