@@ -28,6 +28,7 @@ const Signup = () => {
         try{
             const url = "http://localhost:8080/api/users"
             await axios.post(url,data)
+            alert("Konto zostało utworzone!")
             navigate("/login")
         } catch (error){
             if(error.response && error.response.status >= 400 && error.response.status <= 500) {
