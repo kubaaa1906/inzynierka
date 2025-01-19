@@ -17,7 +17,6 @@ const Stats = ({ userId }) => {
                     data: {userId: userId, haslo: password}
                 }
                 const res = await axios(config);
-                console.log(res.data)
                 if (res.data.success) {
                     setIsAuthorized(true);
                     fetchStats();

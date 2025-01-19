@@ -21,7 +21,17 @@ const AddReport = () => {
     const handleSubmit = async (e) => {
         const token = localStorage.getItem("token");
         e.preventDefault()
+        if(data.tytul === "")
+        {
+            return setError("Tytul nie moze byc pusty!")
 
+        }
+
+        if(data.opis === "")
+        {
+            return setError("Opis nie moze byc pusty!")
+
+        }
         if(token){
             try{
                 const config = {

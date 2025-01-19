@@ -253,7 +253,7 @@ router.delete("/:id", tokenVerification, async(req, res) => {
 
         const isMatch = await bcrypt.compare(oldPassword, user.haslo)
         if (!isMatch){
-            return res.status(400).json({message: "Stare haslo jest nieprawidlowe"})
+            return res.status(400).json({message: "Podane haslo jest nieprawidlowe"})
         }
 
         await User.findByIdAndDelete(req.params.id);
@@ -281,7 +281,7 @@ router.post('/validate-password', tokenVerification, async (req, res) => {
     if (user && isMatch) {
         res.status(200).json({ success: true });
     } else {
-        res.status(401).json({ success: false });
+        res.status(200).json({ success: false });
     }
 });
 
