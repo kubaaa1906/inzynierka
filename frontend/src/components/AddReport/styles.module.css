@@ -11,6 +11,12 @@
 	margin-top: 0;
 	color: rgba(100, 40, 150, 1);
 	text-shadow: 0 0 2px rgba(100, 40, 150, 1);
+	text-align: center;
+}
+@media (max-width: 800px){
+	.form_container h1{
+		font-size: 30px;
+	}
 }
 
 .form_container button{
@@ -40,6 +46,20 @@
 	border-radius: 10px;
 	margin: 5px 0;
 	font-size: 14px;
+}
+@media (max-width: 800px){
+	.input{
+		width: 85%;
+		font-size: 12px;
+	}
+
+}
+
+@media (max-width: 600px){
+	.input{
+		font-size: 10px;
+	}
+
 }
 
 .error_msg {

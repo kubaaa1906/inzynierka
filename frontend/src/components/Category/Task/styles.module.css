@@ -173,8 +173,9 @@ body, html {
 	padding: 20px;
 	margin:10px 0 20px 0;
 	border-radius: 8px;
-	width: 800px;
-	height: 800px;
+	min-width: 50%;
+	width: auto;
+	height: auto;
 	box-shadow: 0 0 10px 5px rgba(100, 40, 150, 0.7);
 	text-align: center;
 	align-items: center;
@@ -201,22 +202,23 @@ body, html {
 }
 
 .answers_container {
-	display: flex; /* Użyj flexbox */
-	flex-wrap: wrap; /* Umożliwienie zawijania */
-	justify-content: center; /* Wyśrodkowanie odpowiedzi */
-	margin: 20px 0; /* Margines górny i dolny */
-	width: 400px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: 20px 0;
 }
 
 .answer_container {
-	flex: 0 0 calc(50% - 20px); /* Każda odpowiedź zajmuje połowę szerokości z uwzględnieniem marginesów */
-	margin: 10px; /* Odstęp między odpowiedziami */
-	padding: 10px; /* Padding wewnętrzny */
-	border-radius: 5px; /* Zaokrąglone rogi */
-	text-align: center; /* Wyrównanie tekstu do środka */
-	cursor: pointer; /* Kursor wskazujący */
-	transition: background-color 0.3s; /* Płynna zmiana koloru tła */
+	margin: 10px;
+	padding: 20px;
+	border-radius: 5px;
+	text-align: center;
+	cursor: pointer;
+	transition: background-color 0.3s;
 	color: #FFF8E1;
+	width: auto;
+	height: auto;
+	justify-content: center;
 
 }
 
@@ -233,7 +235,7 @@ body, html {
 .popup {
 	position: fixed;
 	top: 20%;
-	left: 48%;
+	left: 50%;
 	transform: translate(-50%, -50%);
 	background-color: #f2d3ff;
 	padding: 20px;

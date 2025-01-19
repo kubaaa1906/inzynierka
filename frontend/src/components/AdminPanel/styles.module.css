@@ -176,14 +176,15 @@ body, html {
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 0 8px 10px rgba(100, 40, 150, 0.3);
+    margin-bottom: 30px;
 }
 
 .mainButtons{
-    text-align: center;
-    width: max-content;
+    width: auto;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     background-color: #FFF8E1;
     padding: 10px;
     border-radius: 20px;
@@ -196,6 +197,11 @@ body, html {
     color: rgba(100, 40, 150, 1);
     text-shadow: 1px 1px 4px white;
     text-align: center;
+}
+@media (max-width: 800px){
+    .main_container h1{
+        font-size: 40px;
+    }
 }
 
 .form{

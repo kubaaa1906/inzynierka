@@ -73,7 +73,7 @@ const AddReport = () => {
                 value={data.opis}
                 required
                 className={styles.input}
-                style={{width: '370px', height: '100px'}}
+                style={{ height: '100px'}}
             />
             {error && <div
                 className={styles.error_msg}>{error}</div>}
