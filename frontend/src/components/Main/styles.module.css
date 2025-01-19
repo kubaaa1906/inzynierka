@@ -82,15 +82,43 @@ body, html {
 	}
 }
 @media (max-width: 786px){
-	.nav_center{
-		transform: translateX(-135%);
-	}
+
 	.nav_btn{
 		margin: 2px;
 		white-space: nowrap;
 	}
 }
 
+@media (max-width: 640px){
+	.nav_center{
+		display: none;
+	}
+	.nav_left{
+		display: flex;
+		flex-direction: column;
+		text-align: left;
+	}
+	.nav_left{
+		height: min-content;
+	}
+	.nav_right{
+		display: flex;
+		flex-direction: column;
+	}
+	.nav_right{
+		height: min-content;
+	}
+	.nav_center{
+		height: min-content;
+	}
+	.nav_btn{
+		display: inline-block;
+	}
+	.navbar{
+		height: min-content;
+	}
+
+}
 
 @media (max-width: 480px) {
 	.nav_btn{
@@ -343,6 +371,11 @@ body, html {
 .tileLink:hover{
 	transform: scale(1.4);
 
+}
+@media (max-width: 1200px){
+	.tileLink:hover{
+		transform: scale(1.1);
+	}
 }
 
 .footer {

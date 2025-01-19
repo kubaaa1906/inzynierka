@@ -5,10 +5,10 @@ import axios from "axios";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHeadset, faMedal, faRotateLeft, faTriangleExclamation} from "@fortawesome/free-solid-svg-icons";
 import Stats from "../Stats/index"
-import {faFaceSadCry, faFaceSadTear} from "@fortawesome/free-regular-svg-icons";
+import {faFaceSadTear} from "@fortawesome/free-regular-svg-icons";
 const UserPanel = () => {
 
-    const [user,setUser] = useState(null)
+    const[user,setUser] = useState(null)
     const[error,setError] = useState(null)
     const[loading,setLoading] = useState(true)
     const[showChangeUsername, setShowChangeUsername] = useState(false)

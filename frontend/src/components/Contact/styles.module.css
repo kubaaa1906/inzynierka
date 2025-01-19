@@ -110,19 +110,30 @@ body, html {
 	align-items: center;
 	justify-content: center;
 	padding: 20px;
-	width: 100%;
 
 }
 
 
 .contactBox {
 	max-width: 85%;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 	font-size: 18px;
 	line-height: 1.6;
 	text-align: center;
 	color: rgba(100, 40, 150, 1);
 	font-weight: bold;
+	margin-left: auto;
+	margin-right: auto;
+}
+@media (max-width: 800px){
+ .contactBox{
+	 font-size: 14px;
+ }
+}
+@media (max-width: 400px){
+	.contactBox{
+		font-size: 11px;
+	}
 }
 
 
@@ -133,6 +144,12 @@ body, html {
 	border-radius: 20px;
 	box-shadow: 0 0 10px 4px rgba(100, 40, 150, 1);
 	padding: 20px 50px 20px 50px;
+}
+@media (max-width: 700px){
+
+	.contactContent{
+		width: 60%;
+	}
 }
 
 

@@ -21,9 +21,7 @@ const Contact = () => {
                     </Link>
                 </div>
                 <div className={styles.nav_right}>
-                    <Link to="/contact">
-                        <button className={styles.nav_btn}><FontAwesomeIcon icon={faHeadset}/> Kontakt</button>
-                    </Link>
+                   
                 </div>
             </nav>
             <div className={styles.main_area}>
@@ -31,7 +29,6 @@ const Contact = () => {
                 <AddReport></AddReport>
                 <div className={styles.contactBox}>
                         Email: catchuphelpdesk@gmail.com <br/>
-                        Telefon: 111 111 111 <br/>
                         <br/>
                         Wyślij nam swoje zgłoszenie! <br/>
                 </div>

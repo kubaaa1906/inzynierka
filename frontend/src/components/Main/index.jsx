@@ -1,5 +1,5 @@
 import styles from "./styles.module.css"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {
     faArrowRightToBracket,
@@ -12,8 +12,33 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUser} from "@fortawesome/free-regular-svg-icons";
 import {getRoleFromToken} from "../../utils/auth";
+import axios from "axios";
 
 const Main = () => {
+    const [user,setUser] = useState('')
+    const token = localStorage.getItem("token")
+
+    const getUserData = async (e) =>{
+        if (e && e.preventDefault) e.preventDefault();
+        if(token){
+            try{
+                const config = {
+                    method: 'get',
+                    url: `http://localhost:8080/api/users/me`,
+                    headers: { 'Content-Type': 'application/json', 'x-access-token': token }
+                }
+                const { data: res } = await axios(config);
+                setUser(res)
+            } catch(error){
+                if(error.response && error.response.status >= 400 && error.response.status <= 500){
+                    console.log((error.response.data.message || "Wystąpił bład"))
+                }
+            }
+        } else {
+            console.log("Zaloguj się ponownie")
+        }
+    }
+
     const handleLogout = () => {
         localStorage.removeItem("token")
         window.location.reload()
@@ -32,6 +57,9 @@ const Main = () => {
         const path = `/category/${category}`;
         navigate(path);
     }
+    useEffect(() => {
+        getUserData();
+    }, []);
 
     return (
         <div className={styles.main_container}>
@@ -75,7 +103,7 @@ const Main = () => {
             )}
 
             <div className={styles.main_area}>
-                <h3 className={styles.text_container}>Na co czekasz? Bierz się za rozwiązywanie zadań!</h3>
+                <h3 className={styles.text_container}>Na co czekasz {user.imieDziecka}? Bierz się za rozwiązywanie zadań!</h3>
                 <div className={styles.tiles_container}>
                     <div className={styles.tile}>
                         <div onClick={() => handleChooseCategory("Matematyka")} className={styles.tileLink}>
